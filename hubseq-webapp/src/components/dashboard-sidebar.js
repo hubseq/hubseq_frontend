@@ -38,14 +38,14 @@ const items = [
     title: 'Terminal'
   },
   {
-    href: '/settings',
-    icon: (<CogIcon fontSize="small" />),
-    title: 'Settings'
-  },
-  {
     href: '/notebook',
     icon: (<NotebookIcon fontSize="small" />),
     title: 'Notebook'
+  },
+  {
+    href: '/settings',
+    icon: (<CogIcon fontSize="small" />),
+    title: 'Settings'
   },
   {
     href: '/account',
