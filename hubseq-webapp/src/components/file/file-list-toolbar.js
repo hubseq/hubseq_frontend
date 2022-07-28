@@ -29,6 +29,21 @@ export const FileListToolbar = (props) => (
         File Explorer
       </Typography>
       <Box sx={{ m: 1 }}>
+      <Button
+          startIcon={(<UploadIcon fontSize="small" />)}
+          sx={{ mr: 1 }}
+        >
+          Run Pipeline
+        </Button>
+        <Button
+          startIcon={(<DownloadIcon fontSize="small" />)}
+          sx={{ mr: 1 }}
+          onClick={() => {
+            alert('clicked');
+          }}
+        >
+          Run Modules
+        </Button>
         <Button
           startIcon={(<UploadIcon fontSize="small" />)}
           sx={{ mr: 1 }}
