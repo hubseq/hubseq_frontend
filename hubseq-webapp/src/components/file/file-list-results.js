@@ -13,7 +13,7 @@ import {
   TableRow
 } from '@mui/material';
 
-export const FileListResults = ({ files, ...rest }) => {
+export const FileListResults = ({ files, currentpath, ...rest }) => {
   const [selectedFileIds, setSelectedFileIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);

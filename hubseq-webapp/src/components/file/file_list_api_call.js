@@ -11,7 +11,7 @@ const client = axios.create({
 
 const _addKeys = function(e, idx){
   e["id"] = idx;
-  e["Key"] = e["Prefix"] // .split('/').pop();
+  e["Key"] = e["Prefix"]; // .split('/').pop();
   e["LastModified"] = "-";
   e["Size"] = 0;
   return e
@@ -34,10 +34,11 @@ const formatResponse_FileList = function( response_raw ){
 
 export default function FileList() {
   const [file, setFile] = React.useState([]);
-  const [path, setPath] = React.useState()
+  const [path, setPath] = React.useState("s3://www.hubseq.com/assets/");
+
   React.useEffect(() => {
     async function getFile() {
-      const body = {"path": "s3://www.hubseq.com/assets/"};
+      const body = {"path": path};
       const response_raw = await client.request({"data": body});
       console.log(response_raw);
 
@@ -65,6 +66,6 @@ export default function FileList() {
   // )
 
   return (
-    <FileListResults files={file} />
+    <FileListResults files={file} currentpath={path}/>
   );
 }
