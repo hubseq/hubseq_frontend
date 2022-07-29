@@ -105,7 +105,7 @@ export const FileListResults = ({ files, ...rest }) => {
                     />
                   </TableCell>
                   <TableCell>
-                    {file.Key.split('/').pop()}
+                    {file.Key.endsWith('/') ? file.Key.slice(0,-1).split('/').pop()+'/' : file.Key.split('/').pop()}
                   </TableCell>
                   <TableCell>
                     {file.LastModified}
