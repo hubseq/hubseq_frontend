@@ -14,8 +14,7 @@ import { Selector as SelectorIcon } from '../icons/selector';
 import { User as UserIcon } from '../icons/user';
 import { XCircle as XCircleIcon } from '../icons/x-circle';
 // import { Logo } from './logo';
-// import mainlogo from '../../public/static/hubseq-logo-new.png';
-import Image from 'next/image'
+import { ReactComponent as Logo } from '../../public/static/hubseq-logo-new.svg';
 import { NavItem } from './nav-item';
 
 const items = [
@@ -99,9 +98,19 @@ export const DashboardSidebar = (props) => {
       >
         <div>
           <Box sx={{ p: 3 }}>
-              <div>
-                <Image src="/static/hubseq-logo-darker.svg" alt="HubSeq" width="180" height="100" />
-              </div>
+            <NextLink
+              href="/"
+              passHref
+            >
+              <a>
+                <Logo
+                  sx={{
+                    height: 50,
+                    width: 80
+                  }}
+                />
+              </a>
+            </NextLink>
           </Box>
           <Box sx={{ px: 2 }}>
             <Box
