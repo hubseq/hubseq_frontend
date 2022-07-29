@@ -1,9 +1,8 @@
 import Head from 'next/head';
 import { Box, Container } from '@mui/material';
-import { FileListResults } from '../components/file/file-list-results';
+import FileList from '../components/file/file_list_api_call';
 import { FileListToolbar } from '../components/file/file-list-toolbar';
 import { DashboardLayout } from '../components/dashboard-layout';
-import { files } from '../__mocks__/files';
 
 const Files = () => (
   <>
@@ -22,7 +21,7 @@ const Files = () => (
       <Container maxWidth={false}>
         <FileListToolbar />
         <Box sx={{ mt: 3 }}>
-          <FileListResults files={files} />
+          <FileList />
         </Box>
       </Container>
     </Box>

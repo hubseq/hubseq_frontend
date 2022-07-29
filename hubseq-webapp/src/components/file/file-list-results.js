@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import PropTypes from 'prop-types';
-import { format } from 'date-fns';
 import {
   Box,
   Card,
@@ -106,16 +105,16 @@ export const FileListResults = ({ files, ...rest }) => {
                     />
                   </TableCell>
                   <TableCell>
-                    {file.name}
+                    {file.title}
                   </TableCell>
                   <TableCell>
-                    {format(file.lastModified, 'dd/MM/yyyy')}
+                    {file.body}
                   </TableCell>
                   <TableCell>
-                    {file.access}
+                    {file.id}
                   </TableCell>
                   <TableCell>
-                    {file.size}
+                    {file.userID}
                   </TableCell>
                 </TableRow>
               ))}
