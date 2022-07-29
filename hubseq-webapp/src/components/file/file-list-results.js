@@ -105,16 +105,16 @@ export const FileListResults = ({ files, ...rest }) => {
                     />
                   </TableCell>
                   <TableCell>
-                    {file.title}
+                    {file.Key.split('/').pop()}
                   </TableCell>
                   <TableCell>
-                    {file.body}
+                    {file.LastModified}
                   </TableCell>
                   <TableCell>
-                    {file.id}
+                    {"Team"}
                   </TableCell>
                   <TableCell>
-                    {file.userID}
+                    {(file.Size/1000).toFixed(1) + " KB"}
                   </TableCell>
                 </TableRow>
               ))}

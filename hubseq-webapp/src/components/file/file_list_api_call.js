@@ -4,7 +4,9 @@ import { FileListResults } from './file-list-results';
 // import { Typography } from '@mui/material';
 
 const client = axios.create({
-  baseURL: "https://jsonplaceholder.typicode.com/posts" 
+  baseURL: "https://cs8ibwdms8.execute-api.us-west-2.amazonaws.com/test_cors/listobjects",
+  // url: '/listobjects',
+  method: 'POST'
 });
 
 export default function FileList() {
@@ -12,8 +14,12 @@ export default function FileList() {
 
   React.useEffect(() => {
     async function getFile() {
-      const response = await client.get("/1");
-      setFile([response.data]);
+      const body = {"path": "s3://www.hubseq.com/assets/"};
+      const response = await client.request({"data": body});
+      // console.log(response.data["Contents"]);
+      response.data["Contents"].forEach((e, idx) => e["id"] = idx) // add an id
+      setFile(response.data["Contents"]);
+      // setFile([response.data]);
     }
     getFile();
   }, []);
