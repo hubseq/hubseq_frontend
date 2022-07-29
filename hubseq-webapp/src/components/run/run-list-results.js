@@ -48,7 +48,7 @@ export const RunListResults = ({ runs, ...rest }) => {
       );
     }
 
-    setselectedRunIds(newselectedRunIds);
+    setSelectedRunIds(newselectedRunIds);
   };
 
   const handleLimitChange = (event) => {
@@ -92,7 +92,7 @@ export const RunListResults = ({ runs, ...rest }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {runs.slice(0, limit).map((run) => (
+              {runs.slice(0+limit*page, limit+limit*page).map((run) => (
                 <TableRow
                   hover
                   key={run.id}
@@ -106,16 +106,16 @@ export const RunListResults = ({ runs, ...rest }) => {
                     />
                   </TableCell>
                   <TableCell>
-                    {format(run.runDate, 'dd/MM/yyyy')}
+                    {run.date_submitted}
                   </TableCell>
                   <TableCell>
-                    {run.runID}
+                    {run.runid}
                   </TableCell>
                   <TableCell>
-                    {run.pipelineModule}
+                    {run.pipeline_module}
                   </TableCell>
                   <TableCell>
-                    {run.status}
+                    {run.hasOwnProperty("status") ? run.status : "SUCCEEDED"}
                   </TableCell>
                 </TableRow>
               ))}
