@@ -91,7 +91,7 @@ export const FileListResults = ({ files, ...rest }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {files.slice(0, limit).map((file) => (
+              {files.slice(0+limit*page, limit+limit*page).map((file) => (
                 <TableRow
                   hover
                   key={file.id}
