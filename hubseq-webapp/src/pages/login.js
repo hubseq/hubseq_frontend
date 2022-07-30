@@ -10,13 +10,38 @@ import { Google as GoogleIcon } from '../icons/google';
 import { CognitoUser, AuthenticationDetails } from "amazon-cognito-identity-js";
 import UserPool from '../components/settings/userpool';
 import React from 'react';
+import { getCredentials } from '../components/settings/credentials';
+
+const authUser = (authDetails, user) => {
+  user.authenticateUser(authDetails, {
+    onSuccess: (data) => {
+      console.log("onSuccess: ", data);
+      const credentials = getCredentials(data.getIdToken().getJwtToken(), UserPool.getUserPoolId()).then(
+        (credentials) => {
+          console.log('CREDENTIALS: ', credentials);
+          alert("Logged In! ");
+          router.push('/files');
+        }).catch((err) => {
+          console.log('GET CREDENTIALS ERROR: ', err);
+        });
+    },
+    onFailure: (err) => {
+      console.error("onFailure: ", err);
+      alert("Failed to log in");
+    },
+    newPasswordRequired: (data) => {
+      console.log("new password required: ", data);
+    },
+  });
+};
+
 
 const Login = () => {
   const router = useRouter();
   const formik = useFormik({
     initialValues: {
       email: 'testuser1@testing.io',
-      password: 'Password123456789'
+      password: 'JerryGeorge1!' //Password123456789
     },
     validationSchema: Yup.object({
       email: Yup
@@ -44,23 +69,7 @@ const Login = () => {
         Password: values.password,
       });
 
-      user.authenticateUser(authDetails, {
-        onSuccess: (data) => {
-          console.log("onSuccess: ", data);
-          // let jwt_token = data.getIdToken().getJwtToken();
-          alert("Logged In! ");
-          router.push('/files');
-        },
-        onFailure: (err) => {
-          console.error("onFailure: ", err);
-          alert("Failed to log in");
-        },
-        newPasswordRequired: (data) => {
-          console.log("new password required: ", data);
-        },
-      });
-
-      // router.push('/files');
+      authUser( authDetails, user );
     }
   });
 
