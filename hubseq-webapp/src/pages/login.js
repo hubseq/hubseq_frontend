@@ -12,29 +12,31 @@ import UserPool from '../components/settings/userpool';
 import React from 'react';
 import { getCredentials } from '../components/settings/credentials';
 
-const authUser = (authDetails, user) => {
+// function to authenticate user and redirect upon successful login
+const authUserAndRedirect = function(authDetails, user, userpoolid, router) {
   user.authenticateUser(authDetails, {
     onSuccess: (data) => {
       console.log("onSuccess: ", data);
-      const credentials = getCredentials(data.getIdToken().getJwtToken(), UserPool.getUserPoolId()).then(
-        (credentials) => {
-          console.log('CREDENTIALS: ', credentials);
-          alert("Logged In! ");
-          router.push('/files');
-        }).catch((err) => {
-          console.log('GET CREDENTIALS ERROR: ', err);
-        });
+      const credentials = getAuthCredentials(data.getIdToken().getJwtToken(), userpoolid);
+      alert("Logged In! ");
+      router.push('/files');
     },
     onFailure: (err) => {
       console.error("onFailure: ", err);
       alert("Failed to log in");
+      return null;
     },
     newPasswordRequired: (data) => {
       console.log("new password required: ", data);
+      return null;
     },
   });
 };
 
+const getAuthCredentials = async function (jwt_token, userpoolid) {
+  const credentials = await getCredentials(jwt_token, userpoolid);
+  return credentials;
+};
 
 const Login = () => {
   const router = useRouter();
@@ -69,7 +71,7 @@ const Login = () => {
         Password: values.password,
       });
 
-      authUser( authDetails, user );
+      authUserAndRedirect( authDetails, user, UserPool.getUserPoolId(), router );
     }
   });
 

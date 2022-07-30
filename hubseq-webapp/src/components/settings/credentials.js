@@ -10,34 +10,30 @@ export const getCredentials = (jwtToken, userPool) => {
 
   login[provider] = jwtToken;
 
+  //call refresh method in order to authenticate user and get new temp credentials
   // Add the User's Id Token to the Cognito credentials login map.
-  credentials = new AWS.CognitoIdentityCredentials({
+  AWS.config.credentials = new AWS.CognitoIdentityCredentials({
                 IdentityPoolId: idenPoolId,
                 Logins: login
                 });
 
-  //call refresh method in order to authenticate user and get new temp credentials
-  credentials.get((error) => {
-    if (error) {
-      console.error(error);
-      //let response = {
-      //  statusCode: 500,
-      //  body: JSON.stringify(error)
-      //};
-      return null;
+  // get credentials from cognito
+  return new Promise(function(resolve, reject){
+    AWS.config.getCredentials((err) => {
+    if (err) {
+        console.log(err);
+        reject(err);
     } else {
-      console.log('Successfully logged!');
-      console.log('AKI:'+ credentials.accessKeyId);
-      console.log('AKS:'+ credentials.secretAccessKey);
-      console.log('token:' + credentials.sessionToken);
-
-      const response = JSON.stringify({
-                       'AKI': credentials.accessKeyId,
-                       'AKS': credentials.secretAccessKey,
-                       'token': credentials.sessionToken
-                       });
-
-      return response;
-    }
+        console.log('Successfully logged!');
+        alert('Successfully logged!');
+        console.log('AKI:'+ AWS.config.credentials.accessKeyId)
+        console.log('AKS:'+ AWS.config.credentials.secretAccessKey)
+        console.log('Session token:' + AWS.config.credentials.sessionToken)
+        resolve(JSON.stringify({
+                         'AKI': AWS.config.credentials.accessKeyId,
+                         'AKS': AWS.config.credentials.secretAccessKey,
+                         'token': AWS.config.credentials.sessionToken
+                }));
+    }});
   });
 };
