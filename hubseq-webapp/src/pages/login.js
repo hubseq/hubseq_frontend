@@ -7,7 +7,7 @@ import { Box, Button, Container, Grid, Link, TextField, Typography } from '@mui/
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Facebook as FacebookIcon } from '../icons/facebook';
 import { Google as GoogleIcon } from '../icons/google';
-// import { CognitoUser, AuthenticationDetails } from "amazon-cognito-identity.js";
+import { CognitoUser, AuthenticationDetails } from "amazon-cognito-identity-js";
 
 const Login = () => {
   const router = useRouter();
@@ -30,7 +30,7 @@ const Login = () => {
         .required(
           'Password is required')
     }),
-    onSubmit: () => {
+    onSubmit: (values) => {
       alert("Logged In! ");
       router.push('/files');
     }
