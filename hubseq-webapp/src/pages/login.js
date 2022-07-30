@@ -11,6 +11,7 @@ import { CognitoUser, AuthenticationDetails } from "amazon-cognito-identity-js";
 import UserPool from '../components/settings/userpool';
 import React from 'react';
 import { getCredentials } from '../components/settings/credentials';
+// import { SessionContext } from '../components/context/sessioncontext';
 
 // function to authenticate user and redirect upon successful login
 const authUserAndRedirect = function(authDetails, user, userpoolid, router) {

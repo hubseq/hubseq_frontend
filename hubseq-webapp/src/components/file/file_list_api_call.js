@@ -1,7 +1,35 @@
 import axios from "axios";
 import React from "react";
 import { FileListResults } from './file-list-results';
+import * as awsApiGatewayClient from "aws-api-gateway-client";
 // import { Typography } from '@mui/material';
+
+const awsCall_ListObject = function(path){
+  let apigClientFactory = awsApiGatewayClient.default;
+  let apigClient = apigClientFactory.newClient({
+    invokeUrl: "https://cs8ibwdms8.execute-api.us-west-2.amazonaws.com",
+    region: "us-west-2",
+    accessKey: "access key here",
+    secretKey: "secret key here",
+    sessionToken: "session token here"
+  });
+
+  let pathParams = {};
+  let pathTemplate = '/test_cors/listobjects';
+  let method = 'POST';
+  let additionalParams = {};
+  let body = {"path": path};
+
+  // this looks messy - maybe need to clean up this code
+  return new Promise(function(resolve, reject){
+    apigClient.invokeApi(pathParams, pathTemplate, method, additionalParams, body)
+    .then(function(result){
+      resolve(result);
+    }).catch( function(error){
+      reject(err);
+    });
+  });
+};
 
 const client = axios.create({
   baseURL: "https://cs8ibwdms8.execute-api.us-west-2.amazonaws.com/test_cors/listobjects",
@@ -38,9 +66,10 @@ export default function FileList({setFilesSelected}) {
 
   React.useEffect(() => {
     async function getFile() {
-      const body = {"path": path};
-      const response_raw = await client.request({"data": body});
-      console.log(response_raw);
+      // const body = {"path": path};
+      // const response_raw = await client.request({"data": body});
+      const response_raw = await awsCall_ListObject(path);
+      console.log("RESPONSE RAW: ", response_raw);
 
       const response = formatResponse_FileList(response_raw)
       console.log(response);
