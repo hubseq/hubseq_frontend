@@ -8,12 +8,14 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Facebook as FacebookIcon } from '../icons/facebook';
 import { Google as GoogleIcon } from '../icons/google';
 import { CognitoUser, AuthenticationDetails } from "amazon-cognito-identity-js";
+import UserPool from '../components/settings/userpool';
+import React from 'react';
 
 const Login = () => {
   const router = useRouter();
   const formik = useFormik({
     initialValues: {
-      email: 'jerry@testing.io',
+      email: 'testuser1@testing.io',
       password: 'Password123456789'
     },
     validationSchema: Yup.object({
@@ -31,8 +33,34 @@ const Login = () => {
           'Password is required')
     }),
     onSubmit: (values) => {
-      alert("Logged In! ");
-      router.push('/files');
+
+      const user = new CognitoUser({
+        Username: values.email.split('@')[0],
+        Pool: UserPool,
+      });
+
+      const authDetails = new AuthenticationDetails({
+        Username: values.email,
+        Password: values.password,
+      });
+
+      user.authenticateUser(authDetails, {
+        onSuccess: (data) => {
+          console.log("onSuccess: ", data);
+          // let jwt_token = data.getIdToken().getJwtToken();
+          alert("Logged In! ");
+          router.push('/files');
+        },
+        onFailure: (err) => {
+          console.error("onFailure: ", err);
+          alert("Failed to log in");
+        },
+        newPasswordRequired: (data) => {
+          console.log("new password required: ", data);
+        },
+      });
+
+      // router.push('/files');
     }
   });
 
