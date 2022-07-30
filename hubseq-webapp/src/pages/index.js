@@ -2,41 +2,46 @@ import Head from 'next/head';
 import { Box, Container } from '@mui/material';
 import FileList from '../components/file/file_list_api_call';
 import { FileListToolbar } from '../components/file/file-list-toolbar';
-import { DashboardLayout } from '../components/dashboard-layout';
+import { LandingLayout } from '../components/landingpage-layout';
 import { useState } from 'react';
+import Image from 'next/image';
+import Grid from '@mui/material/Grid';
 
-const Files = () => {
-  const [filesSelected, setFilesSelected] = useState([]);
-
+const Landing = () => {
   return(
     <>
       <Head>
         <title>
-        HubSeq | File Explorer
+        HubSeq | Welcome
         </title>
       </Head>
-      <Box
-        component="main"
-        sx={{
-          flexGrow: 1,
-          py: 8
-        }}
-      >
-        <Container maxWidth={false}>
-          <FileListToolbar filesSelected={filesSelected} setFilesSelected={setFilesSelected} />
-          <Box sx={{ mt: 3 }}>
-            <FileList setFilesSelected={setFilesSelected} />
+
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <Box
+                sx={{
+                  backgroundColor: 'black',
+                  flexGrow: 1,
+                  py: 40,
+                  height: '100%',
+                  width: '100%'
+                }}
+          >
+          <div>
+            <Image src="/static/hubseq-blue-splash-background.jpg" alt="All of your sequencing data, all in one secure platform" layout='fill' />
+          </div>
           </Box>
-        </Container>
-      </Box>
+        </Grid>
+      </Grid>
+
     </>
   );
 };
 
-Files.getLayout = (page) => (
-  <DashboardLayout>
+Landing.getLayout = (page) => (
+  <LandingLayout>
     {page}
-  </DashboardLayout>
+  </LandingLayout>
 );
 
-export default Files;
+export default Landing;

@@ -14,12 +14,12 @@ import { Selector as SelectorIcon } from '../icons/selector';
 import { User as UserIcon } from '../icons/user';
 import { XCircle as XCircleIcon } from '../icons/x-circle';
 // import { Logo } from './logo';
-import Image from 'next/image'
+import Image from 'next/image';
 import { NavItem } from './nav-item';
 
 const items = [
   {
-    href: '/',
+    href: '/files',
     icon: (<FolderIcon fontSize="small" />),
     title: 'File Explorer'
   },
