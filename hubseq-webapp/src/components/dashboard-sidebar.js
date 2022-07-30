@@ -14,7 +14,6 @@ import { Selector as SelectorIcon } from '../icons/selector';
 import { User as UserIcon } from '../icons/user';
 import { XCircle as XCircleIcon } from '../icons/x-circle';
 // import { Logo } from './logo';
-// import mainlogo from '../../public/static/hubseq-logo-new.png';
 import Image from 'next/image'
 import { NavItem } from './nav-item';
 
@@ -121,7 +120,7 @@ export const DashboardSidebar = (props) => {
                   color="inherit"
                   variant="subtitle1"
                 >
-                  HubSeq
+                  <b>Tranquis</b>
                 </Typography>
                 <Typography
                   color="neutral.400"

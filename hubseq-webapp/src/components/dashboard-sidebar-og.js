@@ -13,8 +13,7 @@ import { Cog as CogIcon } from '../icons/cog';
 import { Selector as SelectorIcon } from '../icons/selector';
 import { User as UserIcon } from '../icons/user';
 import { XCircle as XCircleIcon } from '../icons/x-circle';
-// import { Logo } from './logo';
-import { ReactComponent as Logo } from '../../public/static/hubseq-logo-new.svg';
+import { Logo } from './logo';
 import { NavItem } from './nav-item';
 
 const items = [

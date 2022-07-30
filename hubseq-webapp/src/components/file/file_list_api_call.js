@@ -32,7 +32,7 @@ const formatResponse_FileList = function( response_raw ){
   return response
 }
 
-export default function FileList() {
+export default function FileList({setFilesSelected}) {
   const [file, setFile] = React.useState([]);
   const [path, setPath] = React.useState("s3://www.hubseq.com/assets/");
 
@@ -66,6 +66,6 @@ export default function FileList() {
   // )
 
   return (
-    <FileListResults files={file} currentpath={path}/>
+    <FileListResults files={file} currentpath={path} setFilesSelected={setFilesSelected} />
   );
 }

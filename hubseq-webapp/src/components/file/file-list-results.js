@@ -13,7 +13,7 @@ import {
   TableRow
 } from '@mui/material';
 
-export const FileListResults = ({ files, currentpath, ...rest }) => {
+export const FileListResults = ({ files, currentpath, setFilesSelected, ...rest }) => {
   const [selectedFileIds, setSelectedFileIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
@@ -28,6 +28,8 @@ export const FileListResults = ({ files, currentpath, ...rest }) => {
     }
 
     setSelectedFileIds(newSelectedFileIds);
+    setFilesSelected(newSelectedFileIds);
+    console.log('selectedFileIds: ', newSelectedFileIds);
   };
 
   const handleSelectOne = (event, id) => {
@@ -46,8 +48,9 @@ export const FileListResults = ({ files, currentpath, ...rest }) => {
         selectedFileIds.slice(selectedIndex + 1)
       );
     }
-
     setSelectedFileIds(newSelectedFileIds);
+    setFilesSelected(newSelectedFileIds);
+    console.log('selectedFileIds: ', newSelectedFileIds);
   };
 
   const handleLimitChange = (event) => {
