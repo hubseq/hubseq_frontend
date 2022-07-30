@@ -16,23 +16,19 @@ const Landing = () => {
         </title>
       </Head>
 
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <Box
-                sx={{
-                  backgroundColor: 'black',
-                  flexGrow: 1,
-                  py: 40,
-                  height: '100%',
-                  width: '100%'
-                }}
-          >
-          <div>
-            <Image src="/static/hubseq-blue-splash-background.jpg" alt="All of your sequencing data, all in one secure platform" layout='fill' />
-          </div>
-          </Box>
-        </Grid>
-      </Grid>
+      <Box
+            sx={{
+              backgroundColor: 'black',
+              flexGrow: 1,
+              py: 40,
+              height: '100%',
+              width: '100%'
+            }}
+      >
+      <div>
+        <Image src="/static/hubseq-blue-splash-background.svg" alt="All of your sequencing data, all in one secure platform" layout='fill' />
+      </div>
+      </Box>
 
     </>
   );

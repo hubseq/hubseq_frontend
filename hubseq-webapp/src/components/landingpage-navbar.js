@@ -11,7 +11,7 @@ const LandingNavbarRoot = styled(AppBar)(({ theme }) => ({
 }));
 
 export const LandingNavbar = (props) => {
-  const { onSidebarOpen, ...other } = props;
+  const { ...other } = props;
 
   return (
     <>
@@ -41,7 +41,7 @@ export const LandingNavbar = (props) => {
           </Box>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ color: 'white' }}>
-            <NextLink href="/files" passHref>
+            <NextLink href="/login" passHref>
               <a style={{ color: 'white' }}>Login</a>
             </NextLink>
           </Box>
@@ -52,5 +52,4 @@ export const LandingNavbar = (props) => {
 };
 
 LandingNavbar.propTypes = {
-  onSidebarOpen: PropTypes.func
 };

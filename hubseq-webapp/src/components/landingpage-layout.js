@@ -3,7 +3,7 @@ import { Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { LandingNavbar } from './landingpage-navbar';
 
-const DashboardLayoutRoot = styled('div')(({ theme }) => ({
+const LandingLayoutRoot = styled('div')(({ theme }) => ({
   display: 'flex',
   flex: '1 1 auto',
   maxWidth: '100%',
@@ -15,23 +15,20 @@ const DashboardLayoutRoot = styled('div')(({ theme }) => ({
 
 export const LandingLayout = (props) => {
   const { children } = props;
-  const [isSidebarOpen, setSidebarOpen] = useState(true);
 
   return (
     <>
-      <DashboardLayoutRoot>
+      <LandingLayoutRoot>
         <Box
           sx={{
-            display: 'flex',
-            flex: '1 1 auto',
-            flexDirection: 'column',
+            height: '100%',
             width: '100%'
           }}
         >
           {children}
         </Box>
-      </DashboardLayoutRoot>
-      <LandingNavbar onSidebarOpen={() => setSidebarOpen(true)} />
+      </LandingLayoutRoot>
+      <LandingNavbar />
     </>
   );
 };
