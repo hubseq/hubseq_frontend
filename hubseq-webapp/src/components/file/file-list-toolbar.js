@@ -10,18 +10,13 @@ import {
 import { Search as SearchIcon } from '../../icons/search';
 import { Upload as UploadIcon } from '../../icons/upload';
 import { Download as DownloadIcon } from '../../icons/download';
+import { FileModal } from './file-modal';
 
 
 export const FileListToolbar = ({filesSelected, setFilesSelected, props}) => {
-  let upload_button;
   let download_button;
   let run_module_button;
   let run_pipeline_button;
-
-  // upload button - always show
-  upload_button = <Button startIcon={(<UploadIcon fontSize="small" />)}
-                          sx={{ mr: 1 }}> Upload
-                  </Button>
 
   // download button - toggle on file clicking
   if(filesSelected.length > 0){
@@ -72,7 +67,7 @@ export const FileListToolbar = ({filesSelected, setFilesSelected, props}) => {
           {run_pipeline_button}
           {run_module_button}
           {download_button}
-          {upload_button}
+          <FileModal/>
         </Box>
       </Box>
       <Box sx={{ mt: 3 }}>
