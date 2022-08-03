@@ -24,7 +24,7 @@ const formatResponse_RunList = function( response_raw ){
   return response
 }
 
-export default function RunList() {
+export default function RunList({setRunsSelected}) {
   const [run, setRun] = React.useState([]);
 
   React.useEffect(() => {
@@ -57,6 +57,6 @@ export default function RunList() {
   // )
 
   return (
-    <RunListResults runs={run} />
+    <RunListResults runs={run} setRunsSelected={setRunsSelected} />
   );
 }

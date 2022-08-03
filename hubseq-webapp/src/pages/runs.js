@@ -4,31 +4,37 @@ import { RunListResults } from '../components/run/run-list-results';
 import { RunListToolbar } from '../components/run/run-list-toolbar';
 import { DashboardLayout } from '../components/dashboard-layout';
 import RunList from '../components/run/run-list-api-call';
+import { useState } from 'react';
 // import { runs } from '../__mocks__/runs';
 
-const Runs = () => (
-  <>
-    <Head>
-      <title>
-      HubSeq | Runs
-      </title>
-    </Head>
-    <Box
-      component="main"
-      sx={{
-        flexGrow: 1,
-        py: 8
-      }}
-    >
-      <Container maxWidth={false}>
-        <RunListToolbar />
-        <Box sx={{ mt: 3 }}>
-          <RunList />
-        </Box>
-      </Container>
-    </Box>
-  </>
-);
+const Runs = () => {
+  const [runsSelected, setRunsSelected] = useState([]);
+
+  return(
+    <>
+      <Head>
+        <title>
+        HubSeq | Runs
+        </title>
+      </Head>
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          py: 8
+        }}
+      >
+        <Container maxWidth={false}>
+          <RunListToolbar runsSelected={runsSelected} setRunsSelected={setRunsSelected} />
+          <Box sx={{ mt: 3 }}>
+            <RunList setRunsSelected={setRunsSelected} />
+          </Box>
+        </Container>
+      </Box>
+    </>
+  );
+};
+
 Runs.getLayout = (page) => (
   <DashboardLayout>
     {page}

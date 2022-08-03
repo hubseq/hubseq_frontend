@@ -14,7 +14,7 @@ import {
   TableRow
 } from '@mui/material';
 
-export const RunListResults = ({ runs, ...rest }) => {
+export const RunListResults = ({ runs, setRunsSelected, ...rest }) => {
   const [selectedRunIds, setSelectedRunIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
@@ -29,6 +29,7 @@ export const RunListResults = ({ runs, ...rest }) => {
     }
 
     setSelectedRunIds(newselectedRunIds);
+    setRunsSelected(newselectedRunIds);
   };
 
   const handleSelectOne = (event, id) => {
@@ -49,6 +50,7 @@ export const RunListResults = ({ runs, ...rest }) => {
     }
 
     setSelectedRunIds(newselectedRunIds);
+    setRunsSelected(newselectedRunIds);
   };
 
   const handleLimitChange = (event) => {
