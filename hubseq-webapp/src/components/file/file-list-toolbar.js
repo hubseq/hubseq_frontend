@@ -10,13 +10,14 @@ import {
 import { Search as SearchIcon } from '../../icons/search';
 import { Upload as UploadIcon } from '../../icons/upload';
 import { Download as DownloadIcon } from '../../icons/download';
-import { FileModal } from './file-modal';
-
+import { FileUploadModal } from './file-upload-modal';
+import { RunModuleModal } from './run-module-modal';
+import { RunPipelineModal } from './run-pipeline-modal';
 
 export const FileListToolbar = ({filesSelected, setFilesSelected, props}) => {
   let download_button;
-  let run_module_button;
-  let run_pipeline_button;
+  let run_module_modal;
+  let run_pipeline_modal;
 
   // download button - toggle on file clicking
   if(filesSelected.length > 0){
@@ -29,21 +30,16 @@ export const FileListToolbar = ({filesSelected, setFilesSelected, props}) => {
 
   // run module button - toggle on file clicking
   if(filesSelected.length > 0){
-    run_module_button = <Button startIcon={(<DownloadIcon fontSize="small" />)}
-                                sx={{ mr: 1 }}
-                                onClick={() => {alert('clicked');}}>Run Module
-                        </Button>
+    run_module_modal = <RunModuleModal/>
   } else {
-    run_module_button = null;
+    run_module_modal = null;
   }
 
   // run pipeline button - toggle on file clicking
   if(filesSelected.length > 0){
-    run_pipeline_button = <Button startIcon={(<UploadIcon fontSize="small" />)}
-                                  sx={{ mr: 1 }}>Run Pipeline
-                          </Button>
+    run_pipeline_modal = <RunPipelineModal/>
   } else {
-    run_pipeline_button = null;
+    run_pipeline_modal = null;
   }
 
   return(
@@ -64,10 +60,10 @@ export const FileListToolbar = ({filesSelected, setFilesSelected, props}) => {
           File Explorer
         </Typography>
         <Box sx={{ m: 1 }}>
-          {run_pipeline_button}
-          {run_module_button}
+          {run_pipeline_modal}
+          {run_module_modal}
           {download_button}
-          <FileModal/>
+          <FileUploadModal/>
         </Box>
       </Box>
       <Box sx={{ mt: 3 }}>

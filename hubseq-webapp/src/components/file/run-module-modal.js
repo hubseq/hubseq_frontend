@@ -7,48 +7,48 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { Button, TextField } from '@mui/material';
 import { Upload as UploadIcon } from '../../icons/upload';
 
-export const FileModal = ({}) => {
+export const RunModuleModal = ({}) => {
     const [open, setOpen] = useState(false);
-    let upload_button;
+    let run_module_button;
 
     const handleClickOpen = () => {
       setOpen(true);
     };
-  
+
     const handleClose = () => {
       setOpen(false);
     };
 
       // upload button - always show
-    upload_button = <Button startIcon={(<UploadIcon fontSize="small" />)}
+    run_module_button = <Button startIcon={(<UploadIcon fontSize="small" />)}
                           sx={{ mr: 1 }}
-                          onClick={handleClickOpen}> Upload
+                          onClick={handleClickOpen}> Run Module
                   </Button>
 
     return (
         <>
         <Button startIcon={(<UploadIcon fontSize="small" />)}
         sx={{ mr: 1 }}
-        onClick={handleClickOpen}> Upload
+        onClick={handleClickOpen}> Run Module
         </Button>
         <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Upload File to HubSeq</DialogTitle>
+        <DialogTitle>Run Module</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            To upload a file. Please enter the local file path.
+            Which module to run.
           </DialogContentText>
           <TextField
             autoFocus
             margin="dense"
             id="name"
-            label="Local Filepath"
+            label="Module"
             fullWidth
             variant="standard"
           />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleClose}>Upload</Button>
+          <Button onClick={handleClose}>Run</Button>
         </DialogActions>
       </Dialog>
       </>
