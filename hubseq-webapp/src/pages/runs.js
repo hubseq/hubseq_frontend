@@ -9,6 +9,7 @@ import { useState } from 'react';
 
 const Runs = () => {
   const [runsSelected, setRunsSelected] = useState([]);
+  const [runInfo, setRunInfo] = useState([]);
 
   return(
     <>
@@ -25,9 +26,9 @@ const Runs = () => {
         }}
       >
         <Container maxWidth={false}>
-          <RunListToolbar runsSelected={runsSelected} setRunsSelected={setRunsSelected} />
+          <RunListToolbar runsSelected={runsSelected} setRunsSelected={setRunsSelected} runInfo={runInfo} />
           <Box sx={{ mt: 3 }}>
-            <RunList setRunsSelected={setRunsSelected} />
+            <RunList setRunsSelected={setRunsSelected} setRunInfo={setRunInfo} />
           </Box>
         </Container>
       </Box>

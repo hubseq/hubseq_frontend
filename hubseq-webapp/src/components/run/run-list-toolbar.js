@@ -12,16 +12,16 @@ import { Upload as UploadIcon } from '../../icons/upload';
 import { Download as DownloadIcon } from '../../icons/download';
 import { RunDetailsModal } from './run-details-modal';
 
-export const RunListToolbar = ({runsSelected, setRunsSelected, props}) => {
+export const RunListToolbar = ({runsSelected, setRunsSelected, runInfo, props}) => {
   let view_run_details_modal;
 
   // run details button - toggle on clicking a run
-  if(runsSelected.length > 0){
-    view_run_details_modal = <RunDetailsModal/>
+  if(runsSelected.length > 0 && runsSelected.length < 2){
+    view_run_details_modal = <RunDetailsModal runsSelected={runsSelected} runInfo={runInfo} props={props}/>
   } else {
     view_run_details_modal = null;
   }
-  
+
   return (
     <Box {...props}>
       <Box
