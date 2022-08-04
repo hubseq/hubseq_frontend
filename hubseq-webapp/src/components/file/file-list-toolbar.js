@@ -15,11 +15,16 @@ import { MetadataModal } from './update-metadata-modal';
 import { RunModuleModal } from './run-module-modal';
 import { RunPipelineModal } from './run-pipeline-modal';
 
-export const FileListToolbar = ({filesSelected, setFilesSelected, props}) => {
+export const FileListToolbar = ({currentPath, filesSelectedInfo, filesSelected, setFilesSelected, props}) => {
   let download_button;
   let run_module_modal;
   let run_pipeline_modal;
   let metadata_modal;
+
+  const getObjectName = (f) => {
+    const fout = f.endsWith('/') ? f.split('/').at(-2)+'/' : f.split('/').pop()
+    return fout
+  }
 
   // download button - toggle on file clicking
   if(filesSelected.length > 0){
@@ -32,7 +37,7 @@ export const FileListToolbar = ({filesSelected, setFilesSelected, props}) => {
 
   // metadata button - toggle on file clicking
   if(filesSelected.length > 0){
-    metadata_modal = <MetadataModal selected_files={filesSelected} />
+    metadata_modal = <MetadataModal currentPath={currentPath} selectedFiles={filesSelectedInfo.map((e) => getObjectName(e["Key"]))} />
   } else {
     metadata_modal = null;
   }

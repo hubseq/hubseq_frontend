@@ -10,23 +10,24 @@ import { Upload as UploadIcon } from '../../icons/upload';
 import { getMetadataCall } from './get-metadata-api-call';
 import { MetadataListResults } from './get-metadata-list-results';
 
-export const MetadataModal = ({selected_files}) => {
+export const MetadataModal = ({currentPath, selectedFiles}) => {
     const [open, setOpen] = useState(false);
     const [metadata, setMetadata] = useState([[]]);
-    const files = ["IT.png","JerryChen.jpg", "demobutton.png"];
+    // const files = ["IT.png","JerryChen.jpg", "demobutton.png"];
     let update_metadata_button;
 
-    console.log('SELECTTTTED FILES; ', selected_files);
-    
-    React.useEffect(() => {
-      async function getMetadata() {
-        const new_metadata = await getMetadataCall(files, "www.hubseq.com/assets/");
-        setMetadata(new_metadata);
-      }
-      getMetadata();
-    }, []);
+    //const getObjectName = (f) => {
+    //  const fout = f.endsWith('/') ? f.split('/').at(-2)+'/' : f.split('/').pop()
+    //  return fout
+    //}
+
+    async function getMetadata() {
+      const new_metadata = await getMetadataCall(selectedFiles, currentPath);
+      setMetadata(new_metadata);
+    }
 
     const handleClickOpen = () => {
+      getMetadata();
       setOpen(true);
     };
 
@@ -50,7 +51,7 @@ export const MetadataModal = ({selected_files}) => {
         <DialogTitle>Update Metadata</DialogTitle>
         <DialogContent>
         <Box sx={{ mt: 3 }}>
-          <MetadataListResults myfiles={files} mytags={metadata} />
+          <MetadataListResults myfiles={selectedFiles} mytags={metadata} />
         </Box>
         </DialogContent>
         <DialogActions>

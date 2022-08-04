@@ -1,6 +1,6 @@
 import axios from "axios";
 import React from "react";
-import { FileListResults } from './file-list-results';
+// import { FileListResults } from './file-list-results';
 import * as awsApiGatewayClient from "aws-api-gateway-client";
 // import { Typography } from '@mui/material';
 
@@ -25,7 +25,7 @@ const awsCall_ListObject = function(path){
     apigClient.invokeApi(pathParams, pathTemplate, method, additionalParams, body)
     .then(function(result){
       resolve(result);
-    }).catch( function(error){
+    }).catch( function(err){
       reject(err);
     });
   });
@@ -60,6 +60,19 @@ const formatResponse_FileList = function( response_raw ){
   return response
 }
 
+export async function getFileCall( path ){
+  // const body = {"path": path};
+  // const response_raw = await client.request({"data": body});
+  const response_raw = await awsCall_ListObject(path);
+  console.log("RESPONSE RAW: ", response_raw);
+
+  const response = formatResponse_FileList(response_raw)
+  console.log(response);
+
+  return response.data;
+};
+
+/*
 export default function FileList({setFilesSelected}) {
   const [file, setFile] = React.useState([]);
   const [path, setPath] = React.useState("s3://www.hubseq.com/assets/");
@@ -98,3 +111,4 @@ export default function FileList({setFilesSelected}) {
     <FileListResults files={file} currentpath={path} setFilesSelected={setFilesSelected} />
   );
 }
+*/

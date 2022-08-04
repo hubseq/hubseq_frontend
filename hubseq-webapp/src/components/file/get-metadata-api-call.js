@@ -21,13 +21,13 @@ const formatResponse_getMetadata = function( response_raw ){
   // add a few keys to raw response
   // id should be a reserved key that cannot be used
   response_raw.data.data.forEach((e, idx) => e["id"] = idx);
-  console.log("in here: ", response_raw.data.data);
   response.data = response_raw.data.data;
   return response
 }
 
 export async function getMetadataCall(myfiles, mydir) {
   // runInfo.map(d => d["runid"]);
+  console.log('MY FILES IN METADATA CAL: ', myfiles);
   const body = {"objects": myfiles.map(f => ("s3://"+path.join(mydir,f))).join(",")};
   console.log('BODY BODY: ', body);
   const response_raw = await client.request({"data": body});

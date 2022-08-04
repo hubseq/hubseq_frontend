@@ -12,7 +12,7 @@ import {
 } from '@mui/material';
 
 export const MetadataTable = ({ title, tagset, ...rest }) => {
-  
+
   let metadata_table;
 
   if (tagset && tagset.length > 0){
@@ -35,7 +35,7 @@ export const MetadataTable = ({ title, tagset, ...rest }) => {
             {tagset.map((mytag, idx) => (
               <TableRow
                 hover
-                key={idx}
+                key={title + idx.toString()}
               >
                 <TableCell>
                   {mytag.Key}
@@ -57,9 +57,4 @@ export const MetadataTable = ({ title, tagset, ...rest }) => {
       {metadata_table}
     </div>
   );
-};
-
-MetadataTable.propTypes = {
-  title: PropTypes.string.isRequired,
-  tagset: PropTypes.array.isRequired
 };
