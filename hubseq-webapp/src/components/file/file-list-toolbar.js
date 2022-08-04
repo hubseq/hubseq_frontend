@@ -11,6 +11,7 @@ import { Search as SearchIcon } from '../../icons/search';
 import { Upload as UploadIcon } from '../../icons/upload';
 import { Download as DownloadIcon } from '../../icons/download';
 import { FileUploadModal } from './file-upload-modal';
+import { MetadataModal } from './update-metadata-modal';
 import { RunModuleModal } from './run-module-modal';
 import { RunPipelineModal } from './run-pipeline-modal';
 
@@ -18,6 +19,7 @@ export const FileListToolbar = ({filesSelected, setFilesSelected, props}) => {
   let download_button;
   let run_module_modal;
   let run_pipeline_modal;
+  let metadata_modal;
 
   // download button - toggle on file clicking
   if(filesSelected.length > 0){
@@ -26,6 +28,13 @@ export const FileListToolbar = ({filesSelected, setFilesSelected, props}) => {
                       </Button>
   } else {
     download_button = null;
+  }
+
+  // metadata button - toggle on file clicking
+  if(filesSelected.length > 0){
+    metadata_modal = <MetadataModal/>
+  } else {
+    metadata_modal = null;
   }
 
   // run module button - toggle on file clicking
@@ -62,6 +71,7 @@ export const FileListToolbar = ({filesSelected, setFilesSelected, props}) => {
         <Box sx={{ m: 1 }}>
           {run_pipeline_modal}
           {run_module_modal}
+          {metadata_modal}
           {download_button}
           <FileUploadModal/>
         </Box>
