@@ -32,7 +32,7 @@ export const FileListToolbar = ({filesSelected, setFilesSelected, props}) => {
 
   // metadata button - toggle on file clicking
   if(filesSelected.length > 0){
-    metadata_modal = <MetadataModal/>
+    metadata_modal = <MetadataModal selected_files={filesSelected} />
   } else {
     metadata_modal = null;
   }

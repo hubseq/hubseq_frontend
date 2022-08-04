@@ -10,12 +10,14 @@ import { Upload as UploadIcon } from '../../icons/upload';
 import { getMetadataCall } from './get-metadata-api-call';
 import { MetadataListResults } from './get-metadata-list-results';
 
-export const MetadataModal = ({}) => {
+export const MetadataModal = ({selected_files}) => {
     const [open, setOpen] = useState(false);
     const [metadata, setMetadata] = useState([[]]);
-    const files = ["IT.png","JerryChen.jpg"];
+    const files = ["IT.png","JerryChen.jpg", "demobutton.png"];
     let update_metadata_button;
 
+    console.log('SELECTTTTED FILES; ', selected_files);
+    
     React.useEffect(() => {
       async function getMetadata() {
         const new_metadata = await getMetadataCall(files, "www.hubseq.com/assets/");
