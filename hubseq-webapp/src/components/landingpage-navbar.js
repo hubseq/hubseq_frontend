@@ -4,6 +4,7 @@ import { AppBar, Avatar, Badge, Box, IconButton, Toolbar, Tooltip } from '@mui/m
 import MenuIcon from '@mui/icons-material/Menu';
 import Image from 'next/image';
 import NextLink from 'next/link';
+import { useSession, signIn, signOut } from "next-auth/react"
 
 const LandingNavbarRoot = styled(AppBar)(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
@@ -41,7 +42,7 @@ export const LandingNavbar = (props) => {
           </Box>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ color: 'white' }}>
-            <NextLink href="/login" passHref>
+            <NextLink href="/auth" passHref>
               <a style={{ color: 'white' }}>Login</a>
             </NextLink>
           </Box>
