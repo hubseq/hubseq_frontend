@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import * as path from 'path';
+import { getFileCall } from './file_list_api_call';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import PropTypes from 'prop-types';
 import {
@@ -13,7 +15,7 @@ import {
   TableRow
 } from '@mui/material';
 
-export const FileListResults = ({ files, currentpath, setFilesSelected, ...rest }) => {
+export const FileListResults = ({ files, setFiles, currentPath, setFilesSelected, setCurrentPath, ...rest }) => {
   const [selectedFileIds, setSelectedFileIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
@@ -61,6 +63,23 @@ export const FileListResults = ({ files, currentpath, setFilesSelected, ...rest 
     setPage(newPage);
   };
 
+  const handleRowClick = (event, file, file_id) => {
+    // event.preventDefault();
+    handleSelectOne(event, file_id);
+    console.log('ROW CLICKED!!!', file);
+  }
+
+  const handleFileClick = async (event, file, file_id) => {
+    if (file["Key"].endsWith('/')){
+      // go to new path and make another API call
+      const newPath = path.join(currentPath, file["Key"].split('/').at(-2))
+      setCurrentPath( newPath );
+      const newFiles = await getFileCall("s3://"+newPath);
+      setFiles( newFiles );
+    }
+    console.log('FILE CELL CLICKED!!!', file);
+  }
+
   return (
     <Card {...rest}>
       <PerfectScrollbar>
@@ -94,9 +113,10 @@ export const FileListResults = ({ files, currentpath, setFilesSelected, ...rest 
               </TableRow>
             </TableHead>
             <TableBody>
-              {files.slice(0+limit*page, limit+limit*page).map((file) => (
+              {files.slice(0+limit*page, limit+limit*page).map((file, file_idx) => (
                 <TableRow
                   hover
+                  onClick={(e) => handleRowClick(e, file, file.id)}
                   key={file.id}
                   selected={selectedFileIds.indexOf(file.id) !== -1}
                 >
@@ -107,7 +127,7 @@ export const FileListResults = ({ files, currentpath, setFilesSelected, ...rest 
                       value="true"
                     />
                   </TableCell>
-                  <TableCell>
+                  <TableCell onClick={(e) => handleFileClick(e, file, file.id)}>
                     {file.Key.endsWith('/') ? file.Key.slice(0,-1).split('/').pop()+'/' : file.Key.split('/').pop()}
                   </TableCell>
                   <TableCell>
