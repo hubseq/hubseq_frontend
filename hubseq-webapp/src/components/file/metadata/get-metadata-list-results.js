@@ -15,8 +15,11 @@ import {
   TablePagination,
   TableRow
 } from '@mui/material';
+import { AddMetadataDialog } from './add-metadata-dialog';
 
-export const MetadataListResults = ({ myfiles, mytags, ...rest }) => {
+
+export const MetadataListResults = ({ myfiles, mytags, setTags, ...rest }) => {
+  const [open, setOpen] = useState(false);
 
   // helper function - checks if tag is present in tag set
   const containsTag = function(tags, _tag){
@@ -56,9 +59,19 @@ export const MetadataListResults = ({ myfiles, mytags, ...rest }) => {
   // check if two JSONs are equal
   // return true when the two json has same length and all the properties has same value key by key
   const isEqualsJson = function(obj1,obj2){
-      const keys1 = Object.keys(obj1);
-      const keys2 = Object.keys(obj2);
-      return keys1.length === keys2.length && Object.keys(obj1).every(key=>obj1[key]==obj2[key]);
+    const keys1 = Object.keys(obj1);
+    const keys2 = Object.keys(obj2);
+    return keys1.length === keys2.length && Object.keys(obj1).every(key=>obj1[key]==obj2[key]);
+  }
+
+  const handleOpen = () => {
+      setOpen(true);
+    };
+
+  const addMetadata = (event) => {
+    console.log('add metadata: ', event);
+    handleOpen();
+    console.log('MY TAGS: ', mytags);
   }
 
   return (
@@ -67,7 +80,11 @@ export const MetadataListResults = ({ myfiles, mytags, ...rest }) => {
           <Box sx={{ minWidth: 1050 }}>
             <MetadataTable title="Shared Tags" tagset={extractSharedTags(mytags)} />
             {myfiles.map((myfile, file_idx) => (
-              <MetadataTable title={myfile+" (Unique Tags)"} tagset={createNewTagsArray(mytags, extractSharedTags(mytags))[file_idx]} />
+              <div>
+                <MetadataTable title={myfile+" (Unique Tags)"} tagset={createNewTagsArray(mytags, extractSharedTags(mytags))[file_idx]} />
+                <p> &nbsp;&nbsp;&nbsp;<u onClick={()=>{addMetadata()}}>Add Metadata</u> </p>
+                <AddMetadataDialog handleOpen={handleOpen} open={open} setOpen={setOpen} tags={mytags} setTags={setTags} />
+              </div>
             ))}
           </Box>
         </PerfectScrollbar>

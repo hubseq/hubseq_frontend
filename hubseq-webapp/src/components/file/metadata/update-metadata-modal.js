@@ -48,17 +48,17 @@ export const MetadataModal = ({currentPath, selectedFiles}) => {
         onClick={handleClickOpen}> Update Metadata
         </Button>
         <Dialog open={open} onClose={handleClose} maxWidth='xl'>
-        <DialogTitle>Update Metadata</DialogTitle>
-        <DialogContent>
-        <Box sx={{ mt: 3 }}>
-          <MetadataListResults myfiles={selectedFiles} mytags={metadata} />
-        </Box>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleClose}>Update</Button>
-        </DialogActions>
-      </Dialog>
+          <DialogTitle>Update Metadata</DialogTitle>
+          <DialogContent>
+            <Box sx={{ mt: 3 }}>
+              <MetadataListResults myfiles={selectedFiles} mytags={metadata} setTags={setMetadata} />
+            </Box>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose}>Cancel</Button>
+            <Button onClick={handleClose}>Update</Button>
+          </DialogActions>
+        </Dialog>
       </>
     );
 };
