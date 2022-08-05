@@ -70,10 +70,11 @@ const formatResponse_FileList = function( response_raw, called_path ){
 export async function getFileCall( path ){
   // const body = {"path": path};
   // const response_raw = await client.request({"data": body});
+  console.log("PATH BEING CALLED NOW! ", path);
   const response_raw = await awsCall_ListObject(path);
   console.log("RESPONSE RAW: ", response_raw);
 
-  const response = formatResponse_FileList(response_raw, path+'/');
+  const response = formatResponse_FileList(response_raw, path);
   console.log(response);
 
   return response.data;

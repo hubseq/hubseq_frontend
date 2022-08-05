@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import * as path from 'path';
 import { getFileCall } from './file_list_api_call';
+import { addTrailingSlash } from '../../utils/jsutils';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import PropTypes from 'prop-types';
 import {
@@ -72,7 +73,7 @@ export const FileListResults = ({ files, setFiles, currentPath, setFilesSelected
   const handleFileClick = async (event, file, file_id) => {
     if (file["Key"].endsWith('/')){
       // go to new path and make another API call
-      const newPath = path.join(currentPath, file["Key"].split('/').at(-2))
+      const newPath = addTrailingSlash(path.join(currentPath, file["Key"].split('/').at(-2)))
       setCurrentPath( newPath );
       const newFiles = await getFileCall("s3://"+newPath);
       setFiles( newFiles );

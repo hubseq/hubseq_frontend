@@ -30,7 +30,7 @@ export const RunListToolbar = ({runsSelected, setRunsSelected, runInfo, props}) 
           display: 'flex',
           justifyContent: 'space-between',
           flexWrap: 'wrap',
-          m: -1
+          m: -1.5
         }}
       >
         <Typography
