@@ -11,9 +11,9 @@ import { Search as SearchIcon } from '../../icons/search';
 import { Upload as UploadIcon } from '../../icons/upload';
 import { Download as DownloadIcon } from '../../icons/download';
 import { FileUploadModal } from './file-upload-modal';
-import { MetadataModal } from './update-metadata-modal';
-import { RunModuleModal } from './run-module-modal';
-import { RunPipelineModal } from './run-pipeline-modal';
+import { MetadataModal } from './metadata/update-metadata-modal';
+import { RunModuleModal } from './module/run-module-modal';
+import { RunPipelineModal } from './pipeline/run-pipeline-modal';
 
 export const FileListToolbar = ({currentPath, filesSelectedInfo, filesSelected, setFilesSelected, props}) => {
   let download_button;

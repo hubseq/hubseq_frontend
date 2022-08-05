@@ -5,7 +5,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { Box, Button, TextField, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
-import { Upload as UploadIcon } from '../../icons/upload';
+import { Upload as UploadIcon } from '../../../icons/upload';
 
 export const RunModuleModal = ({}) => {
     const [open, setOpen] = useState(false);
