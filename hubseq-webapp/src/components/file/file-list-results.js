@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import * as path from 'path';
 import { getFileCall } from './file_list_api_call';
-import { addTrailingSlash } from '../../utils/jsutils';
+import { addTrailingSlash, isFolder } from '../../utils/jsutils';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import PropTypes from 'prop-types';
 import {
@@ -13,7 +13,8 @@ import {
   TableCell,
   TableHead,
   TablePagination,
-  TableRow
+  TableRow,
+  Tooltip
 } from '@mui/material';
 
 export const FileListResults = ({ files, setFiles, currentPath, setFilesSelected, setCurrentPath, ...rest }) => {
@@ -128,9 +129,11 @@ export const FileListResults = ({ files, setFiles, currentPath, setFilesSelected
                       value="true"
                     />
                   </TableCell>
+                  <Tooltip title={isFolder(file.Key) ? "Open Folder" : ""} placement="top-start" arrow>
                   <TableCell onClick={(e) => handleFileClick(e, file, file.id)}>
                     {file.Key.endsWith('/') ? file.Key.slice(0,-1).split('/').pop()+'/' : file.Key.split('/').pop()}
                   </TableCell>
+                  </Tooltip>
                   <TableCell>
                     {file.LastModified}
                   </TableCell>

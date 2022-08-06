@@ -1,6 +1,6 @@
 import React from 'react';
 import Head from 'next/head';
-import { Box, Container } from '@mui/material';
+import { Box, Container, Tooltip } from '@mui/material';
 import { getFileCall } from '../components/file/file_list_api_call';
 import { FileListResults } from '../components/file/file-list-results';
 import FileList from '../components/file/file_list_api_call';
@@ -51,7 +51,7 @@ const Files = () => {
       >
         <Container maxWidth={false}>
           <FileListToolbar currentPath={currentPath} filesSelectedInfo={shownFiles.filter(val => filesSelected.includes(val.id))} filesSelected={filesSelected} setFilesSelected={setFilesSelected} />
-          <Box sx={{ mt: 2 }}> &nbsp;&nbsp;&nbsp; <b>Current Folder:</b> {currentPath} [<u onClick={() => upOnePath(currentPath)}>Go to previous folder</u>] </Box>
+          <Box sx={{ mt: 2 }}> &nbsp;&nbsp;&nbsp; <b>Current Folder:</b> {currentPath} &nbsp;&nbsp; [<Tooltip title="Go up one folder" placement="top-start"><u onClick={() => upOnePath(currentPath)}>Back</u></Tooltip>] </Box>
           <Box sx={{ mt: 3 }}>
             <FileListResults files={shownFiles} setFiles={setShownFiles} currentPath={currentPath} setFilesSelected={setFilesSelected} setCurrentPath={setCurrentPath} />
           </Box>

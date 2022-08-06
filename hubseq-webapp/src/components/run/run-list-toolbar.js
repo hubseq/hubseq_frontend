@@ -11,15 +11,24 @@ import { Search as SearchIcon } from '../../icons/search';
 import { Upload as UploadIcon } from '../../icons/upload';
 import { Download as DownloadIcon } from '../../icons/download';
 import { RunDetailsModal } from './run-details-modal';
+import { RunReportModal } from './run-report-modal';
 
 export const RunListToolbar = ({runsSelected, setRunsSelected, runInfo, props}) => {
   let view_run_details_modal;
+  let view_run_report_modal;
 
   // run details button - toggle on clicking a run
   if(runsSelected.length > 0 && runsSelected.length < 2){
     view_run_details_modal = <RunDetailsModal runsSelected={runsSelected} runInfo={runInfo} props={props}/>
   } else {
     view_run_details_modal = null;
+  }
+
+  // run report button - toggle on clicking a run
+  if(runsSelected.length > 0 && runsSelected.length < 2){
+    view_run_report_modal = <RunReportModal runsSelected={runsSelected} runInfo={runInfo} props={props}/>
+  } else {
+    view_run_report_modal = null;
   }
 
   return (
@@ -40,6 +49,7 @@ export const RunListToolbar = ({runsSelected, setRunsSelected, runInfo, props}) 
           Runs
         </Typography>
         <Box sx={{ m: 1 }}>
+          {view_run_report_modal}
           {view_run_details_modal}
         </Box>
       </Box>
