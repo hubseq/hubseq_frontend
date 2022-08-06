@@ -7,6 +7,8 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { Button, TextField } from '@mui/material';
 import { Upload as UploadIcon } from '../../icons/upload';
 
+//  <a href='/static/test.html' target='_blank'>link to test.html</a>
+
 export const FileUploadModal = ({}) => {
     const [open, setOpen] = useState(false);
     let upload_button;

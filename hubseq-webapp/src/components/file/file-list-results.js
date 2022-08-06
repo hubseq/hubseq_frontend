@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import React from 'react';
 import * as path from 'path';
 import { getFileCall } from './file_list_api_call';
 import { addTrailingSlash, isFolder } from '../../utils/jsutils';
@@ -21,6 +22,13 @@ export const FileListResults = ({ files, setFiles, currentPath, setFilesSelected
   const [selectedFileIds, setSelectedFileIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
+
+  React.useEffect(() => {
+    console.log('FILELIST RESULTS USEEFFECT TRIGGERED');
+    setPage(0);
+    setSelectedFileIds([]);
+    setFilesSelected([]);
+  }, [currentPath]);
 
   const handleSelectAll = (event) => {
     let newSelectedFileIds;
