@@ -10,21 +10,32 @@ import { Button, TextField } from '@mui/material';
 import { Upload as UploadIcon } from '../../icons/upload';
 // import JobList from './job-list-api-call';
 import { jobsCall } from './job-list-api-call';
-import { JobListResults } from './job-list-results';
+import { ReportTable } from './report-table';
+import { getFileCall } from '../file/file_list_api_call';
+import * as path from 'path';
 
+// assumes that runs are in [HOMEDIR]/runs/[runid]/...
 export const RunReportModal = ({runsSelected, runInfo, props}) => {
     const [open, setOpen] = useState(false);
-    const [jobs, setJobs] = useState([]);
+    const [reportFiles, setReportFiles] = useState([]);
+    const baseRunPath = "hubtenants/tranquis/runs/";
+
     let run_report_button;
     let runs_array = runInfo.map(d => d["runid"]);
 
     React.useEffect(() => {
-      async function getJobs() {
-        const newjobs = await jobsCall(runs_array);
-        setJobs(newjobs);
+      async function getReports() {
+        console.log('REPORT RUNS SELECTED: ', runsSelected);
+        console.log('REPORT RUNS INFO: ', runInfo);
+        console.log('the file call: ', path.join(baseRunPath,runInfo[runsSelected]['runid'],'fastqc'));
+        const htmlFiles = await getFileCall(path.join(baseRunPath,runInfo[runsSelected]['runid'],'fastqc'), ".html");
+        console.log('HTML FILES! ', htmlFiles);
+        setReportFiles(htmlFiles);
       }
-      getJobs();
-    }, []);
+      if (runsSelected){
+        getReports();
+      }
+    }, [runsSelected]);
 
     const handleClickOpen = () => {
       // getJobs();
@@ -48,10 +59,10 @@ export const RunReportModal = ({runsSelected, runInfo, props}) => {
         onClick={handleClickOpen}> View Report
         </Button>
         <Dialog open={open} onClose={handleClose} maxWidth='xl' >
-        <DialogTitle>Run Report for {runs_array[runsSelected]}</DialogTitle>
+        <DialogTitle>Run Report for {runInfo[runsSelected]['runid']}</DialogTitle>
         <DialogContent>
           <Box sx={{ mt: 3 }}>
-            <JobListResults myruns={runs_array} myjobs={jobs} />
+            <ReportTable title="FASTQC Reports" filelist={reportFiles} filetype="FastQC" />
           </Box>
         </DialogContent>
         <DialogActions>

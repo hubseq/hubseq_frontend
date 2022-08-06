@@ -4,7 +4,7 @@
 
 // adds trailing slash to path if it doesnt have one
 export const addTrailingSlash = (s) => {
-  return s.endsWith('/') ? s : s+"/";
+  return (s && s.endsWith('/')) ? s : s+"/";
 };
 
 // check if two JSONs are equal
@@ -17,5 +17,13 @@ export const isEqualsJson = function(obj1,obj2){
 
 // folders have trailing slash
 export const isFolder = (f) => {
-  return f.endsWith('/') ? true : false;
+  return (f && f.endsWith('/')) ? true : false;
+}
+
+export const hideRootFolder = function(fullPath, hideSubPath){
+  return fullPath.replace(hideSubPath,'');
+}
+
+export const notEmpty = function( e ){
+  return (e && e!=[] && e!='');
 }

@@ -2,9 +2,10 @@ import axios from "axios";
 import React from "react";
 // import { FileListResults } from './file-list-results';
 import * as awsApiGatewayClient from "aws-api-gateway-client";
+import { notEmpty, addTrailingSlash } from '../../utils/jsutils';
 // import { Typography } from '@mui/material';
 
-const awsCall_ListObject = function(path){
+const awsCall_ListObject = function(path, searchFilter){
   let apigClientFactory = awsApiGatewayClient.default;
   let apigClient = apigClientFactory.newClient({
     invokeUrl: "https://cs8ibwdms8.execute-api.us-west-2.amazonaws.com",
@@ -18,7 +19,7 @@ const awsCall_ListObject = function(path){
   let pathTemplate = '/test_cors/listobjects';
   let method = 'POST';
   let additionalParams = {};
-  let body = {"path": path};
+  let body = notEmpty(searchFilter) ? {"path": path, "searchpattern": searchFilter[0]} : {"path": path};
 
   // this looks messy - maybe need to clean up this code
   return new Promise(function(resolve, reject){
@@ -57,21 +58,24 @@ const formatResponse_FileList = function( response_raw, called_path ){
     response.data = response_raw.data["CommonPrefixes"];
   }
   // handle files - add ID
-  response_raw.data["Contents"].forEach((e, idx) => e["id"] = num_folders+idx);
-  // AWS is weird - sometimes returns the actual path folder
-  console.log('ALL CONTENTS: ', response_raw.data["Contents"]);
-  console.log('CALLED PATH: ', called_path);
-  response_raw.data["Contents"] = response_raw.data["Contents"].filter((e) => !called_path.endsWith(e["Key"]));
-  // then add files
-  response.data = response.data.concat( response_raw.data["Contents"] );
+  if (response_raw.data.hasOwnProperty("Contents")){
+    response_raw.data["Contents"].forEach((e, idx) => e["id"] = num_folders+idx);
+    // AWS is weird - sometimes returns the actual path folder
+    console.log('ALL CONTENTS: ', response_raw.data["Contents"]);
+    console.log('CALLED PATH: ', called_path);
+    response_raw.data["Contents"] = response_raw.data["Contents"].filter((e) => !called_path.endsWith(e["Key"]));
+    // then add files
+    response.data = response.data.concat( response_raw.data["Contents"] );
+  }
   return response
 }
 
-export async function getFileCall( path ){
+export async function getFileCall( path, ...searchParams ){
   // const body = {"path": path};
   // const response_raw = await client.request({"data": body});
   console.log("PATH BEING CALLED NOW! ", path);
-  const response_raw = await awsCall_ListObject(path);
+  console.log("search Params!!! ", searchParams);
+  const response_raw = await awsCall_ListObject("s3://"+addTrailingSlash(path), searchParams);
   console.log("RESPONSE RAW: ", response_raw);
 
   const response = formatResponse_FileList(response_raw, path);

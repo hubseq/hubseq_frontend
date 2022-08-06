@@ -7,15 +7,15 @@ import FileList from '../components/file/file_list_api_call';
 import { FileListToolbar } from '../components/file/file-list-toolbar';
 import { DashboardLayout } from '../components/dashboard-layout';
 import { useState } from 'react';
-import { addTrailingSlash } from '../utils/jsutils';
+import { addTrailingSlash, hideRootFolder } from '../utils/jsutils';
 
 const Files = () => {
   const [filesSelected, setFilesSelected] = useState([]);
   const [shownFiles, setShownFiles] = useState([]);
-  const [currentPath, setCurrentPath] = useState("www.hubseq.com/assets/");
+  const [currentPath, setCurrentPath] = useState("hubtenants/tranquis/"); // "www.hubseq.com/assets/"
 
   async function getFiles(path) {
-    const newfiles = await getFileCall("s3://"+addTrailingSlash(path));
+    const newfiles = await getFileCall(path);
     console.log('SHOWN FILES: ', newfiles);
     setShownFiles(newfiles);
   }
@@ -51,7 +51,7 @@ const Files = () => {
       >
         <Container maxWidth={false}>
           <FileListToolbar currentPath={currentPath} filesSelectedInfo={shownFiles.filter(val => filesSelected.includes(val.id))} filesSelected={filesSelected} setFilesSelected={setFilesSelected} />
-          <Box sx={{ mt: 2 }}> &nbsp;&nbsp;&nbsp; <b>Current Folder:</b> {currentPath} &nbsp;&nbsp; [<Tooltip title="Go up one folder" placement="top-start"><u onClick={() => upOnePath(currentPath)}>Back</u></Tooltip>] </Box>
+          <Box sx={{ mt: 2 }}> &nbsp;&nbsp;&nbsp; <b>Current Folder:</b> {hideRootFolder(currentPath, 'hubtenants/')} &nbsp;&nbsp; [<Tooltip title="Go up one folder" placement="top-start"><u onClick={() => upOnePath(currentPath)}>Back</u></Tooltip>] </Box>
           <Box sx={{ mt: 3 }}>
             <FileListResults files={shownFiles} setFiles={setShownFiles} currentPath={currentPath} setFilesSelected={setFilesSelected} setCurrentPath={setCurrentPath} />
           </Box>

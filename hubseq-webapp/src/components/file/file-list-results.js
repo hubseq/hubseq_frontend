@@ -36,25 +36,27 @@ export const FileListResults = ({ files, setFiles, currentPath, setFilesSelected
     console.log('selectedFileIds: ', newSelectedFileIds);
   };
 
-  const handleSelectOne = (event, id) => {
-    const selectedIndex = selectedFileIds.indexOf(id);
-    let newSelectedFileIds = [];
+  const handleSelectOne = (event, file, id) => {
+    if (file && !isFolder(file["Key"])){
+      const selectedIndex = selectedFileIds.indexOf(id);
+      let newSelectedFileIds = [];
 
-    if (selectedIndex === -1) {
-      newSelectedFileIds = newSelectedFileIds.concat(selectedFileIds, id);
-    } else if (selectedIndex === 0) {
-      newSelectedFileIds = newSelectedFileIds.concat(selectedFileIds.slice(1));
-    } else if (selectedIndex === selectedFileIds.length - 1) {
-      newSelectedFileIds = newSelectedFileIds.concat(selectedFileIds.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelectedFileIds = newSelectedFileIds.concat(
-        selectedFileIds.slice(0, selectedIndex),
-        selectedFileIds.slice(selectedIndex + 1)
-      );
+      if (selectedIndex === -1) {
+        newSelectedFileIds = newSelectedFileIds.concat(selectedFileIds, id);
+      } else if (selectedIndex === 0) {
+        newSelectedFileIds = newSelectedFileIds.concat(selectedFileIds.slice(1));
+      } else if (selectedIndex === selectedFileIds.length - 1) {
+        newSelectedFileIds = newSelectedFileIds.concat(selectedFileIds.slice(0, -1));
+      } else if (selectedIndex > 0) {
+        newSelectedFileIds = newSelectedFileIds.concat(
+          selectedFileIds.slice(0, selectedIndex),
+          selectedFileIds.slice(selectedIndex + 1)
+        );
+      }
+      setSelectedFileIds(newSelectedFileIds);
+      setFilesSelected(newSelectedFileIds);
+      console.log('selectedFileIds: ', newSelectedFileIds);
     }
-    setSelectedFileIds(newSelectedFileIds);
-    setFilesSelected(newSelectedFileIds);
-    console.log('selectedFileIds: ', newSelectedFileIds);
   };
 
   const handleLimitChange = (event) => {
@@ -76,7 +78,7 @@ export const FileListResults = ({ files, setFiles, currentPath, setFilesSelected
       // go to new path and make another API call
       const newPath = addTrailingSlash(path.join(currentPath, file["Key"].split('/').at(-2)))
       setCurrentPath( newPath );
-      const newFiles = await getFileCall("s3://"+newPath);
+      const newFiles = await getFileCall(newPath);
       setFiles( newFiles );
     }
     console.log('FILE CELL CLICKED!!!', file);
@@ -125,11 +127,11 @@ export const FileListResults = ({ files, setFiles, currentPath, setFilesSelected
                   <TableCell padding="checkbox">
                     <Checkbox
                       checked={selectedFileIds.indexOf(file.id) !== -1}
-                      onChange={(event) => handleSelectOne(event, file.id)}
+                      onChange={(event) => handleSelectOne(event, file, file.id)}
                       value="true"
                     />
                   </TableCell>
-                  <Tooltip title={isFolder(file.Key) ? "Open Folder" : ""} placement="top-start" arrow>
+                  <Tooltip title={isFolder(file.Key) ? "Open Folder" : ""} placement="right-start" arrow>
                   <TableCell onClick={(e) => handleFileClick(e, file, file.id)}>
                     {file.Key.endsWith('/') ? file.Key.slice(0,-1).split('/').pop()+'/' : file.Key.split('/').pop()}
                   </TableCell>
