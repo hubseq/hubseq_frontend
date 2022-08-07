@@ -46,7 +46,7 @@ export const FileListResults = ({ files, setFiles, currentPath, setFilesSelected
 
   const handleSelectOne = (event, file, id) => {
     console.log('ONE: EVENT: SHIFT ', event.nativeEvent.shiftKey);
-    if (file && !isFolder(file["Key"])){
+    if (file){ // && !isFolder(file["Key"])){
       const selectedIndex = selectedFileIds.indexOf(id);
       let newSelectedFileIds = [];
 
@@ -91,7 +91,7 @@ export const FileListResults = ({ files, setFiles, currentPath, setFilesSelected
   };
 
   const handleSelectMultiple = (event, file, id) => {
-    if (file && !isFolder(file["Key"])){
+    if (file){
       const selectedIndex = selectedFileIds.indexOf(id);
       let newSelectedFileIds = [];
       let fileIdsToAdd = [];

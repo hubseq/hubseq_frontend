@@ -27,8 +27,8 @@ const Files = () => {
   const upOnePath = (path) => {
       console.log('UP ONE PATH!', path);
       const pathSplit = addTrailingSlash(path).split('/');
-      if (pathSplit.length > 3){
-        const newPath = addTrailingSlash(pathSplit.slice(0,pathSplit.length-2).join('/'));
+      if (pathSplit.length > 2){
+        const newPath = addTrailingSlash(pathSplit.slice(0,pathSplit.length-1).join('/'));
         console.log('UP ONE PATH: new path: ', newPath);
         setCurrentPath(newPath);
         getFiles(newPath);

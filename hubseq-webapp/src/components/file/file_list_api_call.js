@@ -78,7 +78,7 @@ export async function getFileCall( path, ...searchParams ){
   const response_raw = await awsCall_ListObject("s3://"+addTrailingSlash(path), searchParams);
   console.log("RESPONSE RAW: ", response_raw);
 
-  const response = formatResponse_FileList(response_raw, path);
+  const response = formatResponse_FileList(response_raw, addTrailingSlash(path));
   console.log(response);
 
   return response.data;
