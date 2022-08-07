@@ -4,7 +4,7 @@
 
 // adds trailing slash to path if it doesnt have one
 export const addTrailingSlash = (s) => {
-  return (s && (typeof f)=="string" && !s.endsWith('/')) ? s+"/" : s;
+  return (s && !s.endsWith('/')) ? s+"/" : s;
 };
 
 // check if two JSONs are equal
