@@ -20,6 +20,7 @@ export const MetadataModal = ({currentPath, selectedFiles}) => {
 
     React.useEffect(() => {
       console.log('DID METADATAMODAL UPDATE??? ', metadata);
+      console.log(' metamodal files selected:  ', selectedFiles);      
     }, [metadata, selectedFiles, setMetadata]);
 
     async function getMetadata() {

@@ -59,14 +59,14 @@ export const FileListToolbar = ({currentPath, filesSelectedInfo, filesSelected, 
 
   // run module button - toggle on data file clicking
   if (filesSelected && filesSelectedInfo && filesSelected.length > 0 && areFileFormatsCorrect(filesSelectedInfo, "datafile")){
-    run_module_modal = <RunModuleModal/>
+    run_module_modal = <RunModuleModal currentPath={currentPath} selectedFiles={filesSelectedInfo.map((e) => getObjectName(e["Key"]))} />
   } else {
     run_module_modal = null;
   }
 
   // run pipeline button - toggle on sequencing file clicking
   if(filesSelected && filesSelectedInfo && filesSelected.length > 0 && areFileFormatsCorrect(filesSelectedInfo, "fastqfile")){
-    run_pipeline_modal = <RunPipelineModal/>
+    run_pipeline_modal = <RunPipelineModal currentPath={currentPath} selectedFiles={filesSelectedInfo.map((e) => getObjectName(e["Key"]))} />
   } else {
     run_pipeline_modal = null;
   }
