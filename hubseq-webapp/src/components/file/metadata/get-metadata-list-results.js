@@ -47,30 +47,3 @@ MetadataListResults.propTypes = {
   myfiles: PropTypes.array.isRequired,
   mytags: PropTypes.array.isRequired
 };
-
-/*
-// extracts tags shared between all files
-const extractSharedTags = (_mytags) => {
-  let shared_tags = [];
-  if (_mytags.length > 0){
-    shared_tags = _mytags[0];
-    _mytags.forEach(function(e, idx, array){
-      shared_tags = shared_tags.filter( val => containsTag(e, val));
-    });
-    console.log('MY OG TAGS: ', _mytags);
-    console.log('SHARED TAGS: ', shared_tags);
-  }
-  return shared_tags;
-}
-
-// creates a new tags array where shared tags are removed,
-const createNewTagsArray = (mytags, shared_tags) => {
-  let unique_tags = [];
-  mytags.forEach(function(e, idx, array){
-    unique_tags.push(e.filter( val => !containsTag(shared_tags, val)));
-    unique_tags[unique_tags.length-1]['id'] = idx;
-  });
-  console.log('UNIQUE TAGS: ', unique_tags);
-  return unique_tags;
-}
-*/

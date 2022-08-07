@@ -31,10 +31,11 @@ export const MetadataModal = ({currentPath, selectedFiles}) => {
 
     // adds new tag
     const addTag = (tagToAdd, tagType, _idx) => {
-      let newTags = [];
-      for( let i=0; i<metadata.length;i++ ){
-        newTags.push(metadata[i]);
-      }
+      let newTags = [...metadata]; // creates a shallow copy of metadata
+      //let newTags = [];
+      //for( let i=0; i<metadata.length;i++ ){
+      //  newTags.push(metadata[i]);
+      //}
       if (tagType == "shared"){
         newTags.map((e, idx) => {e.push({"Key": tagToAdd["Key"],
                                          "Value": tagToAdd["Value"]})});
