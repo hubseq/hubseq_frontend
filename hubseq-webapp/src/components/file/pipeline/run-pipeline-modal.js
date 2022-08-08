@@ -20,6 +20,7 @@ export const RunPipelineModal = ({currentPath, selectedFiles, ...rest}) => {
     const [alignmodule, setAlignModule] = useState('rnastar');
     const [demodule, setDEModule] = useState('deseq2');
     const [gomodule, setGOModule] = useState('david_go');
+    const [showPipelineDetails, setShowPipelineDetails] = useState(false);
 
     let run_pipeline_button;
     let pipelineTextFields;
@@ -84,10 +85,11 @@ export const RunPipelineModal = ({currentPath, selectedFiles, ...rest}) => {
                                     size="small" helperText="Enter Output Folder" fullWidth />
                            <TextField margin="dense" id="pipeline-runid" label="Run ID" value={runid}
                                     size="small" helperText="Enter Run ID" fullWidth onChange={handleRunIdChange}/>
+                           <p><u onClick={()=>setShowPipelineDetails(true)}>Edit Pipeline Configuration</u></p>
                          </Box>
 
 
-      if (pipeline=="rnaseq-human-pipeline" || pipeline=="rnaseq-mouse-pipeline"){
+      if (showPipelineDetails && (pipeline=="rnaseq-human-pipeline" || pipeline=="rnaseq-mouse-pipeline")){
         pipelineDetailFields =   <Box sx={{ m: 2, width: '75ch' }}>
                                  <Typography sx={{ m: 2 }} variant="subtitle1"> PIPELINE WORKFLOW </Typography>
                                  <Grid container rowSpacing={0} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
