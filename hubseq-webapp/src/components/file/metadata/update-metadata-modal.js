@@ -6,7 +6,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { Button, TextField, Box, Container } from '@mui/material';
-import { Upload as UploadIcon } from '../../../icons/upload';
+import { Sell as SellIcon } from '../../../icons/sell';
 import { getMetadataCall } from './get-metadata-api-call';
 import { MetadataListResults } from './get-metadata-list-results';
 
@@ -20,7 +20,7 @@ export const MetadataModal = ({currentPath, selectedFiles}) => {
 
     React.useEffect(() => {
       console.log('DID METADATAMODAL UPDATE??? ', metadata);
-      console.log(' metamodal files selected:  ', selectedFiles);      
+      console.log(' metamodal files selected:  ', selectedFiles);
     }, [metadata, selectedFiles, setMetadata]);
 
     async function getMetadata() {
@@ -87,14 +87,14 @@ export const MetadataModal = ({currentPath, selectedFiles}) => {
     };
 
       // upload button - always show
-    update_metadata_button = <Button startIcon={(<UploadIcon fontSize="small" />)}
+    update_metadata_button = <Button startIcon={(<SellIcon fontSize="small" />)}
                           sx={{ mr: 1 }}
                           onClick={handleClickOpen}> Update Metadata
                   </Button>
 
     return (
         <>
-        <Button startIcon={(<UploadIcon fontSize="small" />)}
+        <Button startIcon={(<SellIcon fontSize="small" />)}
         sx={{ mr: 1 }}
         onClick={handleClickOpen}> Update Metadata
         </Button>

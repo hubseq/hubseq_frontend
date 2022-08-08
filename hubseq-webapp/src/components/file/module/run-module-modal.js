@@ -5,20 +5,28 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { Box, Button, TextField, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { Box, Button, TextField, FormControl, InputLabel, Select, MenuItem, SvgIcon, Typography } from '@mui/material';
 import { Upload as UploadIcon } from '../../../icons/upload';
+import { Modules as ModuleIcon } from '../../../icons/modules';
+import { Cog as CogIcon } from '../../../icons/cog';
 import * as moment from 'moment';
 
 export const RunModuleModal = ({currentPath, selectedFiles, ...rest}) => {
     const [open, setOpen] = useState(false);
     const [mymodule, setMyModule] = useState('');
-    const [runid, setRunid] = useState('')
+    const [runid, setRunid] = useState('');
+    const [output, setOutput] = useState('');
+    const [params, setParams] = useState('');
+    const [mygenome, setMyGenome] = useState('human');
+
     let run_module_button;
-    let module_options;
+    let moduleTextFields;
+    let extraTextFields;
 
     React.useEffect(() => {
-      console.log('RUN MODULE MODAL USE EFFECTCALLED!', selectedFiles);
-    }, [selectedFiles]);
+      console.log('RUN MODULE MODAL USE EFFECTCALLED!', mymodule);
+
+    }, [selectedFiles, mymodule]);
 
     const handleClickOpen = () => {
       setOpen(true);
@@ -30,33 +38,74 @@ export const RunModuleModal = ({currentPath, selectedFiles, ...rest}) => {
 
     const handleModuleSelect = (event) => {
       setMyModule(event.target.value);
-      setRunid(moment().format('YYYY-MM-DD-hhmm[-]') + event.target.value);
+      setRunid(moment().format('YYYY-MM-DD-hhmmss[-]') + event.target.value);
     };
 
+    const handleGenomeSelect = (event) => {
+      setMyGenome(event.target.value);
+    }
+
+    const handleRunIdChange = (event)=> {
+      setRunid(event.target.value);
+    }
+
+    const handleOutputChange = (event)=> {
+      setOutput(event.target.value);
+    }
+
+    const handleParamsChange = (event)=> {
+      setParams(event.target.value);
+    }
+
+    if (mymodule && mymodule!=""){
+      moduleTextFields = <Box component="form" sx={{ '& .MuiTextField-root': { m: 2, width: '75ch' },}}
+                                  noValidate autoComplete="off">
+                           <TextField disabled margin="dense" id="module-input"
+                                    label="Input" defaultValue="(Selected Files)"
+                                    size="small" helperText="Enter Input File(s)" fullWidth />
+                           <TextField disabled margin="dense" id="module-output" label="Output" value={"~/runs/"+runid+"/"}
+                                    size="small" helperText="Enter Output Folder" fullWidth />
+                           <TextField margin="dense" id="module-runid" label="Run ID" value={runid}
+                                    size="small" helperText="Enter Run ID" fullWidth onChange={handleRunIdChange}/>
+                           <TextField margin="dense" id="module-params" label="Parameters" InputLabelProps={{ shrink: true }}
+                                    size="small" helperText="Example: -p -s 2 -bed ~/genomes/bed/hg38_targeted.bed" fullWidth onChange={handleParamsChange} />
+                         </Box>
+
+      if (mymodule=="rnastar"){
+        extraTextFields = <Box component="form" sx={{ m: 3, width: '50ch' }}>
+                            <FormControl variant="standard" fullWidth>
+                              <InputLabel>Select Genome</InputLabel>
+                              <Select
+                                labelId="select-genome-dropdown"
+                                id="select-genome-dropdown"
+                                value={mygenome}
+                                label="Genome"
+                                onChange={handleGenomeSelect}
+                              >
+                                <MenuItem value={'human'}>Human</MenuItem>
+                                <MenuItem value={'mouse'}>Mouse</MenuItem>
+                                <MenuItem value={'custom'}>Custom</MenuItem>
+                              </Select>
+                            </FormControl>
+                          </Box>
+      } else {
+        extraTextFields = null;
+      }
+    } else {
+      moduleTextFields = null;
+      extraTextFields = null;
+    }
+
     // upload button - always show
-    run_module_button = <Button startIcon={(<UploadIcon fontSize="small" />)}
+    run_module_button = <Button startIcon={(<ModuleIcon fontSize="small" />)}
                           sx={{ mr: 1 }}
                           onClick={handleClickOpen}> Run Module
                   </Button>
 
-    if (mymodule && mymodule!=""){
-      module_options = <Box component="form" sx={{ '& .MuiTextField-root': { m: 2, width: '75ch' },}}
-                            noValidate autoComplete="off">
-                         <TextField margin="dense" id="module-runid" label="Run ID" defaultValue={runid}
-                                  size="small" helperText="Enter Run ID" fullWidth />
-                         <TextField disabled margin="dense" id="module-input"
-                                  label="Input" defaultValue="(Selected Files)"
-                                  size="small" helperText="Enter Input File(s)" fullWidth />
-                         <TextField margin="dense" id="module-output" label="Output" defaultValue={"~/runs/"+runid+"/"}
-                                  size="small" helperText="Enter Output Folder" fullWidth />
-                       </Box>
-    } else {
-      module_options = null;
-    }
 
     return (
         <>
-        <Button startIcon={(<UploadIcon fontSize="small" />)}
+        <Button startIcon={(<ModuleIcon fontSize="small" />)}
         sx={{ mr: 1 }}
         onClick={handleClickOpen}> Run Module
         </Button>
@@ -81,10 +130,12 @@ export const RunModuleModal = ({currentPath, selectedFiles, ...rest}) => {
             <MenuItem value={'goqc'}>Gene Ontology Bar plots (GO-QC)</MenuItem>
           </Select>
           </FormControl>
-          {module_options}
+          {moduleTextFields}
+          {extraTextFields}
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={handleClose}>Help</Button>
           <Button onClick={handleClose}>Run</Button>
         </DialogActions>
       </Dialog>

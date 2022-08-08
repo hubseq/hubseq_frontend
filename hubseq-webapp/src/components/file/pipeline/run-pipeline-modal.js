@@ -5,7 +5,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { Box, Button, TextField, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
-import { Upload as UploadIcon } from '../../../icons/upload';
+import { Pipeline as PipelineIcon } from '../../../icons/pipeline';
 
 export const RunPipelineModal = ({}) => {
     const [open, setOpen] = useState(false);
@@ -25,7 +25,7 @@ export const RunPipelineModal = ({}) => {
       setPipeline(event.target.value);
     };
 
-    run_pipeline_button = <Button startIcon={(<UploadIcon fontSize="small" />)}
+    run_pipeline_button = <Button startIcon={(<PipelineIcon fontSize="small" />)}
                           sx={{ mr: 1 }}
                           onClick={handleClickOpen}> Run Pipeline
                   </Button>
@@ -34,7 +34,7 @@ export const RunPipelineModal = ({}) => {
 
     return (
         <>
-        <Button startIcon={(<UploadIcon fontSize="small" />)}
+        <Button startIcon={(<PipelineIcon fontSize="small" />)}
         sx={{ mr: 1 }}
         onClick={handleClickOpen}> Run Pipeline
         </Button>
