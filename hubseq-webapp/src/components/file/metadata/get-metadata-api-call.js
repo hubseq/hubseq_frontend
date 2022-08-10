@@ -20,8 +20,8 @@ const formatResponse_getMetadata = function( response_raw ){
 
   // add a few keys to raw response
   // id should be a reserved key that cannot be used
-  response_raw.data.data.forEach((e, idx) => e["id"] = idx);
-  response.data = response_raw.data.data;
+  response_raw.data.forEach((e, idx) => e["id"] = idx);
+  response.data = response_raw.data;
   return response
 }
 

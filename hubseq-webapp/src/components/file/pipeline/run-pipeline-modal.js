@@ -9,17 +9,17 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { Box, Button, TextField, FormControl, InputLabel, Select, MenuItem, Typography, Checkbox } from '@mui/material';
 import { Pipeline as PipelineIcon } from '../../../icons/pipeline';
 import * as moment from 'moment';
+import { addTrailingSlash } from '../../../utils/jsutils';
+import { GridRowModule } from './gridrow-module';
+import { runPipelineCall } from './run-pipeline-api-call';
 
 export const RunPipelineModal = ({currentPath, selectedFiles, ...rest}) => {
     const [open, setOpen] = useState(false);
     const [pipeline, setPipeline] = useState('');
     const [runid, setRunid] = useState('');
     const [output, setOutput] = useState('');
-    const [params, setParams] = useState('');
-    const [fastqcmodule, setFastQCModule] = useState('fastqc');
-    const [alignmodule, setAlignModule] = useState('rnastar');
-    const [demodule, setDEModule] = useState('deseq2');
-    const [gomodule, setGOModule] = useState('david_go');
+    const [params, setParams] = useState({});
+    const [modules, setModules] = useState({});
     const [showPipelineDetails, setShowPipelineDetails] = useState(false);
 
     let run_pipeline_button;
@@ -28,8 +28,25 @@ export const RunPipelineModal = ({currentPath, selectedFiles, ...rest}) => {
 
     React.useEffect(() => {
       // nothing yet
-    }, [selectedFiles, pipeline]);
+      console.log('MODULES: ', modules);
+      console.log('PARAMS: ', params);
+    }, [selectedFiles, pipeline, modules, params]);
 
+    const handleRunPipeline = () => {
+      const pipelineSubmit = pipeline;
+      const modulesSubmit = modules;
+      const inputSubmit = selectedFiles.map((f) => ("s3://"+addTrailingSlash(currentPath)+f));
+      const paramsSubmit = params;
+      const runidSubmit = runid;
+      const teamid = "hubseq"; // replace w session variable
+      const userid = "test"; // replace w session variable
+      console.log("PIPELINE: ", pipelineSubmit);
+      console.log("MODULES: ", modulesSubmit);
+      console.log("Input: ", inputSubmit);
+      console.log("PARAMS: ", paramsSubmit);
+      runPipelineCall(pipelineSubmit, modulesSubmit, inputSubmit, [], [], paramsSubmit, runidSubmit, teamid, userid);
+      setOpen(false);
+    }
     const handleClickOpen = () => {
       setOpen(true);
     };
@@ -38,40 +55,32 @@ export const RunPipelineModal = ({currentPath, selectedFiles, ...rest}) => {
       setOpen(false);
     };
 
+    const addModule = (k, v) => {
+      const currentModules = {...modules}; // makes a detached copy of dict
+      currentModules[k] = v;
+      setModules(currentModules);
+    }
+
+    const addParam = (k, v) => {
+      const currentParams = {...params}; // make a detached copy of dict
+      currentParams[k] = v;
+      setParams(currentParams);
+    }
+
     const handlePipelineSelect = (event) => {
       setPipeline(event.target.value);
       setRunid(moment().format('YYYY-MM-DD-hhmmss[-]') + event.target.value);
+      if (event.target.value=="rnaseq.human" || event.target.value=="rnaseq.mouse"){
+        setModules({"FASTQ QC": 'fastqc', "Align QC": 'rnastar', "Differential Expression": 'deseq2', "Gene Ontology": 'david_go'});
+      }
+
     };
 
     const handleRunIdChange = (event)=> {
       setRunid(event.target.value);
     }
 
-    const handleOutputChange = (event)=> {
-      setOutput(event.target.value);
-    }
-
-    const handleParamsChange = (event)=> {
-      setParams(event.target.value);
-    }
-
     const handleCheck = (event)=> {
-      //
-    }
-
-    const handleFastQCModuleSelect = (event)=> {
-      //
-    }
-
-    const handleAlignModuleSelect = (event) => {
-      //
-    }
-
-    const handleDEModuleSelect = (event) => {
-      //
-    }
-
-    const handleGOModuleSelect = (event) => {
       //
     }
 
@@ -89,113 +98,14 @@ export const RunPipelineModal = ({currentPath, selectedFiles, ...rest}) => {
                          </Box>
 
 
-      if (showPipelineDetails && (pipeline=="rnaseq-human-pipeline" || pipeline=="rnaseq-mouse-pipeline")){
-        pipelineDetailFields =   <Box sx={{ m: 2, width: '75ch' }}>
+      if (showPipelineDetails && (pipeline=="rnaseq.human" || pipeline=="rnaseq.mouse")){
+        pipelineDetailFields =   <Box sx={{ m: 2, width: '100ch' }}>
                                  <Typography sx={{ m: 2 }} variant="subtitle1"> PIPELINE WORKFLOW </Typography>
                                  <Grid container rowSpacing={0} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-                                    <Grid item xs={1}>
-                                      <Checkbox
-                                        checked="true"
-                                        color="primary"
-                                        value="true"
-                                      />
-                                    </Grid>
-                                    <Grid item xs={3}>
-                                      <FormControl variant="standard" fullWidth>
-                                      <InputLabel>Select Fastq QC Module</InputLabel>
-                                        <Select
-                                          labelId="select-fastqc-dropdown"
-                                          id="select-fastqc-dropdown"
-                                          value={fastqcmodule}
-                                          label="FastQC Module"
-                                          onChange={handleFastQCModuleSelect}
-                                        >
-                                          <MenuItem value={'fastqc'}>FastQC</MenuItem>
-                                        </Select>
-                                      </FormControl>
-                                    </Grid>
-                                    <Grid item xs={8}>
-                                      <TextField margin="dense" id="fastqc-params" label="(FastQC Parameters)"
-                                               size="small" helperText="Example: -p -s 2 -bed ~/genomes/bed/hg38_targeted.bed" fullWidth onChange={handleParamsChange} />
-                                    </Grid>
-                                    <Grid item xs={1}>
-                                      <Checkbox
-                                        checked="true"
-                                        color="primary"
-                                        value="true"
-                                      />
-                                    </Grid>
-                                    <Grid item xs={3}>
-                                      <FormControl variant="standard" fullWidth>
-                                      <InputLabel>Select Alignment Module</InputLabel>
-                                        <Select
-                                          labelId="select-align-dropdown"
-                                          id="select-align-dropdown"
-                                          value={alignmodule}
-                                          label="Alignment Module"
-                                          onChange={handleAlignModuleSelect}
-                                        >
-                                          <MenuItem value={'rnastar'}>RNA-STAR</MenuItem>
-                                        </Select>
-                                      </FormControl>
-                                    </Grid>
-                                    <Grid item xs={8}>
-                                      <TextField margin="dense" id="align-params" label="(Align Parameters)"
-                                               size="small" helperText="Example: -p -s 2 -bed ~/genomes/bed/hg38_targeted.bed" fullWidth onChange={handleParamsChange} />
-                                    </Grid>
-
-                                    <Grid item xs={1}>
-                                      <Checkbox
-                                        checked="true"
-                                        color="primary"
-                                        value="true"
-                                      />
-                                    </Grid>
-                                    <Grid item xs={3}>
-                                      <FormControl variant="standard" fullWidth>
-                                      <InputLabel>Select Differential Expression Module</InputLabel>
-                                        <Select
-                                          labelId="select-de-dropdown"
-                                          id="select-de-dropdown"
-                                          value={demodule}
-                                          label="Differential Expression Module"
-                                          onChange={handleDEModuleSelect}
-                                        >
-                                          <MenuItem value={'deseq2'}>DESeq2</MenuItem>
-                                        </Select>
-                                      </FormControl>
-                                    </Grid>
-                                    <Grid item xs={8}>
-                                      <TextField margin="dense" id="de-params" label="(Differential Expression Parameters)"
-                                               size="small" helperText="Example: -p -s 2 -bed ~/genomes/bed/hg38_targeted.bed" fullWidth onChange={handleParamsChange} />
-                                    </Grid>
-
-                                    <Grid item xs={1}>
-                                      <Checkbox
-                                        checked="true"
-                                        color="primary"
-                                        value="true"
-                                      />
-                                    </Grid>
-                                    <Grid item xs={3}>
-                                      <FormControl variant="standard" fullWidth>
-                                      <InputLabel>Select Gene Ontology Module</InputLabel>
-                                        <Select
-                                          labelId="select-go-dropdown"
-                                          id="select-go-dropdown"
-                                          value={gomodule}
-                                          label="Gene Ontology Module"
-                                          onChange={handleGOModuleSelect}
-                                        >
-                                          <MenuItem value={'david_go'}>DAVID GO</MenuItem>
-                                        </Select>
-                                      </FormControl>
-                                    </Grid>
-                                    <Grid item xs={8}>
-                                      <TextField margin="dense" id="go-params" label="(Gene Ontology Parameters)"
-                                               size="small" helperText="Example: -p -s 2 -bed ~/genomes/bed/hg38_targeted.bed" fullWidth onChange={handleParamsChange} />
-                                    </Grid>
-
+                                    <GridRowModule modulelabel="FASTQ QC" defaultmodule="fastqc" addParam={addParam} addModule={addModule} />
+                                    <GridRowModule modulelabel="Align QC" defaultmodule="rnastar" addParam={addParam} addModule={addModule} />
+                                    <GridRowModule modulelabel="Differential Expression" defaultmodule="deseq2" addParam={addParam} addModule={addModule} />
+                                    <GridRowModule modulelabel="Gene Ontology" defaultmodule="david_go" addParam={addParam} addModule={addModule} />
                                  </Grid>
                                  </Box>
 
@@ -230,8 +140,8 @@ export const RunPipelineModal = ({currentPath, selectedFiles, ...rest}) => {
             label="Pipeline"
             onChange={handlePipelineSelect}
           >
-            <MenuItem value={'rnaseq-mouse-pipeline'}>RNA Sequencing - Mouse</MenuItem>
-            <MenuItem value={'rnaseq-human-pipeline'}>RNA Sequencing - Human</MenuItem>
+            <MenuItem value={'rnaseq.mouse'}>RNA Sequencing - Mouse</MenuItem>
+            <MenuItem value={'rnaseq.human'}>RNA Sequencing - Human</MenuItem>
           </Select>
           </FormControl>
           {pipelineTextFields}
@@ -239,7 +149,7 @@ export const RunPipelineModal = ({currentPath, selectedFiles, ...rest}) => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleClose}>Run</Button>
+          <Button onClick={handleRunPipeline}>Run</Button>
         </DialogActions>
       </Dialog>
       </>

@@ -9,7 +9,9 @@ import { Box, Button, TextField, FormControl, InputLabel, Select, MenuItem, SvgI
 import { Upload as UploadIcon } from '../../../icons/upload';
 import { Modules as ModuleIcon } from '../../../icons/modules';
 import { Cog as CogIcon } from '../../../icons/cog';
+import { addTrailingSlash } from '../../../utils/jsutils';
 import * as moment from 'moment';
+import { runModuleCall } from './run-module-api-call';
 
 export const RunModuleModal = ({currentPath, selectedFiles, ...rest}) => {
     const [open, setOpen] = useState(false);
@@ -18,6 +20,7 @@ export const RunModuleModal = ({currentPath, selectedFiles, ...rest}) => {
     const [output, setOutput] = useState('');
     const [params, setParams] = useState('');
     const [mygenome, setMyGenome] = useState('human');
+    const teamid = "tranquis";  // replace w session value at some point
 
     let run_module_button;
     let moduleTextFields;
@@ -25,7 +28,8 @@ export const RunModuleModal = ({currentPath, selectedFiles, ...rest}) => {
 
     React.useEffect(() => {
       console.log('RUN MODULE MODAL USE EFFECTCALLED!', mymodule);
-
+      console.log('current path: ', currentPath);
+      console.log('SELECTED FILES: ', selectedFiles);
     }, [selectedFiles, mymodule]);
 
     const handleClickOpen = () => {
@@ -57,13 +61,27 @@ export const RunModuleModal = ({currentPath, selectedFiles, ...rest}) => {
       setParams(event.target.value);
     }
 
+    const getDefaultOutputFolder = () => {
+      return teamid+"/runs/"+runid+"/";
+    };
+
+    const handleRunModule = () => {
+        const moduleSubmit = mymodule;
+        const inputSubmit = selectedFiles.map((f) => ("s3://"+addTrailingSlash(currentPath)+f));
+        const outputSubmit = ["s3://hubtenants/"+getDefaultOutputFolder()]; // remove hubtenants before prod
+        const paramsSubmit = params;
+        const runidSubmit = runid;
+        runModuleCall(moduleSubmit, inputSubmit, outputSubmit, [], [], paramsSubmit, runidSubmit);
+        setOpen(false);
+    }
+
     if (mymodule && mymodule!=""){
       moduleTextFields = <Box component="form" sx={{ '& .MuiTextField-root': { m: 2, width: '75ch' },}}
                                   noValidate autoComplete="off">
                            <TextField disabled margin="dense" id="module-input"
                                     label="Input" defaultValue="(Selected Files)"
                                     size="small" helperText="Enter Input File(s)" fullWidth />
-                           <TextField disabled margin="dense" id="module-output" label="Output" value={"~/runs/"+runid+"/"}
+                           <TextField disabled margin="dense" id="module-output" label="Output" value={getDefaultOutputFolder()}
                                     size="small" helperText="Enter Output Folder" fullWidth />
                            <TextField margin="dense" id="module-runid" label="Run ID" value={runid}
                                     size="small" helperText="Enter Run ID" fullWidth onChange={handleRunIdChange}/>
@@ -102,7 +120,6 @@ export const RunModuleModal = ({currentPath, selectedFiles, ...rest}) => {
                           onClick={handleClickOpen}> Run Module
                   </Button>
 
-
     return (
         <>
         <Button startIcon={(<ModuleIcon fontSize="small" />)}
@@ -136,7 +153,7 @@ export const RunModuleModal = ({currentPath, selectedFiles, ...rest}) => {
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
           <Button onClick={handleClose}>Help</Button>
-          <Button onClick={handleClose}>Run</Button>
+          <Button onClick={handleRunModule}>Run</Button>
         </DialogActions>
       </Dialog>
       </>
