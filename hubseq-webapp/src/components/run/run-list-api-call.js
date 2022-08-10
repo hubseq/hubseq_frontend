@@ -2,6 +2,7 @@ import axios from "axios";
 import React from "react";
 import { RunListResults } from './run-list-results';
 // import { Typography } from '@mui/material';
+import { awsPipelineAPI_POST } from '../../utils/aws-session';
 
 const client = axios.create({
   baseURL: "https://cs8ibwdms8.execute-api.us-west-2.amazonaws.com/test_cors/gettable",
@@ -30,7 +31,8 @@ export default function RunList({setRunsSelected, setRunInfo}) {
   React.useEffect(() => {
     async function getRun() {
       const body = {"userid": "testuser1", "teamid": "hubseq", "table": "runs"};
-      const response_raw = await client.request({"data": body});
+      // const response_raw = await client.request({"data": body});
+      const response_raw = await awsPipelineAPI_POST(body, '/test_cors/gettable');
       console.log(response_raw);
 
       const response = formatResponse_RunList(response_raw)

@@ -1,32 +1,6 @@
 import axios from "axios";
 import React from "react";
-import * as awsApiGatewayClient from "aws-api-gateway-client";
-
-const awsCall_RunPipeline = function(body){
-  let apigClientFactory = awsApiGatewayClient.default;
-  let apigClient = apigClientFactory.newClient({
-    invokeUrl: "https://cs8ibwdms8.execute-api.us-west-2.amazonaws.com",
-    region: "us-west-2",
-    accessKey: "access key here",
-    secretKey: "secret key here",
-    sessionToken: "session token here"
-  });
-
-  let pathParams = {};
-  let pathTemplate = '/test_cors/batchpipeline';
-  let method = 'POST';
-  let additionalParams = {};
-
-  // this looks messy - maybe need to clean up this code
-  return new Promise(function(resolve, reject){
-    apigClient.invokeApi(pathParams, pathTemplate, method, additionalParams, body)
-    .then(function(result){
-      resolve(result);
-    }).catch( function(err){
-      reject(err);
-    });
-  });
-};
+import { awsPipelineAPI_POST } from '../../../utils/aws-session';
 
 const client = axios.create({
   baseURL: "https://cs8ibwdms8.execute-api.us-west-2.amazonaws.com/test_cors/batchjob",
@@ -106,7 +80,7 @@ export async function runPipelineCall(pipeline, modules, inputFiles, altInputFil
   const body = formatRunPipelineBody(pipeline, modules, inputFiles, altInputFiles, altOutputFiles, moduleParams, runid, teamid, userid);
   console.log('BODY BODY: ', body);
   // const response_raw = await client.request({"data": body});
-  const response_raw = await awsCall_RunPipeline(body);
+  const response_raw = await awsPipelineAPI_POST(body, '/test_cors/batchpipeline');
   console.log('RESPONSE RAW', response_raw);
   const response = formatResponse_runPipeline(response_raw);
   console.log('RESPONSE AFTER: ', response);

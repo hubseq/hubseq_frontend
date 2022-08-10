@@ -1,5 +1,5 @@
 //
-// a bunch of little helper functions
+// a bunch of helper and utility functions
 //
 
 // adds trailing slash to path if it doesnt have one

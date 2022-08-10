@@ -1,6 +1,7 @@
 import axios from "axios";
 import React from "react";
 import * as path from 'path';
+import { awsPipelineAPI_POST } from '../../../utils/aws-session';
 
 // import { Typography } from '@mui/material';
 
@@ -30,7 +31,8 @@ export async function getMetadataCall(myfiles, mydir) {
   console.log('MY FILES IN METADATA CAL: ', myfiles);
   const body = {"objects": myfiles.map(f => ("s3://"+path.join(mydir,f))).join(",")};
   console.log('BODY BODY: ', body);
-  const response_raw = await client.request({"data": body});
+  const response_raw = await awsPipelineAPI_POST(body, '/test_cors/getmetadata');
+  // const response_raw = await client.request({"data": body});
   console.log('RESPONSE RAW', response_raw);
 
   const response = formatResponse_getMetadata(response_raw);

@@ -1,36 +1,9 @@
 import axios from "axios";
 import React from "react";
 // import { FileListResults } from './file-list-results';
-import * as awsApiGatewayClient from "aws-api-gateway-client";
+import { awsPipelineAPI_POST } from '../../utils/aws-session';
 import { notEmpty, addTrailingSlash } from '../../utils/jsutils';
 // import { Typography } from '@mui/material';
-
-const awsCall_ListObject = function(path, searchFilter){
-  let apigClientFactory = awsApiGatewayClient.default;
-  let apigClient = apigClientFactory.newClient({
-    invokeUrl: "https://cs8ibwdms8.execute-api.us-west-2.amazonaws.com",
-    region: "us-west-2",
-    accessKey: "access key here",
-    secretKey: "secret key here",
-    sessionToken: "session token here"
-  });
-
-  let pathParams = {};
-  let pathTemplate = '/test_cors/listobjects';
-  let method = 'POST';
-  let additionalParams = {};
-  let body = notEmpty(searchFilter) ? {"path": path, "searchpattern": searchFilter[0]} : {"path": path};
-
-  // this looks messy - maybe need to clean up this code
-  return new Promise(function(resolve, reject){
-    apigClient.invokeApi(pathParams, pathTemplate, method, additionalParams, body)
-    .then(function(result){
-      resolve(result);
-    }).catch( function(err){
-      reject(err);
-    });
-  });
-};
 
 const client = axios.create({
   baseURL: "https://cs8ibwdms8.execute-api.us-west-2.amazonaws.com/test_cors/listobjects",
@@ -76,7 +49,8 @@ export async function getFileCall( path, ...searchParams ){
   // const response_raw = await client.request({"data": body});
   console.log("PATH BEING CALLED NOW! ", path);
   console.log("search Params!!! ", searchParams);
-  const response_raw = await awsCall_ListObject("s3://"+addTrailingSlash(path), searchParams);
+  const body = notEmpty(searchParams) ? {"path": "s3://"+addTrailingSlash(path), "searchpattern": searchParams[0]} : {"path": "s3://"+addTrailingSlash(path)};
+  const response_raw = await awsPipelineAPI_POST(body, '/test_cors/listobjects');
   console.log("RESPONSE RAW: ", response_raw);
 
   const response = formatResponse_FileList(response_raw, addTrailingSlash(path));
