@@ -8,14 +8,12 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { Button, TextField, Box, Container } from '@mui/material';
 import { Sell as SellIcon } from '../../../icons/sell';
 import { getMetadataCall } from './get-metadata-api-call';
+import { setMetadataCall } from './set-metadata-api-call';
 import { MetadataListResults } from './get-metadata-list-results';
 
 export const MetadataModal = ({currentPath, selectedFiles}) => {
     const [open, setOpen] = useState(false);
     const [metadata, setMetadata] = useState([[]]);
-    // const [sharedMetadata, setSharedMetadata] = useState([]);
-    // const [uniqueMetadata, setUniqueMetadata] = useState([[]]);
-    // const files = ["IT.png","JerryChen.jpg", "demobutton.png"];
     let update_metadata_button;
 
     React.useEffect(() => {
@@ -26,17 +24,11 @@ export const MetadataModal = ({currentPath, selectedFiles}) => {
     async function getMetadata() {
       const new_metadata = await getMetadataCall(selectedFiles, currentPath);
       setMetadata(new_metadata);
-      // setSharedMetadata(extractSharedTags(new_metadata));
-      // setUniqueMetadata(createNewTagsArray(new_metadata, extractSharedTags(new_metadata)));
     };
 
     // adds new tag
     const addTag = (tagToAdd, tagType, _idx) => {
       let newTags = [...metadata]; // creates a shallow copy of metadata
-      //let newTags = [];
-      //for( let i=0; i<metadata.length;i++ ){
-      //  newTags.push(metadata[i]);
-      //}
       if (tagType == "shared"){
         newTags.map((e, idx) => {e.push({"Key": tagToAdd["Key"],
                                          "Value": tagToAdd["Value"]})});
@@ -86,7 +78,14 @@ export const MetadataModal = ({currentPath, selectedFiles}) => {
       setOpen(false);
     };
 
-      // upload button - always show
+    const handleUpdateMetadata = () => {
+      // currently makes separate calls for each file, even if all tags are shared.
+      for (let i=0;i<selectedFiles.length;i++){
+        setMetadataCall(selectedFiles[i], currentPath, metadata[i]);
+      }
+      setOpen(false);
+    }
+   // metadata button
     update_metadata_button = <Button startIcon={(<SellIcon fontSize="small" />)}
                           sx={{ mr: 1 }}
                           onClick={handleClickOpen}> Update Metadata
@@ -107,7 +106,7 @@ export const MetadataModal = ({currentPath, selectedFiles}) => {
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>Cancel</Button>
-            <Button onClick={handleClose}>Update</Button>
+            <Button onClick={handleUpdateMetadata}>Update</Button>
           </DialogActions>
         </Dialog>
       </>
