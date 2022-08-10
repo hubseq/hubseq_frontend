@@ -35,7 +35,7 @@ export const ReportTable = ({ title, filelist, filetype, ...rest }) => {
         <Typography sx={{ m: 1 }} variant="h6">
           {title}
         </Typography>
-        <Table fullWidth>
+        <Table>
           <TableHead>
             <TableRow>
               <TableCell>

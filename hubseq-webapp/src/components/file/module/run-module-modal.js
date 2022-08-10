@@ -67,8 +67,8 @@ export const RunModuleModal = ({currentPath, selectedFiles, ...rest}) => {
 
     const handleRunModule = () => {
         const moduleSubmit = mymodule;
-        const inputSubmit = selectedFiles.map((f) => ("s3://"+addTrailingSlash(currentPath)+f));
-        const outputSubmit = ["s3://hubtenants/"+getDefaultOutputFolder()]; // remove hubtenants before prod
+        const inputSubmit = selectedFiles.map((f) => (addTrailingSlash(currentPath)+f));
+        const outputSubmit = [getDefaultOutputFolder()];
         const paramsSubmit = params;
         const runidSubmit = runid;
         runModuleCall(moduleSubmit, inputSubmit, outputSubmit, [], [], paramsSubmit, runidSubmit);

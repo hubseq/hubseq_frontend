@@ -21,7 +21,8 @@ export const RunPipelineModal = ({currentPath, selectedFiles, ...rest}) => {
     const [params, setParams] = useState({});
     const [modules, setModules] = useState({});
     const [showPipelineDetails, setShowPipelineDetails] = useState(false);
-
+    const teamid = 'tranquis'; // replace with session teamid variable later
+    
     let run_pipeline_button;
     let pipelineTextFields;
     let pipelineDetailFields;
@@ -35,7 +36,7 @@ export const RunPipelineModal = ({currentPath, selectedFiles, ...rest}) => {
     const handleRunPipeline = () => {
       const pipelineSubmit = pipeline;
       const modulesSubmit = modules;
-      const inputSubmit = selectedFiles.map((f) => ("s3://"+addTrailingSlash(currentPath)+f));
+      const inputSubmit = selectedFiles.map((f) => (addTrailingSlash(currentPath)+f));
       const paramsSubmit = params;
       const runidSubmit = runid;
       const teamid = "hubseq"; // replace w session variable
@@ -90,7 +91,7 @@ export const RunPipelineModal = ({currentPath, selectedFiles, ...rest}) => {
                            <TextField disabled margin="dense" id="pipeline-input"
                                     label="Input" defaultValue="(Selected Files)"
                                     size="small" helperText="Enter Input File(s)" fullWidth />
-                           <TextField disabled margin="dense" id="pipeline-output" label="Output" value={"~/runs/"+runid+"/"}
+                           <TextField disabled margin="dense" id="pipeline-output" label="Output" value={teamid+"/runs/"+runid+"/"}
                                     size="small" helperText="Enter Output Folder" fullWidth />
                            <TextField margin="dense" id="pipeline-runid" label="Run ID" value={runid}
                                     size="small" helperText="Enter Run ID" fullWidth onChange={handleRunIdChange}/>

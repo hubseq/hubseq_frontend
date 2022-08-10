@@ -29,7 +29,7 @@ const formatResponse_getMetadata = function( response_raw ){
 export async function getMetadataCall(myfiles, mydir) {
   // runInfo.map(d => d["runid"]);
   console.log('MY FILES IN METADATA CAL: ', myfiles);
-  const body = {"objects": myfiles.map(f => ("s3://"+path.join(mydir,f))).join(",")};
+  const body = {"objects": myfiles.map(f => (path.join(mydir,f))).join(",")};
   console.log('BODY BODY: ', body);
   const response_raw = await awsPipelineAPI_POST(body, '/test_cors/getmetadata');
   // const response_raw = await client.request({"data": body});

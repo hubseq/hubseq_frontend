@@ -22,7 +22,7 @@ export const RunReportModal = ({runsSelected, runInfo, props}) => {
     const [reportFilesDEQC, setReportFilesDEQC] = useState([]);
     const [reportFilesGOQC, setReportFilesGOQC] = useState([]);
 
-    const baseRunPath = "hubtenants/tranquis/runs/";
+    const baseRunPath = "tranquis/runs/"; // replace with teamid later
 
     let run_report_button;
     let runs_array = runInfo.map(d => d["runid"]);
@@ -77,7 +77,7 @@ export const RunReportModal = ({runsSelected, runInfo, props}) => {
         sx={{ mr: 1 }}
         onClick={handleClickOpen}> View Report
         </Button>
-        <Dialog open={open} onClose={handleClose} maxWidth='xl' >
+        <Dialog open={open} onClose={handleClose} maxWidth='xl' fullWidth>
         <DialogTitle>Run Report for {runInfo[runsSelected]['runid']}</DialogTitle>
         <DialogContent>
           <Box sx={{ mt: 3 }}>

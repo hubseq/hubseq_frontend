@@ -11,13 +11,14 @@ import { Search as SearchIcon } from '../../icons/search';
 import { Upload as UploadIcon } from '../../icons/upload';
 import { Download as DownloadIcon } from '../../icons/download';
 import { FileUploadModal } from './file-upload-modal';
+import { FileDownloadModal } from './file-download-modal';
 import { MetadataModal } from './metadata/update-metadata-modal';
 import { RunModuleModal } from './module/run-module-modal';
 import { RunPipelineModal } from './pipeline/run-pipeline-modal';
 import { isFolder, isDataFile, isFastqFile, isSequencingFile } from '../../utils/jsutils';
 
 export const FileListToolbar = ({currentPath, filesSelectedInfo, filesSelected, setFilesSelected, props}) => {
-  let download_button;
+  let download_modal;
   let run_module_modal;
   let run_pipeline_modal;
   let metadata_modal;
@@ -41,13 +42,9 @@ export const FileListToolbar = ({currentPath, filesSelectedInfo, filesSelected, 
 
   // download button - toggle on file clicking
   if (filesSelected && filesSelected.length > 0){
-    console.log("filesSelectedInfo: ", filesSelectedInfo);
-    console.log("and files selected: ", filesSelected);
-    download_button = <Button startIcon={(<DownloadIcon fontSize="small" />)}
-                              sx={{ mr: 1 }}>Download
-                      </Button>
+    download_modal = <FileDownloadModal currentPath={currentPath} selectedFiles={filesSelectedInfo.map((e) => getObjectName(e["Key"]))} />
   } else {
-    download_button = null;
+    download_modal = null;
   }
 
   // metadata button - toggle on file clicking
@@ -92,7 +89,7 @@ export const FileListToolbar = ({currentPath, filesSelectedInfo, filesSelected, 
           {run_pipeline_modal}
           {run_module_modal}
           {metadata_modal}
-          {download_button}
+          {download_modal}
           <FileUploadModal/>
         </Box>
       </Box>

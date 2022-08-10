@@ -29,3 +29,28 @@ export const awsPipelineAPI_POST = function(body, pathTemplate, ...rest){
     });
   });
 };
+
+export const awsS3API_GET = function( pathTemplate, ...rest){
+  let apigClientFactory = awsApiGatewayClient.default;
+  let apigClient = apigClientFactory.newClient({
+    invokeUrl: "https://ozfjxlaivl.execute-api.us-west-2.amazonaws.com",
+    region: "us-west-2",
+    accessKey: "access key here",
+    secretKey: "secret key here",
+    sessionToken: "session token here"
+  });
+
+  let pathParams = {};
+  let method = 'GET';
+  let additionalParams = {};
+
+  // this looks messy - maybe need to clean up this code
+  return new Promise(function(resolve, reject){
+    apigClient.invokeApi(pathParams, pathTemplate, method, additionalParams)
+    .then(function(result){
+      resolve(result);
+    }).catch( function(err){
+      reject(err);
+    });
+  });
+};

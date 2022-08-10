@@ -55,8 +55,8 @@ const formatRunPipelineBody = function(pipeline, modules, inputFiles, altInputFi
   //return {
   //    "pipeline": "rnaseq:mouse",
   //    "modules": "deseq2,deqc,david_go,goqc"
-  //    "input": "s3://hubtenants/hubseq/test/runs/test-20220714-1633/expressionqc/expressionqc.counts_matrix.column.csv",
-  //    "altinputs": "'s3://hubtenants/<team_id>/<user_id>/runs/<run_id>/expressionqc/expressionqc.samplegroups.csv','','',''"
+  //    "input": "hubseq/test/runs/test-20220714-1633/expressionqc/expressionqc.counts_matrix.column.csv",
+  //    "altinputs": "'<team_id>/<user_id>/runs/<run_id>/expressionqc/expressionqc.samplegroups.csv','','',''"
   //    "moduleargs": "'','-pvaluecolumn pvalue','-cond pvalue<0.5,log2FoldChange>0.5',''",
   //    "teamid": "hubseq",
   //    "userid": "test",

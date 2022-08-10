@@ -30,7 +30,7 @@ const createBody_setMetadata = function( myfile, mydir, mytags ){
   let body = {};
   let mytags_dict = {};
   mytags.forEach((t) => {mytags_dict[t["Key"]]=t["Value"]});
-  body["objects"] = "s3://"+path.join(mydir,myfile);
+  body["objects"] = path.join(mydir,myfile);
   body["tags"] = mytags_dict;
   return body;
 }

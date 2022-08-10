@@ -49,7 +49,7 @@ export async function getFileCall( path, ...searchParams ){
   // const response_raw = await client.request({"data": body});
   console.log("PATH BEING CALLED NOW! ", path);
   console.log("search Params!!! ", searchParams);
-  const body = notEmpty(searchParams) ? {"path": "s3://"+addTrailingSlash(path), "searchpattern": searchParams[0]} : {"path": "s3://"+addTrailingSlash(path)};
+  const body = notEmpty(searchParams) ? {"path": addTrailingSlash(path), "searchpattern": searchParams[0]} : {"path": addTrailingSlash(path)};
   const response_raw = await awsPipelineAPI_POST(body, '/test_cors/listobjects');
   console.log("RESPONSE RAW: ", response_raw);
 
@@ -66,7 +66,7 @@ export default function FileList({files, setFiles, currentPath, setFilesSelected
     async function getFiles() {
       // const body = {"path": path};
       // const response_raw = await client.request({"data": body});
-      const response_raw = await awsCall_ListObject("s3://"+currentPath);
+      const response_raw = await awsCall_ListObject(currentPath);
       console.log("RESPONSE RAW: ", response_raw);
 
       const response = formatResponse_FileList(response_raw)
