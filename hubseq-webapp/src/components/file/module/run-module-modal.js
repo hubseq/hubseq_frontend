@@ -21,6 +21,7 @@ export const RunModuleModal = ({currentPath, selectedFiles, ...rest}) => {
     const [params, setParams] = useState('');
     const [mygenome, setMyGenome] = useState('human');
     const teamid = "tranquis";  // replace w session value at some point
+    const userid = "test"; // replace w session value at some point
 
     let run_module_button;
     let moduleTextFields;
@@ -71,7 +72,9 @@ export const RunModuleModal = ({currentPath, selectedFiles, ...rest}) => {
         const outputSubmit = [getDefaultOutputFolder()];
         const paramsSubmit = params;
         const runidSubmit = runid;
-        runModuleCall(moduleSubmit, inputSubmit, outputSubmit, [], [], paramsSubmit, runidSubmit);
+        const teamidSubmit = teamid;
+        const useridSubmit = userid;
+        runModuleCall(moduleSubmit, inputSubmit, outputSubmit, [], [], paramsSubmit, runidSubmit, teamidSubmit, useridSubmit);
         setOpen(false);
     }
 
