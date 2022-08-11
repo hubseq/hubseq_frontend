@@ -65,7 +65,7 @@ export const RunModuleModal = ({currentPath, selectedFiles, ...rest}) => {
     }
 
     const getDefaultOutputFolder = () => {
-      return teamid+"/runs/"+runid+"/";
+      return teamid+"/runs/"+runid+"/"+mymodule+"/";
     };
 
     const handleRunModule = () => {

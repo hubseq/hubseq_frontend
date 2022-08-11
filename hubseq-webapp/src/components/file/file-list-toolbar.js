@@ -113,6 +113,7 @@ export const FileListToolbar = ({currentPath, filesSelectedInfo, filesSelected, 
                 }}
                 placeholder="Search files"
                 variant="outlined"
+                size="small"
               />
             </Box>
           </CardContent>

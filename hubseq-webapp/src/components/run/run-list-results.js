@@ -108,7 +108,7 @@ export const RunListResults = ({ runs, setRunsSelected, ...rest }) => {
                     />
                   </TableCell>
                   <TableCell>
-                    {run.date_submitted}
+                    {run.date_submitted.split(' ')[0]}
                   </TableCell>
                   <TableCell>
                     {run.runid}
@@ -117,7 +117,7 @@ export const RunListResults = ({ runs, setRunsSelected, ...rest }) => {
                     {run.pipeline_module}
                   </TableCell>
                   <TableCell>
-                    {run.hasOwnProperty("status") ? run.status : "SUCCEEDED"}
+                    {run.hasOwnProperty("status") ? run.status : "UNKNOWN"}
                   </TableCell>
                 </TableRow>
               ))}

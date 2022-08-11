@@ -48,6 +48,9 @@ export const JobListResults = ({ myruns, myjobs, ...rest }) => {
                 <TableCell>
                   Sample ID
                 </TableCell>
+                <TableCell>
+                  Status
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -67,6 +70,9 @@ export const JobListResults = ({ myruns, myjobs, ...rest }) => {
                   </TableCell>
                   <TableCell>
                     {job.sampleid}
+                  </TableCell>
+                  <TableCell>
+                    {job.status}
                   </TableCell>
                 </TableRow>
               ))}

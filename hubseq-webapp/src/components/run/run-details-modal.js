@@ -15,13 +15,17 @@ import { JobListResults } from './job-list-results';
 export const RunDetailsModal = ({runsSelected, runInfo, props}) => {
     const [open, setOpen] = useState(false);
     const [jobs, setJobs] = useState([]);
+    const [runs, setRuns] = useState([]);
     let run_details_button;
-    let runs_array = runInfo.map(d => d["runid"]);
+    // let runs_array = runInfo.map(d => d["runid"]);
 
     React.useEffect(() => {
       async function getJobs() {
-        const newjobs = await jobsCall(runs_array);
+        // only one run ID can be selected currently, but still have it as a list
+        const runidSelected = [runInfo[runsSelected]['runid']];
+        const newjobs = await jobsCall(runidSelected);
         setJobs(newjobs);
+        setRuns(runidSelected);
       }
       getJobs();
     }, []);
@@ -48,10 +52,10 @@ export const RunDetailsModal = ({runsSelected, runInfo, props}) => {
         onClick={handleClickOpen}> Run Details
         </Button>
         <Dialog open={open} onClose={handleClose} maxWidth='xl' >
-        <DialogTitle>Run Details for {runs_array[runsSelected]}</DialogTitle>
+        <DialogTitle>Run Details for {runs[0]}</DialogTitle>
         <DialogContent>
           <Box sx={{ mt: 3 }}>
-            <JobListResults myruns={runs_array} myjobs={jobs} />
+            <JobListResults myruns={runs} myjobs={jobs} />
           </Box>
         </DialogContent>
         <DialogActions>

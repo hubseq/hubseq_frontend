@@ -27,10 +27,13 @@ const formatResponse_RunList = function( response_raw ){
 
 export default function RunList({setRunsSelected, setRunInfo}) {
   const [run, setRun] = React.useState([]);
+  const teamid = "tranquis"; // get from session variable later
+  const userid = "testuser1"; // get from session variable later
 
+  // anti-pattern - use function for API call instead
   React.useEffect(() => {
     async function getRun() {
-      const body = {"userid": "testuser1", "teamid": "hubseq", "table": "runs"};
+      const body = {"userid": userid, "teamid": teamid, "table": "runs"};
       // const response_raw = await client.request({"data": body});
       const response_raw = await awsPipelineAPI_POST(body, '/test_cors/gettable');
       console.log(response_raw);
