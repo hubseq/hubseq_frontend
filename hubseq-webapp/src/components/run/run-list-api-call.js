@@ -1,6 +1,6 @@
 import axios from "axios";
 import React from "react";
-import { RunListResults } from './run-list-results';
+// import { RunListResults } from './run-list-results';
 // import { Typography } from '@mui/material';
 import { awsPipelineAPI_POST } from '../../utils/aws-session';
 
@@ -25,6 +25,17 @@ const formatResponse_RunList = function( response_raw ){
   return response
 }
 
+export async function getRunsCall(){
+  const teamid = "tranquis"; // get from session variable later
+  const userid = "testuser1"; // get from session variable later
+  const body = {"userid": userid, "teamid": teamid, "table": "runs"};
+  const response_raw = await awsPipelineAPI_POST(body, '/test_cors/gettable');
+  const response = formatResponse_RunList(response_raw);
+  console.log('GETRUNSCALL RESPONSE: ', response);
+  return response.data;
+};
+
+/*
 export default function RunList({setRunsSelected, setRunInfo}) {
   const [run, setRun] = React.useState([]);
   const teamid = "tranquis"; // get from session variable later
@@ -66,3 +77,4 @@ export default function RunList({setRunsSelected, setRunInfo}) {
     <RunListResults runs={run} setRunsSelected={setRunsSelected} />
   );
 }
+*/

@@ -14,8 +14,9 @@ import { RunDetailsModal } from './run-details-modal';
 import { RunReportModal } from './run-report-modal';
 import { Refresh as RefreshIcon } from '../../icons/refresh';
 import { updateJobStatusCall } from './update-job-status-api-call';
+import { getRunsCall }from './run-list-api-call';
 
-export const RunListToolbar = ({runsSelected, setRunsSelected, runInfo, props}) => {
+export const RunListToolbar = ({runsSelected, setRunsSelected, runInfo, setRunInfo, props}) => {
   let view_run_details_modal;
   let view_run_report_modal;
 
@@ -33,8 +34,10 @@ export const RunListToolbar = ({runsSelected, setRunsSelected, runInfo, props}) 
     view_run_report_modal = null;
   }
 
-  const handleRefresh = function( event ){
-    updateJobStatusCall();
+  const handleRefresh = async function( event ){
+    const jobstatus_response = await updateJobStatusCall();
+    const newruninfo = await getRunsCall();
+    setRunInfo(newruninfo);
   }
 
   return (
