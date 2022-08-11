@@ -20,6 +20,8 @@ export const RunModuleModal = ({currentPath, selectedFiles, ...rest}) => {
     const [output, setOutput] = useState('');
     const [params, setParams] = useState('');
     const [mygenome, setMyGenome] = useState('human');
+    const [timenow, setTimeNow] = useState(moment().format('YYYY-MM-DD-hhmmss[-]'));
+    const [timesubmit, setTimeSubmit] = useState(moment().format('YYYY-MM-DD hh:mm:ss'));
     const teamid = "tranquis";  // replace w session value at some point
     const userid = "test"; // replace w session value at some point
 
@@ -43,7 +45,7 @@ export const RunModuleModal = ({currentPath, selectedFiles, ...rest}) => {
 
     const handleModuleSelect = (event) => {
       setMyModule(event.target.value);
-      setRunid(moment().format('YYYY-MM-DD-hhmmss[-]') + event.target.value);
+      setRunid(timenow + event.target.value);
     };
 
     const handleGenomeSelect = (event) => {
@@ -74,7 +76,8 @@ export const RunModuleModal = ({currentPath, selectedFiles, ...rest}) => {
         const runidSubmit = runid;
         const teamidSubmit = teamid;
         const useridSubmit = userid;
-        runModuleCall(moduleSubmit, inputSubmit, outputSubmit, [], [], paramsSubmit, runidSubmit, teamidSubmit, useridSubmit);
+        const timenowSubmit = timesubmit;
+        runModuleCall(moduleSubmit, inputSubmit, outputSubmit, [], [], paramsSubmit, runidSubmit, teamidSubmit, useridSubmit, timenowSubmit);
         setOpen(false);
     }
 

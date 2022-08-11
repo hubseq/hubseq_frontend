@@ -49,7 +49,7 @@ const formatModulesInput = function(pipeline, modules, params, altinputs, altout
   return [modulesOut, paramsOut, altinputsOut, altoutputsOut];
 }
 
-const formatRunPipelineBody = function(pipeline, modules, inputFiles, altInputFiles, altOutputFiles, moduleParams, runid, teamid, userid){
+const formatRunPipelineBody = function(pipeline, modules, inputFiles, altInputFiles, altOutputFiles, moduleParams, runid, teamid, userid, timenow){
   // assumes files args are arrays
   // test case
   //return {
@@ -72,12 +72,13 @@ const formatRunPipelineBody = function(pipeline, modules, inputFiles, altInputFi
           "teamid": teamid,
           "userid": userid,
           "runid": runid,
-          "mock": "True"}
+          "submitted": timenow
+          }
 }
 
-export async function runPipelineCall(pipeline, modules, inputFiles, altInputFiles, altOutputFiles, moduleParams, runid, teamid, userid) {
+export async function runPipelineCall(pipeline, modules, inputFiles, altInputFiles, altOutputFiles, moduleParams, runid, teamid, userid, timenow) {
 
-  const body = formatRunPipelineBody(pipeline, modules, inputFiles, altInputFiles, altOutputFiles, moduleParams, runid, teamid, userid);
+  const body = formatRunPipelineBody(pipeline, modules, inputFiles, altInputFiles, altOutputFiles, moduleParams, runid, teamid, userid, timenow);
   console.log('BODY BODY: ', body);
   // const response_raw = await client.request({"data": body});
   const response_raw = await awsPipelineAPI_POST(body, '/test_cors/batchpipeline');

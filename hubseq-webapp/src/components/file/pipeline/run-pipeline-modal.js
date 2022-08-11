@@ -21,8 +21,10 @@ export const RunPipelineModal = ({currentPath, selectedFiles, ...rest}) => {
     const [params, setParams] = useState({});
     const [modules, setModules] = useState({});
     const [showPipelineDetails, setShowPipelineDetails] = useState(false);
+    const [timenow, setTimeNow] = useState(moment().format('YYYY-MM-DD-hhmmss[-]'));
+    const [timesubmit, setTimeSubmit] = useState(moment().format('YYYY-MM-DD hh:mm:ss'));
     const teamid = 'tranquis'; // replace with session teamid variable later
-    
+    const userid = 'test'; // replace with session teamid variable later
     let run_pipeline_button;
     let pipelineTextFields;
     let pipelineDetailFields;
@@ -39,13 +41,14 @@ export const RunPipelineModal = ({currentPath, selectedFiles, ...rest}) => {
       const inputSubmit = selectedFiles.map((f) => (addTrailingSlash(currentPath)+f));
       const paramsSubmit = params;
       const runidSubmit = runid;
-      const teamid = "hubseq"; // replace w session variable
-      const userid = "test"; // replace w session variable
+      const teamidSubmit = teamid;
+      const useridSubmit = userid;
+      const timenowSubmit = timesubmit;
       console.log("PIPELINE: ", pipelineSubmit);
       console.log("MODULES: ", modulesSubmit);
       console.log("Input: ", inputSubmit);
       console.log("PARAMS: ", paramsSubmit);
-      runPipelineCall(pipelineSubmit, modulesSubmit, inputSubmit, [], [], paramsSubmit, runidSubmit, teamid, userid);
+      runPipelineCall(pipelineSubmit, modulesSubmit, inputSubmit, [], [], paramsSubmit, runidSubmit, teamidSubmit, useridSubmit, timenowSubmit);
       setOpen(false);
     }
     const handleClickOpen = () => {

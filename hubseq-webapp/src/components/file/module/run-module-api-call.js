@@ -45,7 +45,7 @@ const formatResponse_runModule = function( response_raw ){
   return response
 }
 
-const formatRunModuleBody = function(mymodule, inputFiles, outputFiles, altInputFiles, altOutputFiles, moduleParams, runid, teamid, userid){
+const formatRunModuleBody = function(mymodule, inputFiles, outputFiles, altInputFiles, altOutputFiles, moduleParams, runid, teamid, userid, timenow){
   // assumes files args are arrays
   // test case
   //return {
@@ -60,14 +60,16 @@ const formatRunModuleBody = function(mymodule, inputFiles, outputFiles, altInput
           "alternate_inputs": altInputFiles.join(","),
           "alternate_outputs": altOutputFiles.join(","),
           "pargs": moduleParams,
+          "runid": runid,
           "teamid": teamid,
           "userid": userid,
-          "mock": "True"}
+          "submitted": timenow
+          }
 }
 
-export async function runModuleCall(mymodule, inputFiles, outputFiles, altInputFiles, altOutputFiles, moduleParams, runid, teamid, userid) {
+export async function runModuleCall(mymodule, inputFiles, outputFiles, altInputFiles, altOutputFiles, moduleParams, runid, teamid, userid, timenow) {
 
-  const body = formatRunModuleBody(mymodule, inputFiles, outputFiles, altInputFiles, altOutputFiles, moduleParams, runid, teamid, userid);
+  const body = formatRunModuleBody(mymodule, inputFiles, outputFiles, altInputFiles, altOutputFiles, moduleParams, runid, teamid, userid, timenow);
   console.log('BODY BODY: ', body);
   // const response_raw = await client.request({"data": body});
   const response_raw = await awsCall_RunModule(body);
