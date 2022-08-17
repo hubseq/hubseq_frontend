@@ -14,7 +14,7 @@ import {
   TableRow
 } from '@mui/material';
 
-export const RunListResults = ({ runs, ...rest }) => {
+export const RunListResults = ({ runs, setRunsSelected, ...rest }) => {
   const [selectedRunIds, setSelectedRunIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
@@ -29,6 +29,7 @@ export const RunListResults = ({ runs, ...rest }) => {
     }
 
     setSelectedRunIds(newselectedRunIds);
+    setRunsSelected(newselectedRunIds);
   };
 
   const handleSelectOne = (event, id) => {
@@ -49,6 +50,7 @@ export const RunListResults = ({ runs, ...rest }) => {
     }
 
     setSelectedRunIds(newselectedRunIds);
+    setRunsSelected(newselectedRunIds);
   };
 
   const handleLimitChange = (event) => {
@@ -106,7 +108,7 @@ export const RunListResults = ({ runs, ...rest }) => {
                     />
                   </TableCell>
                   <TableCell>
-                    {run.date_submitted}
+                    {run.date_submitted.split(' ')[0]}
                   </TableCell>
                   <TableCell>
                     {run.runid}
@@ -115,7 +117,7 @@ export const RunListResults = ({ runs, ...rest }) => {
                     {run.pipeline_module}
                   </TableCell>
                   <TableCell>
-                    {run.hasOwnProperty("status") ? run.status : "SUCCEEDED"}
+                    {run.hasOwnProperty("status") ? run.status : "UNKNOWN"}
                   </TableCell>
                 </TableRow>
               ))}

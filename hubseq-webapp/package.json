@@ -26,6 +26,7 @@
     "crypto-js": "^4.1.1",
     "date-fns": "^2.29.1",
     "formik": "^2.2.9",
+    "moment": "^2.29.4",
     "next": "12.2.3",
     "next-auth": "^4.10.3",
     "prop-types": "^15.8.1",

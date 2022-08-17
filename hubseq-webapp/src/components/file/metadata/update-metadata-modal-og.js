@@ -7,48 +7,48 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { Button, TextField } from '@mui/material';
 import { Upload as UploadIcon } from '../../icons/upload';
 
-export const FileModal = ({}) => {
+export const MetadataModal = ({}) => {
     const [open, setOpen] = useState(false);
-    let upload_button;
+    let update_metadata_button;
 
     const handleClickOpen = () => {
       setOpen(true);
     };
-  
+
     const handleClose = () => {
       setOpen(false);
     };
 
       // upload button - always show
-    upload_button = <Button startIcon={(<UploadIcon fontSize="small" />)}
+    update_metadata_button = <Button startIcon={(<UploadIcon fontSize="small" />)}
                           sx={{ mr: 1 }}
-                          onClick={handleClickOpen}> Upload
+                          onClick={handleClickOpen}> Update Metadata
                   </Button>
 
     return (
         <>
         <Button startIcon={(<UploadIcon fontSize="small" />)}
         sx={{ mr: 1 }}
-        onClick={handleClickOpen}> Upload
+        onClick={handleClickOpen}> Update Metadata
         </Button>
         <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Upload File to HubSeq</DialogTitle>
+        <DialogTitle>Update Metadata</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            To upload a file. Please enter the local file path.
+            Metadata to update.
           </DialogContentText>
           <TextField
             autoFocus
             margin="dense"
             id="name"
-            label="Local Filepath"
+            label="Update Metadata"
             fullWidth
             variant="standard"
           />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleClose}>Upload</Button>
+          <Button onClick={handleClose}>Update</Button>
         </DialogActions>
       </Dialog>
       </>
