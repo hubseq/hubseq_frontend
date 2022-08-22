@@ -10,30 +10,33 @@ import { SessionProvider } from "next-auth/react"
 
 const clientSideEmotionCache = createEmotionCache();
 
-const App = (props, session) => {
-  const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
+const App = ({
+  Component,
+  pageProps: { session, ...pageProps },
+}) => {
+  // const { Blah, emotionCache = clientSideEmotionCache, pageProps } = props;
 
   const getLayout = Component.getLayout ?? ((page) => page);
 
   return (
     <SessionProvider session={session}>
-    <CacheProvider value={emotionCache}>
-      <Head>
-        <title>
-          HubSeq
-        </title>
-        <meta
-          name="viewport"
-          content="initial-scale=1, width=device-width"
-        />
-      </Head>
-      <LocalizationProvider dateAdapter={AdapterDateFns}>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          {getLayout(<Component {...pageProps} />)}
-        </ThemeProvider>
-      </LocalizationProvider>
-    </CacheProvider>
+      {/* <CacheProvider value={emotionCache}> */}
+        <Head>
+          <title>
+            HubSeq
+          </title>
+          <meta
+            name="viewport"
+            content="initial-scale=1, width=device-width"
+          />
+        </Head>
+        <LocalizationProvider dateAdapter={AdapterDateFns}>
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+            {getLayout(<Component {...pageProps} />)}
+          </ThemeProvider>
+        </LocalizationProvider>
+      {/* </CacheProvider> */}
     </SessionProvider>
   );
 };
