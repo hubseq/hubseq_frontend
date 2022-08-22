@@ -8,22 +8,26 @@ import { FileListToolbar } from '../components/file/file-list-toolbar';
 import { DashboardLayout } from '../components/dashboard-layout';
 import { useState } from 'react';
 import { addTrailingSlash } from '../utils/jsutils';
+import { useSession } from "next-auth/react"
 
 const Files = () => {
   const [filesSelected, setFilesSelected] = useState([]);
   const [shownFiles, setShownFiles] = useState([]);
   // replace default with teamid as default home path
   const [currentPath, setCurrentPath] = useState("tranquis/"); // "www.hubseq.com/assets/"
+  const { data: session, status } = useSession();
 
-  async function getFiles(path) {
-    const newfiles = await getFileCall(path);
+  async function getFiles(path, idToken) {
+    const newfiles = await getFileCall(path, idToken);
     console.log('SHOWN FILES: ', newfiles);
     setShownFiles(newfiles);
   }
 
   React.useEffect(() => {
-    getFiles(currentPath);
-  }, []);
+    if (session) {
+    getFiles(currentPath, session.idToken);
+    }
+  }, [session]);
 
   const upOnePath = (path) => {
       console.log('UP ONE PATH!', path);
@@ -32,7 +36,7 @@ const Files = () => {
         const newPath = addTrailingSlash(pathSplit.slice(0,pathSplit.length-2).join('/'));
         console.log('UP ONE PATH: new path: ', newPath);
         setCurrentPath(newPath);
-        getFiles(newPath);
+        getFiles(newPath, session.idToken);
       }
   }
 
@@ -54,7 +58,7 @@ const Files = () => {
           <FileListToolbar currentPath={currentPath} filesSelectedInfo={shownFiles.filter(val => filesSelected.includes(val.id))} filesSelected={filesSelected} setFilesSelected={setFilesSelected} />
           <Box sx={{ mt: 2 }}> &nbsp;&nbsp;&nbsp; <b>Current Folder:</b> {currentPath} &nbsp;&nbsp; [<Tooltip title="Go up one folder" placement="top-start"><u onClick={() => upOnePath(currentPath)}>Back</u></Tooltip>] </Box>
           <Box sx={{ mt: 3 }}>
-            <FileListResults files={shownFiles} setFiles={setShownFiles} currentPath={currentPath} setFilesSelected={setFilesSelected} setCurrentPath={setCurrentPath} />
+            <FileListResults files={shownFiles} setFiles={setShownFiles} currentPath={currentPath} setFilesSelected={setFilesSelected} setCurrentPath={setCurrentPath} session={session}/>
           </Box>
         </Container>
       </Box>
