@@ -18,7 +18,7 @@ import {
   Tooltip
 } from '@mui/material';
 
-export const FileListResults = ({ files, setFiles, currentPath, setFilesSelected, setCurrentPath, ...rest }) => {
+export const FileListResults = ({ files, setFiles, currentPath, setFilesSelected, setCurrentPath, session, ...rest }) => {
   const [selectedFileIds, setSelectedFileIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
@@ -144,7 +144,7 @@ export const FileListResults = ({ files, setFiles, currentPath, setFilesSelected
       // go to new path and make another API call
       const newPath = addTrailingSlash(path.join(currentPath, file["Key"].split('/').at(-2)))
       setCurrentPath( newPath );
-      const newFiles = await getFileCall(newPath);
+      const newFiles = await getFileCall(newPath, session.idToken);
       setFiles( newFiles );
     }
     console.log('FILE CELL CLICKED!!!', file);
