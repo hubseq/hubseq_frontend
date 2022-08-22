@@ -1,15 +1,5 @@
-import axios from "axios";
-import React from "react";
-// import { FileListResults } from './file-list-results';
 import { awsPipelineAPI_POST } from '../../utils/aws-session';
 import { notEmpty, addTrailingSlash } from '../../utils/jsutils';
-// import { Typography } from '@mui/material';
-
-const client = axios.create({
-  baseURL: "https://cs8ibwdms8.execute-api.us-west-2.amazonaws.com/test_cors/listobjects",
-  // url: '/listobjects',
-  method: 'POST'
-});
 
 const _addKeys = function(e, idx){
   e["id"] = idx;
@@ -44,13 +34,11 @@ const formatResponse_FileList = function( response_raw, called_path ){
   return response
 }
 
-export async function getFileCall( path, ...searchParams ){
-  // const body = {"path": path};
-  // const response_raw = await client.request({"data": body});
+export async function getFileCall( path, idToken, ...searchParams ){
   console.log("PATH BEING CALLED NOW! ", path);
   console.log("search Params!!! ", searchParams);
   const body = notEmpty(searchParams) ? {"path": addTrailingSlash(path), "searchpattern": searchParams[0]} : {"path": addTrailingSlash(path)};
-  const response_raw = await awsPipelineAPI_POST(body, '/test_cors/listobjects');
+  const response_raw = await awsPipelineAPI_POST(body, '/test_cors/listobjects', idToken);
   console.log("RESPONSE RAW: ", response_raw);
 
   const response = formatResponse_FileList(response_raw, addTrailingSlash(path));
@@ -58,42 +46,3 @@ export async function getFileCall( path, ...searchParams ){
 
   return response.data;
 };
-
-/*
-export default function FileList({files, setFiles, currentPath, setFilesSelected, setCurrentPath}) {
-
-  React.useEffect(() => {
-    async function getFiles() {
-      // const body = {"path": path};
-      // const response_raw = await client.request({"data": body});
-      const response_raw = await awsCall_ListObject(currentPath);
-      console.log("RESPONSE RAW: ", response_raw);
-
-      const response = formatResponse_FileList(response_raw)
-      console.log(response);
-
-      setFiles(response.data);
-      // setFile([response.data]);
-    }
-    getFiles();
-  }, []);
-
-
-  // //Example of conditional rendering
-  // let files;
-  // if (!file.length) {
-  //   files = <Typography>No Files Found</Typography>;
-  // } else {
-  //   files = <FileListResults files={file} />;
-  // }
-  // //Note that this return will replace the working return as
-  // //you can only have one return
-  // return (
-  //   <>{files}</>
-  // )
-
-  return (
-    <FileListResults files={files} currentpath={currentPath} setFilesSelected={setFilesSelected} setCurrentPath={setCurrentPath} />
-  );
-}
-*/
