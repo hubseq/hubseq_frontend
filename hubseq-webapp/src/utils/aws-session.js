@@ -44,7 +44,8 @@ export const awsS3API_GET = function( pathTemplate, idToken, ...rest){
   let additionalParams = {
     headers: {
       'Authorization': idToken,
-      'Content-Type': 'application/octet-stream'
+      'Content-Type': 'application/octet-stream',
+      'Accept': '*/*'
     },
   };
 

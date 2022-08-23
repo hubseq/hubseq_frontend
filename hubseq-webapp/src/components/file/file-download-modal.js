@@ -8,11 +8,14 @@ import { Button, TextField } from '@mui/material';
 import { Download as DownloadIcon } from '../../icons/download';
 import { fileDownloadCall } from './file-download-api-call';
 import * as path from 'path';
+// import { showSaveFilePicker } from 'native-file-system-adapter';
+import * as streamSaver from 'streamsaver';
 
 //  <a href='/static/test.html' target='_blank'>link to test.html</a>
 
 export const FileDownloadModal = ({currentPath, selectedFiles, session, ...rest}) => {
     const [open, setOpen] = useState(false);
+
     let download_button;
 
     const handleClickOpen = () => {
@@ -29,7 +32,12 @@ export const FileDownloadModal = ({currentPath, selectedFiles, session, ...rest}
         // fileDownloadCall(filePaths[i]);
         console.log('HANDLE DOWNLOAD: ', filePaths[i]);
       }
-      const dfiles = await fileDownloadCall( filePaths, session.idToken );
+      const filedata = await fileDownloadCall( filePaths, session.idToken );
+      const blob = new Blob([filedata], {type: "application/octet-stream"});
+      const readableStream = blob.stream();
+      const fileStream = streamSaver.createWriteStream('Untitled.png', { size: blob.size });
+      await readableStream.pipeTo(fileStream);
+
       setOpen(false);
     }
     download_button = <Button startIcon={(<DownloadIcon fontSize="small" />)}
