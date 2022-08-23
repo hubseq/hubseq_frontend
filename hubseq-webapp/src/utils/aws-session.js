@@ -15,8 +15,8 @@ export const awsPipelineAPI_POST = function(body, pathTemplate, idToken, ...rest
   // let pathTemplate = '/test_cors/batchpipeline';
   let method = 'POST';
   let additionalParams = {
-    headers: { 
-      'Authorization': idToken, 
+    headers: {
+      'Authorization': idToken,
       'Content-Type': 'application/json'
     },
   };
@@ -32,7 +32,7 @@ export const awsPipelineAPI_POST = function(body, pathTemplate, idToken, ...rest
   });
 };
 
-export const awsS3API_GET = function( pathTemplate, ...rest){
+export const awsS3API_GET = function( pathTemplate, idToken, ...rest){
   let apigClientFactory = awsApiGatewayClient.default;
   let apigClient = apigClientFactory.newClient({
     invokeUrl: "https://ozfjxlaivl.execute-api.us-west-2.amazonaws.com",
@@ -41,7 +41,12 @@ export const awsS3API_GET = function( pathTemplate, ...rest){
 
   let pathParams = {};
   let method = 'GET';
-  let additionalParams = {};
+  let additionalParams = {
+    headers: {
+      'Authorization': idToken,
+      'Content-Type': 'application/octet-stream'
+    },
+  };
 
   // this looks messy - maybe need to clean up this code
   return new Promise(function(resolve, reject){

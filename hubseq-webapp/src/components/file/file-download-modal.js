@@ -11,7 +11,7 @@ import * as path from 'path';
 
 //  <a href='/static/test.html' target='_blank'>link to test.html</a>
 
-export const FileDownloadModal = ({currentPath, selectedFiles, ...rest}) => {
+export const FileDownloadModal = ({currentPath, selectedFiles, session, ...rest}) => {
     const [open, setOpen] = useState(false);
     let download_button;
 
@@ -23,12 +23,13 @@ export const FileDownloadModal = ({currentPath, selectedFiles, ...rest}) => {
       setOpen(false);
     };
 
-    const handleDownload = () => {
+    const handleDownload = async () => {
       const filePaths = selectedFiles.map((f)=>(path.join(currentPath,f)));
       for (let i=0; i<filePaths.length; i++){
         // fileDownloadCall(filePaths[i]);
         console.log('HANDLE DOWNLOAD: ', filePaths[i]);
       }
+      const dfiles = await fileDownloadCall( filePaths, session.idToken );
       setOpen(false);
     }
     download_button = <Button startIcon={(<DownloadIcon fontSize="small" />)}
