@@ -17,7 +17,7 @@ import { RunModuleModal } from './module/run-module-modal';
 import { RunPipelineModal } from './pipeline/run-pipeline-modal';
 import { isFolder, isDataFile, isFastqFile, isSequencingFile } from '../../utils/jsutils';
 
-export const FileListToolbar = ({currentPath, filesSelectedInfo, filesSelected, setFilesSelected, props}) => {
+export const FileListToolbar = ({currentPath, filesSelectedInfo, filesSelected, setFilesSelected, session, props}) => {
   let download_modal;
   let run_module_modal;
   let run_pipeline_modal;
@@ -42,28 +42,28 @@ export const FileListToolbar = ({currentPath, filesSelectedInfo, filesSelected, 
 
   // download button - toggle on file clicking
   if (filesSelected && filesSelected.length > 0){
-    download_modal = <FileDownloadModal currentPath={currentPath} selectedFiles={filesSelectedInfo.map((e) => getObjectName(e["Key"]))} />
+    download_modal = <FileDownloadModal currentPath={currentPath} selectedFiles={filesSelectedInfo.map((e) => getObjectName(e["Key"]))} session={session} />
   } else {
     download_modal = null;
   }
 
   // metadata button - toggle on file clicking
   if (filesSelected && filesSelectedInfo && filesSelected.length > 0 && areFileFormatsCorrect(filesSelectedInfo, "file")){
-    metadata_modal = <MetadataModal currentPath={currentPath} selectedFiles={filesSelectedInfo.map((e) => getObjectName(e["Key"]))} />
+    metadata_modal = <MetadataModal currentPath={currentPath} selectedFiles={filesSelectedInfo.map((e) => getObjectName(e["Key"]))} session={session} />
   } else {
     metadata_modal = null;
   }
 
   // run module button - toggle on data file clicking
   if (filesSelected && filesSelectedInfo && filesSelected.length > 0 && areFileFormatsCorrect(filesSelectedInfo, "datafile")){
-    run_module_modal = <RunModuleModal currentPath={currentPath} selectedFiles={filesSelectedInfo.map((e) => getObjectName(e["Key"]))} />
+    run_module_modal = <RunModuleModal currentPath={currentPath} selectedFiles={filesSelectedInfo.map((e) => getObjectName(e["Key"]))} session={session} />
   } else {
     run_module_modal = null;
   }
 
   // run pipeline button - toggle on sequencing file clicking
   if(filesSelected && filesSelectedInfo && filesSelected.length > 0 && areFileFormatsCorrect(filesSelectedInfo, "fastqfile")){
-    run_pipeline_modal = <RunPipelineModal currentPath={currentPath} selectedFiles={filesSelectedInfo.map((e) => getObjectName(e["Key"]))} />
+    run_pipeline_modal = <RunPipelineModal currentPath={currentPath} selectedFiles={filesSelectedInfo.map((e) => getObjectName(e["Key"]))} session={session} />
   } else {
     run_pipeline_modal = null;
   }

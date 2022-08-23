@@ -26,12 +26,12 @@ const formatResponse_RunList = function( response_raw, runs ){
   return response
 }
 
-export async function jobsCall(runs) {
+export async function jobsCall(runs, idToken) {
   const teamid = "tranquis"; // get from session variable later
   const userid = "test"; // get from session variable later
   const body = {"userid": userid, "teamid": teamid, "table": "jobs"};
   //const response_raw = await client.request({"data": body});
-  const response_raw = await awsPipelineAPI_POST(body, '/test_cors/gettable');
+  const response_raw = await awsPipelineAPI_POST(body, '/test_cors/gettable', idToken);
   console.log(response_raw);
   const response = formatResponse_RunList(response_raw, runs);
   console.log(response);

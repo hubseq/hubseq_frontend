@@ -16,27 +16,27 @@ import { Refresh as RefreshIcon } from '../../icons/refresh';
 import { updateJobStatusCall } from './update-job-status-api-call';
 import { getRunsCall }from './run-list-api-call';
 
-export const RunListToolbar = ({runsSelected, setRunsSelected, runInfo, setRunInfo, props}) => {
+export const RunListToolbar = ({runsSelected, setRunsSelected, runInfo, setRunInfo, session, props}) => {
   let view_run_details_modal;
   let view_run_report_modal;
 
   // run details button - toggle on clicking a run
   if(runsSelected.length > 0 && runsSelected.length < 2){
-    view_run_details_modal = <RunDetailsModal runsSelected={runsSelected} runInfo={runInfo} props={props}/>
+    view_run_details_modal = <RunDetailsModal runsSelected={runsSelected} runInfo={runInfo} props={props} />
   } else {
     view_run_details_modal = null;
   }
 
   // run report button - toggle on clicking a run
   if(runsSelected.length > 0 && runsSelected.length < 2){
-    view_run_report_modal = <RunReportModal runsSelected={runsSelected} runInfo={runInfo} props={props}/>
+    view_run_report_modal = <RunReportModal runsSelected={runsSelected} runInfo={runInfo} props={props} />
   } else {
     view_run_report_modal = null;
   }
 
   const handleRefresh = async function( event ){
-    const jobstatus_response = await updateJobStatusCall();
-    const newruninfo = await getRunsCall();
+    const jobstatus_response = await updateJobStatusCall(session.idToken);
+    const newruninfo = await getRunsCall(session.idToken);
     setRunInfo(newruninfo);
   }
 

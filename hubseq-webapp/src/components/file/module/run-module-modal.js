@@ -13,7 +13,7 @@ import { addTrailingSlash } from '../../../utils/jsutils';
 import * as moment from 'moment';
 import { runModuleCall } from './run-module-api-call';
 
-export const RunModuleModal = ({currentPath, selectedFiles, ...rest}) => {
+export const RunModuleModal = ({currentPath, selectedFiles, session, ...rest}) => {
     const [open, setOpen] = useState(false);
     const [mymodule, setMyModule] = useState('');
     const [runid, setRunid] = useState('');
@@ -77,7 +77,7 @@ export const RunModuleModal = ({currentPath, selectedFiles, ...rest}) => {
         const teamidSubmit = teamid;
         const useridSubmit = userid;
         const timenowSubmit = timesubmit;
-        runModuleCall(moduleSubmit, inputSubmit, outputSubmit, [], [], paramsSubmit, runidSubmit, teamidSubmit, useridSubmit, timenowSubmit);
+        runModuleCall(moduleSubmit, inputSubmit, outputSubmit, [], [], paramsSubmit, runidSubmit, teamidSubmit, useridSubmit, timenowSubmit, session.idToken);
         setOpen(false);
     }
 

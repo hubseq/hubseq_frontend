@@ -25,11 +25,11 @@ const formatResponse_RunList = function( response_raw ){
   return response
 }
 
-export async function getRunsCall(){
+export async function getRunsCall(idToken){
   const teamid = "tranquis"; // get from session variable later
   const userid = "testuser1"; // get from session variable later
   const body = {"userid": userid, "teamid": teamid, "table": "runs"};
-  const response_raw = await awsPipelineAPI_POST(body, '/test_cors/gettable');
+  const response_raw = await awsPipelineAPI_POST(body, '/test_cors/gettable', idToken);
   const response = formatResponse_RunList(response_raw);
   console.log('GETRUNSCALL RESPONSE: ', response);
   return response.data;

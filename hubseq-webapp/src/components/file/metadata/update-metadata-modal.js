@@ -11,7 +11,7 @@ import { getMetadataCall } from './get-metadata-api-call';
 import { setMetadataCall } from './set-metadata-api-call';
 import { MetadataListResults } from './get-metadata-list-results';
 
-export const MetadataModal = ({currentPath, selectedFiles}) => {
+export const MetadataModal = ({currentPath, selectedFiles, session, ...rest}) => {
     const [open, setOpen] = useState(false);
     const [metadata, setMetadata] = useState([[]]);
     let update_metadata_button;
@@ -22,7 +22,7 @@ export const MetadataModal = ({currentPath, selectedFiles}) => {
     }, [metadata, selectedFiles, setMetadata]);
 
     async function getMetadata() {
-      const new_metadata = await getMetadataCall(selectedFiles, currentPath);
+      const new_metadata = await getMetadataCall(selectedFiles, currentPath, session.idToken);
       setMetadata(new_metadata);
     };
 
@@ -81,7 +81,7 @@ export const MetadataModal = ({currentPath, selectedFiles}) => {
     const handleUpdateMetadata = () => {
       // currently makes separate calls for each file, even if all tags are shared.
       for (let i=0;i<selectedFiles.length;i++){
-        setMetadataCall(selectedFiles[i], currentPath, metadata[i]);
+        setMetadataCall(selectedFiles[i], currentPath, metadata[i], session.idToken);
       }
       setOpen(false);
     }

@@ -76,12 +76,12 @@ const formatRunPipelineBody = function(pipeline, modules, inputFiles, altInputFi
           }
 }
 
-export async function runPipelineCall(pipeline, modules, inputFiles, altInputFiles, altOutputFiles, moduleParams, runid, teamid, userid, timenow) {
+export async function runPipelineCall(pipeline, modules, inputFiles, altInputFiles, altOutputFiles, moduleParams, runid, teamid, userid, timenow, idToken) {
 
   const body = formatRunPipelineBody(pipeline, modules, inputFiles, altInputFiles, altOutputFiles, moduleParams, runid, teamid, userid, timenow);
   console.log('BODY BODY: ', body);
   // const response_raw = await client.request({"data": body});
-  const response_raw = await awsPipelineAPI_POST(body, '/test_cors/batchpipeline');
+  const response_raw = await awsPipelineAPI_POST(body, '/test_cors/batchpipeline', idToken);
   console.log('RESPONSE RAW', response_raw);
   const response = formatResponse_runPipeline(response_raw);
   console.log('RESPONSE AFTER: ', response);

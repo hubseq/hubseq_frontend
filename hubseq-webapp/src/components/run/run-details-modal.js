@@ -11,24 +11,28 @@ import { Upload as UploadIcon } from '../../icons/upload';
 // import JobList from './job-list-api-call';
 import { jobsCall } from './job-list-api-call';
 import { JobListResults } from './job-list-results';
+import { useSession } from "next-auth/react";
 
 export const RunDetailsModal = ({runsSelected, runInfo, props}) => {
     const [open, setOpen] = useState(false);
     const [jobs, setJobs] = useState([]);
     const [runs, setRuns] = useState([]);
+    const { data: session, status } = useSession();
     let run_details_button;
     // let runs_array = runInfo.map(d => d["runid"]);
 
     React.useEffect(() => {
-      async function getJobs() {
+      async function getJobs(session) {
         // only one run ID can be selected currently, but still have it as a list
         const runidSelected = [runInfo[runsSelected]['runid']];
-        const newjobs = await jobsCall(runidSelected);
+        const newjobs = await jobsCall(runidSelected, session.idToken);
         setJobs(newjobs);
         setRuns(runidSelected);
       }
-      getJobs();
-    }, []);
+      if (session){
+        getJobs(session);
+      }
+    }, [session]);
 
     const handleClickOpen = () => {
       // getJobs();

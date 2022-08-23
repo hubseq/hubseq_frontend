@@ -8,19 +8,23 @@ import { DashboardLayout } from '../components/dashboard-layout';
 import { getRunsCall } from '../components/run/run-list-api-call';
 import { useState } from 'react';
 // import { runs } from '../__mocks__/runs';
+import { useSession } from "next-auth/react";
 
 const Runs = () => {
   const [runsSelected, setRunsSelected] = useState([]);
   const [runInfo, setRunInfo] = useState([]);
-  
-  async function getRuns() {
-    const newruns = await getRunsCall();
+  const { data: session, status } = useSession();
+
+  async function getRuns(idToken) {
+    const newruns = await getRunsCall(idToken);
     setRunInfo(newruns);
   }
 
   React.useEffect(() => {
-    getRuns();
-  }, []);
+    if (session) {
+      getRuns(session.idToken);
+    }
+  }, [session]);
 
   return(
     <>
@@ -37,7 +41,7 @@ const Runs = () => {
         }}
       >
         <Container maxWidth={false}>
-          <RunListToolbar runsSelected={runsSelected} setRunsSelected={setRunsSelected} runInfo={runInfo} setRunInfo={setRunInfo} />
+          <RunListToolbar runsSelected={runsSelected} setRunsSelected={setRunsSelected} runInfo={runInfo} setRunInfo={setRunInfo} session={session} />
           <Box sx={{ mt: 3 }}>
             <RunListResults runs={runInfo} setRunsSelected={setRunsSelected} />
           </Box>

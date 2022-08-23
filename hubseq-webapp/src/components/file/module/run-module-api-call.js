@@ -1,7 +1,9 @@
 import axios from "axios";
 import React from "react";
-import * as awsApiGatewayClient from "aws-api-gateway-client";
+import { awsPipelineAPI_POST } from '../../../utils/aws-session';
+// import * as awsApiGatewayClient from "aws-api-gateway-client";
 
+/*
 const awsCall_RunModule = function(body){
   let apigClientFactory = awsApiGatewayClient.default;
   let apigClient = apigClientFactory.newClient({
@@ -33,6 +35,7 @@ const client = axios.create({
   // url: '/listobjects',
   method: 'POST'
 });
+*/
 
 const _addKeys = function(e, idx){
   e["id"] = idx;
@@ -67,12 +70,13 @@ const formatRunModuleBody = function(mymodule, inputFiles, outputFiles, altInput
           }
 }
 
-export async function runModuleCall(mymodule, inputFiles, outputFiles, altInputFiles, altOutputFiles, moduleParams, runid, teamid, userid, timenow) {
+export async function runModuleCall(mymodule, inputFiles, outputFiles, altInputFiles, altOutputFiles, moduleParams, runid, teamid, userid, timenow, idToken) {
 
   const body = formatRunModuleBody(mymodule, inputFiles, outputFiles, altInputFiles, altOutputFiles, moduleParams, runid, teamid, userid, timenow);
   console.log('BODY BODY: ', body);
   // const response_raw = await client.request({"data": body});
-  const response_raw = await awsCall_RunModule(body);
+  // const response_raw = await awsCall_RunModule(body);
+  const response_raw = await awsPipelineAPI_POST(body, '/test_cors/batchjob', idToken);
   console.log('RESPONSE RAW', response_raw);
   const response = formatResponse_runModule(response_raw);
   console.log('RESPONSE AFTER: ', response);

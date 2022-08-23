@@ -35,11 +35,11 @@ const createBody_setMetadata = function( myfile, mydir, mytags ){
   return body;
 }
 
-export async function setMetadataCall(myfile, mydir, mytags) {
+export async function setMetadataCall(myfile, mydir, mytags, idToken) {
   // runInfo.map(d => d["runid"]);
   const body = createBody_setMetadata(myfile, mydir, mytags);
   console.log('BODY BODY: ', body);
-  const response_raw = await awsPipelineAPI_POST(body, '/test_cors/setmetadata');
+  const response_raw = await awsPipelineAPI_POST(body, '/test_cors/setmetadata', idToken);
   // const response_raw = await client.request({"data": body});
   console.log('RESPONSE RAW', response_raw);
 

@@ -13,7 +13,7 @@ import { addTrailingSlash } from '../../../utils/jsutils';
 import { GridRowModule } from './gridrow-module';
 import { runPipelineCall } from './run-pipeline-api-call';
 
-export const RunPipelineModal = ({currentPath, selectedFiles, ...rest}) => {
+export const RunPipelineModal = ({currentPath, selectedFiles, session, ...rest}) => {
     const [open, setOpen] = useState(false);
     const [pipeline, setPipeline] = useState('');
     const [runid, setRunid] = useState('');
@@ -48,7 +48,7 @@ export const RunPipelineModal = ({currentPath, selectedFiles, ...rest}) => {
       console.log("MODULES: ", modulesSubmit);
       console.log("Input: ", inputSubmit);
       console.log("PARAMS: ", paramsSubmit);
-      runPipelineCall(pipelineSubmit, modulesSubmit, inputSubmit, [], [], paramsSubmit, runidSubmit, teamidSubmit, useridSubmit, timenowSubmit);
+      runPipelineCall(pipelineSubmit, modulesSubmit, inputSubmit, [], [], paramsSubmit, runidSubmit, teamidSubmit, useridSubmit, timenowSubmit, session.idToken);
       setOpen(false);
     }
     const handleClickOpen = () => {

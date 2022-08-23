@@ -13,6 +13,7 @@ import { jobsCall } from './job-list-api-call';
 import { ReportTable } from './report-table';
 import { getFileCall } from '../file/file_list_api_call';
 import * as path from 'path';
+import { useSession } from "next-auth/react";
 
 // assumes that runs are in [HOMEDIR]/runs/[runid]/...
 export const RunReportModal = ({runsSelected, runInfo, props}) => {
@@ -21,6 +22,7 @@ export const RunReportModal = ({runsSelected, runInfo, props}) => {
     const [reportFilesExpressionQC, setReportFilesExpressionQC] = useState([]);
     const [reportFilesDEQC, setReportFilesDEQC] = useState([]);
     const [reportFilesGOQC, setReportFilesGOQC] = useState([]);
+    const { data: session, status } = useSession();
 
     const baseRunPath = "tranquis/runs/"; // replace with teamid later
 
@@ -28,32 +30,32 @@ export const RunReportModal = ({runsSelected, runInfo, props}) => {
     let runs_array = runInfo.map(d => d["runid"]);
 
     React.useEffect(() => {
-      async function getReports(reportType) {
+      async function getReports(reportType, session) {
         let htmlFiles = [];
         console.log('REPORT RUNS SELECTED: ', runsSelected);
         console.log('REPORT RUNS INFO: ', runInfo);
         // console.log('the file call: ', path.join(baseRunPath,runInfo[runsSelected]['runid'],'fastqc'));
         if (reportType == "FastQC"){
-          htmlFiles = await getFileCall(path.join(baseRunPath,runInfo[runsSelected]['runid'],'fastqc'), ".html");
+          htmlFiles = await getFileCall(path.join(baseRunPath,runInfo[runsSelected]['runid'],'fastqc'), session.idToken, ".html");
           setReportFilesFastQC(htmlFiles);
         } else if (reportType == "ExpressionQC"){
-          htmlFiles = await getFileCall(path.join(baseRunPath,runInfo[runsSelected]['runid'],'expressionqc'), ".html");
+          htmlFiles = await getFileCall(path.join(baseRunPath,runInfo[runsSelected]['runid'],'expressionqc'), session.idToken, ".html");
           setReportFilesExpressionQC(htmlFiles);
         } else if (reportType == "DEQC"){
-          htmlFiles = await getFileCall(path.join(baseRunPath,runInfo[runsSelected]['runid'],'deqc'), ".html");
+          htmlFiles = await getFileCall(path.join(baseRunPath,runInfo[runsSelected]['runid'],'deqc'), session.idToken, ".html");
           setReportFilesDEQC(htmlFiles);
         } else if (reportType == "GOQC"){
-          htmlFiles = await getFileCall(path.join(baseRunPath,runInfo[runsSelected]['runid'],'goqc'), ".html");
+          htmlFiles = await getFileCall(path.join(baseRunPath,runInfo[runsSelected]['runid'],'goqc'), session.idToken, ".html");
           setReportFilesGOQC(htmlFiles);
         }
       }
-      if (runsSelected){
-        getReports("FastQC");
-        getReports("ExpressionQC");
-        getReports("DEQC");
-        getReports("GOQC");
+      if (session && runsSelected){
+        getReports("FastQC", session);
+        getReports("ExpressionQC", session);
+        getReports("DEQC", session);
+        getReports("GOQC", session);
       }
-    }, [runsSelected]);
+    }, [runsSelected, session]);
 
     const handleClickOpen = () => {
       // getJobs();
