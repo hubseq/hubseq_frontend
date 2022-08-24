@@ -1,10 +1,7 @@
-import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
-import { AppBar, Avatar, Badge, Box, IconButton, Toolbar, Tooltip } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
+import { AppBar, Button, Box, Toolbar } from '@mui/material';
 import Image from 'next/image';
-import NextLink from 'next/link';
-import { useSession, signIn, signOut } from "next-auth/react"
+import { signIn } from "next-auth/react"
 
 const LandingNavbarRoot = styled(AppBar)(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
@@ -42,9 +39,9 @@ export const LandingNavbar = (props) => {
           </Box>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ color: 'white' }}>
-            <NextLink href="/auth" passHref>
-              <a style={{ color: 'white' }}>Login</a>
-            </NextLink>
+          <Button fullWidth color='inherit' onClick={() => signIn("cognito")} variant="outlined">
+            Login
+          </Button>
           </Box>
         </Toolbar>
       </LandingNavbarRoot>
