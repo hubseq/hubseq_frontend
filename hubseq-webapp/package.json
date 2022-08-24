@@ -11,6 +11,7 @@
     "lint-fix": "next lint --fix"
   },
   "dependencies": {
+    "@aws-sdk/s3-request-presigner": "^3.157.0",
     "@emotion/cache": "^11.9.3",
     "@emotion/react": "^11.9.3",
     "@emotion/server": "^11.4.0",
