@@ -59,3 +59,31 @@ export const awsS3API_GET = function( pathTemplate, idToken, ...rest){
     });
   });
 };
+
+export const awsS3API_PUT = function( pathTemplate, body, idToken, ...rest){
+  let apigClientFactory = awsApiGatewayClient.default;
+  let apigClient = apigClientFactory.newClient({
+    invokeUrl: "https://ozfjxlaivl.execute-api.us-west-2.amazonaws.com",
+    region: "us-west-2",
+  });
+
+  let pathParams = {};
+  let method = 'PUT';
+  let additionalParams = {
+    headers: {
+      'Authorization': idToken,
+      'Content-Type': 'multipart/form-data',
+      'Accept': '*/*'
+    },
+  };
+
+  // this looks messy - maybe need to clean up this code
+  return new Promise(function(resolve, reject){
+    apigClient.invokeApi(pathParams, pathTemplate, method, additionalParams, body)
+    .then(function(result){
+      resolve(result);
+    }).catch( function(err){
+      reject(err);
+    });
+  });
+};
