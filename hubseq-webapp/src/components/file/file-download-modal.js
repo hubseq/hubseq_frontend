@@ -41,7 +41,7 @@ export const FileDownloadModal = ({currentPath, selectedFiles, session, ...rest}
         <DialogTitle>Download File from HubSeq</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            <Link href={signedUrl} target="_blank" download>Click to download {selectedFiles[0]}</Link>
+            <Link href={signedUrl} target="_blank" download rel="noopener noreferrer">Click to download {selectedFiles[0]}</Link>
           </DialogContentText>
         </DialogContent>
         <DialogActions>
