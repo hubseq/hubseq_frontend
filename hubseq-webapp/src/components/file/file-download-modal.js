@@ -4,21 +4,20 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { Button, TextField } from '@mui/material';
+import { Button, TextField, Link } from '@mui/material';
 import { Download as DownloadIcon } from '../../icons/download';
 import { fileDownloadCall } from './file-download-api-call';
 import * as path from 'path';
 // import { showSaveFilePicker } from 'native-file-system-adapter';
-import * as streamSaver from 'streamsaver';
-
-//  <a href='/static/test.html' target='_blank'>link to test.html</a>
+// import * as streamSaver from 'streamsaver';
+import { formatUrl } from "@aws-sdk/util-format-url";
 
 export const FileDownloadModal = ({currentPath, selectedFiles, session, ...rest}) => {
     const [open, setOpen] = useState(false);
-
-    let download_button;
+    const [signedUrl, setSignedUrl] = useState('');
 
     const handleClickOpen = () => {
+      handleDownload();
       setOpen(true);
     };
 
@@ -28,22 +27,9 @@ export const FileDownloadModal = ({currentPath, selectedFiles, session, ...rest}
 
     const handleDownload = async () => {
       const filePaths = selectedFiles.map((f)=>(path.join(currentPath,f)));
-      for (let i=0; i<filePaths.length; i++){
-        // fileDownloadCall(filePaths[i]);
-        console.log('HANDLE DOWNLOAD: ', filePaths[i]);
-      }
-      const filedata = await fileDownloadCall( filePaths, session.idToken );
-      const blob = new Blob([filedata], {type: "application/octet-stream"});
-      const readableStream = blob.stream();
-      const fileStream = streamSaver.createWriteStream('Untitled.png', { size: blob.size });
-      await readableStream.pipeTo(fileStream);
-
-      setOpen(false);
+      // currently only support download of one file (first one checked)
+      const response = await fileDownloadCall( filePaths[0], session.idToken, setSignedUrl );
     }
-    download_button = <Button startIcon={(<DownloadIcon fontSize="small" />)}
-                          sx={{ mr: 1 }}
-                          onClick={handleClickOpen}> Download
-                      </Button>
 
     return (
         <>
@@ -55,12 +41,12 @@ export const FileDownloadModal = ({currentPath, selectedFiles, session, ...rest}
         <DialogTitle>Download File from HubSeq</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            The selected files will be downloaded. Are you sure?
+            <Link href={signedUrl} target="_blank" download>Click to download {selectedFiles[0]}</Link>
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleDownload}>Download</Button>
+          <Button onClick={handleClose}>OK</Button>
         </DialogActions>
       </Dialog>
       </>

@@ -14,7 +14,6 @@ import * as path from 'path';
 export const FileUploadModal = ({currentPath, session, ...rest}) => {
     const [open, setOpen] = useState(false);
     let { FileInput, openFileDialog, uploadToS3 } = useS3Upload();
-    let upload_button;
 
     const handleClickOpen = () => {
       setOpen(true);
@@ -26,16 +25,9 @@ export const FileUploadModal = ({currentPath, session, ...rest}) => {
 
     let handleFileChange = async file => {
       console.log('FILE: ', file);
-      // console.log('FILE CONTENTS: ', file.text());
       console.log('PATH: ', path.join(currentPath,file.name));
       let response = await fileUploadCall(path.join(currentPath,file.name), file, session.idToken);
     };
-
-      // upload button - always show
-    upload_button = <Button startIcon={(<UploadIcon fontSize="small" />)}
-                          sx={{ mr: 1 }}
-                          onClick={openFileDialog}> Upload
-                  </Button>
 
     return (
         <>

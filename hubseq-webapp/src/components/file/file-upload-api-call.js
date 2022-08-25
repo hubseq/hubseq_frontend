@@ -20,6 +20,8 @@ export async function fileUploadCall(myfile, fileObj, idToken) {
   // const response_raw = await awsS3API_PUT('/test/'+myfile, fileContents, idToken);
   // console.log('file upload response raw: ', response_raw);
   // return response_raw;
+
+  // get AWS credentials using jwt token
   AWS.config.region = 'us-west-2';
   const idenPoolId = 'us-west-2:51196d02-5075-4e91-8a8a-34a72fb1feec';
   const userPool = 'us-west-2_w0jdawN5J';
@@ -42,6 +44,8 @@ export async function fileUploadCall(myfile, fileObj, idToken) {
   });
 }
 
+// get a signed URL for upload. Using AWS documentation:
+// https://aws.amazon.com/blogs/developer/generate-presigned-url-modular-aws-sdk-javascript/
 const uploadFile = async function( credentials, myfile, fileObj ){
   const region = 'us-west-2';
   const s3ObjectUrl = parseUrl(`https://hubtenants.s3.${region}.amazonaws.com/${myfile}`);
