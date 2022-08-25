@@ -43,8 +43,8 @@ const Login = () => {
   const router = useRouter();
   const formik = useFormik({
     initialValues: {
-      email: 'testuser1@testing.io',
-      password: 'JerryGeorge1!' //Password123456789
+      email: process.env.NEXTAUTH_INITIAL_EMAIL,
+      password: process.env.NEXTAUTH_INITIAL_PW //Password123456789
     },
     validationSchema: Yup.object({
       email: Yup

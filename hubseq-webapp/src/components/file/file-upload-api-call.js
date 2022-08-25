@@ -23,8 +23,8 @@ export async function fileUploadCall(myfile, fileObj, idToken) {
 
   // get AWS credentials using jwt token
   AWS.config.region = 'us-west-2';
-  const idenPoolId = 'us-west-2:51196d02-5075-4e91-8a8a-34a72fb1feec';
-  const userPool = 'us-west-2_w0jdawN5J';
+  const idenPoolId = process.env.COGNITO_IDENTITY_POOL_ID;
+  const userPool = process.env.COGNITO_USER_POOL;
   let region = 'us-west-2'; // idenPoolId.split(":")[0];
   let provider = "cognito-idp." + region + ".amazonaws.com/" + userPool;
   let login = {};
@@ -48,7 +48,7 @@ export async function fileUploadCall(myfile, fileObj, idToken) {
 // https://aws.amazon.com/blogs/developer/generate-presigned-url-modular-aws-sdk-javascript/
 const uploadFile = async function( credentials, myfile, fileObj ){
   const region = 'us-west-2';
-  const s3ObjectUrl = parseUrl(`https://hubtenants.s3.${region}.amazonaws.com/${myfile}`);
+  const s3ObjectUrl = parseUrl(`https://${process.env.HUBSEQ_USER_BUCKET}.s3.${region}.amazonaws.com/${myfile}`);
   const presigner = new S3RequestPresigner({
       credentials,
       region,

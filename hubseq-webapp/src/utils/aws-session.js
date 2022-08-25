@@ -7,7 +7,7 @@ import * as awsApiGatewayClient from "aws-api-gateway-client";
 export const awsPipelineAPI_POST = function(body, pathTemplate, idToken, ...rest){
   let apigClientFactory = awsApiGatewayClient.default;
   let apigClient = apigClientFactory.newClient({
-    invokeUrl: "https://cs8ibwdms8.execute-api.us-west-2.amazonaws.com",
+    invokeUrl: process.env.PIPELINE_API_URL,
     region: "us-west-2",
   });
 
@@ -35,7 +35,7 @@ export const awsPipelineAPI_POST = function(body, pathTemplate, idToken, ...rest
 export const awsS3API_GET = function( pathTemplate, idToken, ...rest){
   let apigClientFactory = awsApiGatewayClient.default;
   let apigClient = apigClientFactory.newClient({
-    invokeUrl: "https://ozfjxlaivl.execute-api.us-west-2.amazonaws.com",
+    invokeUrl: process.env.S3_API_URL,
     region: "us-west-2",
   });
 
@@ -63,7 +63,7 @@ export const awsS3API_GET = function( pathTemplate, idToken, ...rest){
 export const awsS3API_PUT = function( pathTemplate, body, idToken, ...rest){
   let apigClientFactory = awsApiGatewayClient.default;
   let apigClient = apigClientFactory.newClient({
-    invokeUrl: "https://ozfjxlaivl.execute-api.us-west-2.amazonaws.com",
+    invokeUrl: process.env.S3_API_URL,
     region: "us-west-2",
   });
 
