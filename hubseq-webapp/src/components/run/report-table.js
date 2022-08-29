@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { isEqualsJson } from '../../utils/jsutils'
 // import { format } from 'date-fns';
-
 import {
   Table,
   Typography,
@@ -12,22 +11,27 @@ import {
   TableHead,
   TablePagination,
   TableRow,
-  Tooltip
+  Tooltip,
+  Link
 } from '@mui/material';
+import { fileDownloadCall } from '../file/file-download-api-call';
 
-export const ReportTable = ({ title, filelist, filetype, ...rest }) => {
+export const ReportTable = ({ title, filelist, filetype, session, ...rest }) => {
   const [files, setFiles] = useState([]);
+  const [clickedUrl, setClickedUrl] = useState('');
+
   let report_table;
 
   React.useEffect(() => {
-    console.log('DID REPORT TABLE UPDATE??? ', filelist);
+    // console.log('DID REPORT TABLE UPDATE??? ', filelist);
     if (filelist){
       setFiles(filelist);
     }
   }, [filelist]);
 
-  const openFile = (f) => {
-    console.log('in openFile: ', f);
+  const getLink = async (f) => {
+    const response = await fileDownloadCall(f.Key, session.idToken, setClickedUrl);
+    console.log('CLICKED URL: ', clickedUrl);
   }
 
   if (files) { // } && tagset.length > 0){
@@ -53,8 +57,8 @@ export const ReportTable = ({ title, filelist, filetype, ...rest }) => {
                 key={title+idx.toString()}
               >
                 <Tooltip title="Open File" placement="right-start" arrow>
-                  <TableCell onClick={()=>{openFile(myfile)}}>
-                    {myfile.Key}
+                  <TableCell onMouseEnter={()=>{getLink(myfile)}}>
+                    <Link href={clickedUrl} target="_blank" rel="noopener noreferrer">{myfile.Key}</Link>
                   </TableCell>
                 </Tooltip>
                 <TableCell>

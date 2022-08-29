@@ -83,10 +83,10 @@ export const RunReportModal = ({runsSelected, runInfo, props}) => {
         <DialogTitle>Run Report for {runInfo[runsSelected]['runid']}</DialogTitle>
         <DialogContent>
           <Box sx={{ mt: 3 }}>
-            <ReportTable title="FASTQC Reports" filelist={reportFilesFastQC} filetype="FastQC" />
-            <ReportTable title="Gene Expression QC Reports" filelist={reportFilesExpressionQC} filetype="ExpressionQC" />
-            <ReportTable title="Differential Expression QC Reports" filelist={reportFilesDEQC} filetype="DEQC" />
-            <ReportTable title="Gene Ontology QC Reports" filelist={reportFilesGOQC} filetype="GOQC" />
+            <ReportTable title="FASTQC Reports" filelist={reportFilesFastQC} filetype="FastQC" session={session} />
+            <ReportTable title="Gene Expression QC Reports" filelist={reportFilesExpressionQC} filetype="ExpressionQC" session={session} />
+            <ReportTable title="Differential Expression QC Reports" filelist={reportFilesDEQC} filetype="DEQC" session={session} />
+            <ReportTable title="Gene Ontology QC Reports" filelist={reportFilesGOQC} filetype="GOQC" session={session} />
           </Box>
         </DialogContent>
         <DialogActions>

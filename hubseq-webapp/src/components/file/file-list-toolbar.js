@@ -22,6 +22,7 @@ export const FileListToolbar = ({currentPath, filesSelectedInfo, filesSelected, 
   let run_module_modal;
   let run_pipeline_modal;
   let metadata_modal;
+  let upload_modal;
 
   const getObjectName = (f) => {
     const fout = f.endsWith('/') ? f.split('/').at(-2)+'/' : f.split('/').pop();
@@ -40,6 +41,8 @@ export const FileListToolbar = ({currentPath, filesSelectedInfo, filesSelected, 
     }
   };
 
+  // upload button - always available
+  upload_modal = <FileUploadModal currentPath={currentPath} session={session} />
   // download button - toggle on file clicking
   if (filesSelected && filesSelected.length > 0){
     download_modal = <FileDownloadModal currentPath={currentPath} selectedFiles={filesSelectedInfo.map((e) => getObjectName(e["Key"]))} session={session} />
@@ -90,7 +93,7 @@ export const FileListToolbar = ({currentPath, filesSelectedInfo, filesSelected, 
           {run_module_modal}
           {metadata_modal}
           {download_modal}
-          <FileUploadModal/>
+          {upload_modal}
         </Box>
       </Box>
       <Box sx={{ mt: 3 }}>
