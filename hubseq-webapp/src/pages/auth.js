@@ -12,7 +12,7 @@ export default function Component() {
   return (
     <>
       Please sign in <br />
-      <button onClick={() => signIn('coginito', { callbackUrl: process.env.NEXTAUTH_CALLBACK_URL })}>Sign in</button>
+      <button onClick={() => signIn('coginito', { callbackUrl: process.env.NEXT_PUBLIC_NEXTAUTH_CALLBACK_URL })}>Sign in</button>
     </>
   )
 }

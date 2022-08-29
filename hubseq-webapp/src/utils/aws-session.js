@@ -7,7 +7,7 @@ import * as awsApiGatewayClient from "aws-api-gateway-client";
 export const awsPipelineAPI_POST = function(body, pathTemplate, idToken, ...rest){
   let apigClientFactory = awsApiGatewayClient.default;
   let apigClient = apigClientFactory.newClient({
-    invokeUrl: process.env.PIPELINE_API_URL,
+    invokeUrl: process.env.NEXT_PUBLIC_PIPELINE_API_URL,
     region: "us-west-2",
   });
 

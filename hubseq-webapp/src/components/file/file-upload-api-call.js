@@ -23,8 +23,8 @@ export async function fileUploadCall(myfile, fileObj, idToken) {
 
   // get AWS credentials using jwt token
   AWS.config.region = 'us-west-2';
-  const idenPoolId = process.env.COGNITO_IDENTITY_POOL_ID;
-  const userPool = process.env.COGNITO_USER_POOL;
+  const idenPoolId = process.env.NEXT_PUBLIC_COGNITO_IDENTITY_POOL_ID;
+  const userPool = process.env.NEXT_PUBLIC_COGNITO_USER_POOL;
   let region = 'us-west-2'; // idenPoolId.split(":")[0];
   let provider = "cognito-idp." + region + ".amazonaws.com/" + userPool;
   let login = {};
