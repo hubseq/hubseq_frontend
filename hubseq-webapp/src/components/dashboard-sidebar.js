@@ -28,31 +28,31 @@ const items = [
     icon: (<RunsIcon fontSize="Large" />),
     title: 'Runs'
   },
-  {
-    href: '/modules',
-    icon: (<ModulesIcon fontSize="small" />),
-    title: 'Modules'
-  },
-  {
-    href: '/terminal',
-    icon: (<TerminalIcon fontSize="small" />),
-    title: 'Terminal'
-  },
-  {
-    href: '/notebook',
-    icon: (<NotebookIcon fontSize="small" />),
-    title: 'Notebook'
-  },
-  {
-    href: '/settings',
-    icon: (<CogIcon fontSize="small" />),
-    title: 'Settings'
-  },
-  {
-    href: '/account',
-    icon: (<UserIcon fontSize="small" />),
-    title: 'Account'
-  },
+  // {
+  //   href: '/modules',
+  //   icon: (<ModulesIcon fontSize="small" />),
+  //   title: 'Modules'
+  // },
+  // {
+  //   href: '/terminal',
+  //   icon: (<TerminalIcon fontSize="small" />),
+  //   title: 'Terminal'
+  // },
+  // {
+  //   href: '/notebook',
+  //   icon: (<NotebookIcon fontSize="small" />),
+  //   title: 'Notebook'
+  // },
+  // {
+  //   href: '/settings',
+  //   icon: (<CogIcon fontSize="small" />),
+  //   title: 'Settings'
+  // },
+  // {
+  //   href: '/account',
+  //   icon: (<UserIcon fontSize="small" />),
+  //   title: 'Account'
+  // },
   // {
   //   href: '/login',
   //   icon: (<LockIcon fontSize="small" />),
