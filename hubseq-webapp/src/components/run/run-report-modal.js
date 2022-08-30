@@ -19,6 +19,7 @@ import { useSession } from "next-auth/react";
 export const RunReportModal = ({runsSelected, runInfo, props}) => {
     const [open, setOpen] = useState(false);
     const [reportFilesFastQC, setReportFilesFastQC] = useState([]);
+    const [reportFilesAlignQC, setReportFilesAlignQC] = useState([]);
     const [reportFilesExpressionQC, setReportFilesExpressionQC] = useState([]);
     const [reportFilesDEQC, setReportFilesDEQC] = useState([]);
     const [reportFilesGOQC, setReportFilesGOQC] = useState([]);
@@ -32,6 +33,8 @@ export const RunReportModal = ({runsSelected, runInfo, props}) => {
     React.useEffect(() => {
       async function getReports(reportType, session) {
         let htmlFiles = [];
+        let pdfFiles = [];
+        let pdfFiles2 = [];
         console.log('REPORT RUNS SELECTED: ', runsSelected);
         console.log('REPORT RUNS INFO: ', runInfo);
         // console.log('the file call: ', path.join(baseRunPath,runInfo[runsSelected]['runid'],'fastqc'));
@@ -47,10 +50,15 @@ export const RunReportModal = ({runsSelected, runInfo, props}) => {
         } else if (reportType == "GOQC"){
           htmlFiles = await getFileCall(path.join(baseRunPath,runInfo[runsSelected]['runid'],'goqc'), session.idToken, ".html");
           setReportFilesGOQC(htmlFiles);
+        } else if (reportType == "AlignQC"){
+          pdfFiles = await getFileCall(path.join(baseRunPath,runInfo[runsSelected]['runid'],'qorts_multi'), session.idToken, ".pdf");
+          // pdfFiles2 = await getFileCall(path.join(baseRunPath,runInfo[runsSelected]['runid'],'qorts'), session.idToken, ".pdf");
+          setReportFilesAlignQC(pdfFiles);
         }
       }
       if (session && runsSelected){
         getReports("FastQC", session);
+        getReports("AlignQC", session);
         getReports("ExpressionQC", session);
         getReports("DEQC", session);
         getReports("GOQC", session);
@@ -84,6 +92,7 @@ export const RunReportModal = ({runsSelected, runInfo, props}) => {
         <DialogContent>
           <Box sx={{ mt: 3 }}>
             <ReportTable title="FASTQC Reports" filelist={reportFilesFastQC} filetype="FastQC" session={session} />
+            <ReportTable title="Alignment QC Reports" filelist={reportFilesAlignQC} filetype="AlignQC" session={session} />
             <ReportTable title="Gene Expression QC Reports" filelist={reportFilesExpressionQC} filetype="ExpressionQC" session={session} />
             <ReportTable title="Differential Expression QC Reports" filelist={reportFilesDEQC} filetype="DEQC" session={session} />
             <ReportTable title="Gene Ontology QC Reports" filelist={reportFilesGOQC} filetype="GOQC" session={session} />
