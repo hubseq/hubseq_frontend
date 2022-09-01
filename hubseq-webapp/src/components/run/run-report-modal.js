@@ -7,9 +7,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { Button, TextField } from '@mui/material';
-import { Upload as UploadIcon } from '../../icons/upload';
-// import JobList from './job-list-api-call';
-import { jobsCall } from './job-list-api-call';
+import { Search as SearchIcon } from '../../icons/search';
 import { ReportTable } from './report-table';
 import { getFileCall } from '../file/file_list_api_call';
 import * as path from 'path';
@@ -27,8 +25,6 @@ export const RunReportModal = ({runsSelected, runInfo, props}) => {
     const { data: session, status } = useSession();
 
     const baseRunPath = "tranquis/runs/"; // replace with teamid later
-
-    let run_report_button;
     let runs_array = runInfo.map(d => d["runid"]);
 
     React.useEffect(() => {
@@ -78,17 +74,11 @@ export const RunReportModal = ({runsSelected, runInfo, props}) => {
     const handleClose = () => {
       setOpen(false);
     };
-
-      // upload button - always show
-    run_report_button = <Button startIcon={(<UploadIcon fontSize="small" />)}
-                          sx={{ mr: 1 }}
-                          onClick={handleClickOpen}> Run Report
-                  </Button>
-
+    
     // report is specific to RNA-Seq - will generalize this modal later
     return (
         <>
-        <Button startIcon={(<UploadIcon fontSize="small" />)}
+        <Button startIcon={(<SearchIcon fontSize="small" />)}
         sx={{ mr: 1 }}
         onClick={handleClickOpen}> View Report
         </Button>

@@ -11,6 +11,7 @@ import { Search as SearchIcon } from '../../icons/search';
 import { Upload as UploadIcon } from '../../icons/upload';
 import { Download as DownloadIcon } from '../../icons/download';
 import { RunDetailsModal } from './run-details-modal';
+import { RunDataFilesModal } from './run-datafiles-modal';
 import { RunReportModal } from './run-report-modal';
 import { Refresh as RefreshIcon } from '../../icons/refresh';
 import { updateJobStatusCall } from './update-job-status-api-call';
@@ -19,12 +20,19 @@ import { getRunsCall }from './run-list-api-call';
 export const RunListToolbar = ({runsSelected, setRunsSelected, runInfo, setRunInfo, session, props}) => {
   let view_run_details_modal;
   let view_run_report_modal;
+  let view_run_datafiles_modal;
 
   // run details button - toggle on clicking a run
   if(runsSelected.length > 0 && runsSelected.length < 2){
     view_run_details_modal = <RunDetailsModal runsSelected={runsSelected} runInfo={runInfo} props={props} />
   } else {
     view_run_details_modal = null;
+  }
+
+  if(runsSelected.length > 0 && runsSelected.length < 2){
+    view_run_datafiles_modal = <RunDataFilesModal runsSelected={runsSelected} runInfo={runInfo} props={props} />
+  } else {
+    view_run_datafiles_modal = null;
   }
 
   // run report button - toggle on clicking a run
@@ -59,6 +67,7 @@ export const RunListToolbar = ({runsSelected, setRunsSelected, runInfo, setRunIn
         </Typography>
         <Box sx={{ m: 1 }}>
           {view_run_report_modal}
+          {view_run_datafiles_modal}
           {view_run_details_modal}
         </Box>
       </Box>

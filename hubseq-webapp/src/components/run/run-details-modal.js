@@ -7,7 +7,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { Button, TextField } from '@mui/material';
-import { Upload as UploadIcon } from '../../icons/upload';
+import { Cog as CogIcon } from '../../icons/cog';
 // import JobList from './job-list-api-call';
 import { jobsCall } from './job-list-api-call';
 import { JobListResults } from './job-list-results';
@@ -44,14 +44,14 @@ export const RunDetailsModal = ({runsSelected, runInfo, props}) => {
     };
 
       // upload button - always show
-    run_details_button = <Button startIcon={(<UploadIcon fontSize="small" />)}
+    run_details_button = <Button startIcon={(<CogIcon fontSize="small" />)}
                           sx={{ mr: 1 }}
                           onClick={handleClickOpen}> Run Details
                   </Button>
 
     return (
         <>
-        <Button startIcon={(<UploadIcon fontSize="small" />)}
+        <Button startIcon={(<CogIcon fontSize="small" />)}
         sx={{ mr: 1 }}
         onClick={handleClickOpen}> Run Details
         </Button>
