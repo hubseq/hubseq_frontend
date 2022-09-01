@@ -18,6 +18,7 @@ import { useSession } from "next-auth/react";
 // assumes that runs are in [HOMEDIR]/runs/[runid]/...
 export const RunReportModal = ({runsSelected, runInfo, props}) => {
     const [open, setOpen] = useState(false);
+    const [reportFilesSummaryQC, setReportFilesSummaryQC] = useState([]);
     const [reportFilesFastQC, setReportFilesFastQC] = useState([]);
     const [reportFilesAlignQC, setReportFilesAlignQC] = useState([]);
     const [reportFilesExpressionQC, setReportFilesExpressionQC] = useState([]);
@@ -41,6 +42,9 @@ export const RunReportModal = ({runsSelected, runInfo, props}) => {
         if (reportType == "FastQC"){
           htmlFiles = await getFileCall(path.join(baseRunPath,runInfo[runsSelected]['runid'],'fastqc'), session.idToken, ".html");
           setReportFilesFastQC(htmlFiles);
+        } else if (reportType == "SummaryQC") {
+          htmlFiles = await getFileCall(path.join(baseRunPath,runInfo[runsSelected]['runid'],'rnaseq_summaryqc'), session.idToken, ".html");
+          setReportFilesSummaryQC(htmlFiles);
         } else if (reportType == "ExpressionQC"){
           htmlFiles = await getFileCall(path.join(baseRunPath,runInfo[runsSelected]['runid'],'expressionqc'), session.idToken, ".html");
           setReportFilesExpressionQC(htmlFiles);
@@ -57,6 +61,7 @@ export const RunReportModal = ({runsSelected, runInfo, props}) => {
         }
       }
       if (session && runsSelected){
+        getReports("SummaryQC", session);
         getReports("FastQC", session);
         getReports("AlignQC", session);
         getReports("ExpressionQC", session);
@@ -91,6 +96,7 @@ export const RunReportModal = ({runsSelected, runInfo, props}) => {
         <DialogTitle>Run Report for {runInfo[runsSelected]['runid']}</DialogTitle>
         <DialogContent>
           <Box sx={{ mt: 3 }}>
+            <ReportTable title="Summary QC Reports" filelist={reportFilesSummaryQC} filetype="SummaryQC" session={session} />
             <ReportTable title="FASTQC Reports" filelist={reportFilesFastQC} filetype="FastQC" session={session} />
             <ReportTable title="Alignment QC Reports" filelist={reportFilesAlignQC} filetype="AlignQC" session={session} />
             <ReportTable title="Gene Expression QC Reports" filelist={reportFilesExpressionQC} filetype="ExpressionQC" session={session} />
