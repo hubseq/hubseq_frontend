@@ -2,19 +2,7 @@ import axios from "axios";
 import React from "react";
 import * as path from 'path';
 import { awsPipelineAPI_POST } from '../../../utils/aws-session';
-
 // import { Typography } from '@mui/material';
-
-const client = axios.create({
-  baseURL: "https://cs8ibwdms8.execute-api.us-west-2.amazonaws.com/test_cors/setmetadata",
-  // url: '/listobjects',
-  method: 'POST'
-});
-
-const _addKeys = function(e, idx){
-  e["id"] = idx;
-  return e
-}
 
 const formatResponse_setMetadata = function( response_raw ){
   let response = {"data": []};

@@ -3,40 +3,6 @@ import React from "react";
 import { awsPipelineAPI_POST } from '../../../utils/aws-session';
 // import * as awsApiGatewayClient from "aws-api-gateway-client";
 
-/*
-const awsCall_RunModule = function(body){
-  let apigClientFactory = awsApiGatewayClient.default;
-  let apigClient = apigClientFactory.newClient({
-    invokeUrl: "https://cs8ibwdms8.execute-api.us-west-2.amazonaws.com",
-    region: "us-west-2",
-    accessKey: "access key here",
-    secretKey: "secret key here",
-    sessionToken: "session token here"
-  });
-
-  let pathParams = {};
-  let pathTemplate = '/test_cors/batchjob';
-  let method = 'POST';
-  let additionalParams = {};
-
-  // this looks messy - maybe need to clean up this code
-  return new Promise(function(resolve, reject){
-    apigClient.invokeApi(pathParams, pathTemplate, method, additionalParams, body)
-    .then(function(result){
-      resolve(result);
-    }).catch( function(err){
-      reject(err);
-    });
-  });
-};
-
-const client = axios.create({
-  baseURL: "https://cs8ibwdms8.execute-api.us-west-2.amazonaws.com/test_cors/batchjob",
-  // url: '/listobjects',
-  method: 'POST'
-});
-*/
-
 const _addKeys = function(e, idx){
   e["id"] = idx;
   return e
@@ -48,7 +14,7 @@ const formatResponse_runModule = function( response_raw ){
   return response
 }
 
-const formatRunModuleBody = function(mymodule, inputFiles, outputFiles, altInputFiles, altOutputFiles, moduleParams, runid, teamid, userid, timenow){
+const formatRunModuleBody = function(mymodule, inputFiles, outputFiles, altInputFiles, altOutputFiles, moduleParams, runid, timenow){
   // assumes files args are arrays
   // test case
   //return {
@@ -64,15 +30,13 @@ const formatRunModuleBody = function(mymodule, inputFiles, outputFiles, altInput
           "alternate_outputs": altOutputFiles.join(","),
           "pargs": moduleParams,
           "runid": runid,
-          "teamid": teamid,
-          "userid": userid,
           "submitted": timenow
           }
 }
 
-export async function runModuleCall(mymodule, inputFiles, outputFiles, altInputFiles, altOutputFiles, moduleParams, runid, teamid, userid, timenow, idToken) {
+export async function runModuleCall(mymodule, inputFiles, outputFiles, altInputFiles, altOutputFiles, moduleParams, runid, timenow, idToken) {
 
-  const body = formatRunModuleBody(mymodule, inputFiles, outputFiles, altInputFiles, altOutputFiles, moduleParams, runid, teamid, userid, timenow);
+  const body = formatRunModuleBody(mymodule, inputFiles, outputFiles, altInputFiles, altOutputFiles, moduleParams, runid, timenow);
   console.log('BODY BODY: ', body);
   // const response_raw = await client.request({"data": body});
   // const response_raw = await awsCall_RunModule(body);

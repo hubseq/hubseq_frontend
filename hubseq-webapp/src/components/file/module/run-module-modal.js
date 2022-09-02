@@ -22,17 +22,12 @@ export const RunModuleModal = ({currentPath, selectedFiles, session, ...rest}) =
     const [mygenome, setMyGenome] = useState('human');
     const [timenow, setTimeNow] = useState(moment().format('YYYY-MM-DD-hhmmss[-]'));
     const [timesubmit, setTimeSubmit] = useState(moment().format('YYYY-MM-DD hh:mm:ss'));
-    const teamid = "tranquis";  // replace w session value at some point
-    const userid = "test"; // replace w session value at some point
 
     let run_module_button;
     let moduleTextFields;
     let extraTextFields;
 
     React.useEffect(() => {
-      console.log('RUN MODULE MODAL USE EFFECTCALLED!', mymodule);
-      console.log('current path: ', currentPath);
-      console.log('SELECTED FILES: ', selectedFiles);
     }, [selectedFiles, mymodule]);
 
     const handleClickOpen = () => {
@@ -65,7 +60,7 @@ export const RunModuleModal = ({currentPath, selectedFiles, session, ...rest}) =
     }
 
     const getDefaultOutputFolder = () => {
-      return teamid+"/runs/"+runid+"/"+mymodule+"/";
+      return "runs/"+runid+"/"+mymodule+"/";
     };
 
     const handleRunModule = () => {
@@ -74,10 +69,8 @@ export const RunModuleModal = ({currentPath, selectedFiles, session, ...rest}) =
         const outputSubmit = [getDefaultOutputFolder()];
         const paramsSubmit = params;
         const runidSubmit = runid;
-        const teamidSubmit = teamid;
-        const useridSubmit = userid;
         const timenowSubmit = timesubmit;
-        runModuleCall(moduleSubmit, inputSubmit, outputSubmit, [], [], paramsSubmit, runidSubmit, teamidSubmit, useridSubmit, timenowSubmit, session.idToken);
+        runModuleCall(moduleSubmit, inputSubmit, outputSubmit, [], [], paramsSubmit, runidSubmit, timenowSubmit, session.idToken);
         setOpen(false);
     }
 

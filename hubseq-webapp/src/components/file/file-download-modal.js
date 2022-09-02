@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import React from 'react';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -11,10 +12,23 @@ import * as path from 'path';
 // import { showSaveFilePicker } from 'native-file-system-adapter';
 // import * as streamSaver from 'streamsaver';
 import { formatUrl } from "@aws-sdk/util-format-url";
+import { awsPipelineAPI_GET } from '../../utils/aws-session';
 
 export const FileDownloadModal = ({currentPath, selectedFiles, session, ...rest}) => {
     const [open, setOpen] = useState(false);
     const [signedUrl, setSignedUrl] = useState('');
+    const [teamId, setTeamId] = useState('');
+
+    React.useEffect(() => {
+      const getTeamId = async (session) => {
+        const _teamid = await awsPipelineAPI_GET('/test_cors/getteamid', session.idToken);
+        console.log('TEAMID: ', _teamid);
+        setTeamId(_teamid.data);
+      }
+      if (session){
+        getTeamId(session);
+      }
+    }, [session]);
 
     const handleClickOpen = () => {
       handleDownload();
@@ -28,7 +42,7 @@ export const FileDownloadModal = ({currentPath, selectedFiles, session, ...rest}
     const handleDownload = async () => {
       const filePaths = selectedFiles.map((f)=>(path.join(currentPath,f)));
       // currently only support download of one file (first one checked)
-      const response = await fileDownloadCall( filePaths[0], session.idToken, setSignedUrl );
+      const response = await fileDownloadCall( filePaths[0], teamId, session.idToken, setSignedUrl );
     }
 
     return (

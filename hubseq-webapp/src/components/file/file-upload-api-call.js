@@ -11,7 +11,7 @@ import { Sha256 } from "@aws-crypto/sha256-browser";
 import { Hash } from "@aws-sdk/hash-node";
 import { formatUrl } from "@aws-sdk/util-format-url";
 
-export async function fileUploadCall(myfile, fileObj, idToken) {
+export async function fileUploadCall(myfile, fileObj, teamid, idToken) {
   // const formData = new FormData();
   // formData.append('file', fileContents.stream());
   // let fileContents = await fileObj.arrayBuffer();
@@ -39,16 +39,16 @@ export async function fileUploadCall(myfile, fileObj, idToken) {
       console.error(error);
       return null;
     } else {
-      return uploadFile( credentials, myfile, fileObj);
+      return uploadFile( credentials, myfile, fileObj, teamid);
     }
   });
 }
 
 // get a signed URL for upload. Using AWS documentation:
 // https://aws.amazon.com/blogs/developer/generate-presigned-url-modular-aws-sdk-javascript/
-const uploadFile = async function( credentials, myfile, fileObj ){
+const uploadFile = async function( credentials, myfile, fileObj, teamid ){
   const region = 'us-west-2';
-  const s3ObjectUrl = parseUrl(`https://${process.env.HUBSEQ_USER_BUCKET}.s3.${region}.amazonaws.com/${myfile}`);
+  const s3ObjectUrl = parseUrl(`https://${process.env.NEXT_PUBLIC_HUBSEQ_USER_BUCKET}.s3.${region}.amazonaws.com/${teamid}/${myfile}`);
   const presigner = new S3RequestPresigner({
       credentials,
       region,

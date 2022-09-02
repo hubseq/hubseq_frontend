@@ -25,7 +25,7 @@ export const RunDataFilesModal = ({runsSelected, runInfo, props}) => {
     const [dataFilesDAVIDGO, setDataFilesDAVIDGO] = useState([]);
     const { data: session, status } = useSession();
 
-    const baseRunPath = "tranquis/runs/"; // replace with teamid later
+    const baseRunPath = "runs/";
 
     let runs_array = runInfo.map(d => d["runid"]);
 

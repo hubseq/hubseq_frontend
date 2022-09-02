@@ -4,17 +4,6 @@ import React from "react";
 // import { Typography } from '@mui/material';
 import { awsPipelineAPI_POST } from '../../utils/aws-session';
 
-const client = axios.create({
-  baseURL: "https://cs8ibwdms8.execute-api.us-west-2.amazonaws.com/test_cors/gettable",
-  // url: '/listobjects',
-  method: 'POST'
-});
-
-const _addKeys = function(e, idx){
-  e["id"] = idx;
-  return e
-}
-
 const formatResponse_RunList = function( response_raw, runs ){
   let response = {"data": []};
 
@@ -27,9 +16,7 @@ const formatResponse_RunList = function( response_raw, runs ){
 }
 
 export async function jobsCall(runs, idToken) {
-  const teamid = "tranquis"; // get from session variable later
-  const userid = "test"; // get from session variable later
-  const body = {"userid": userid, "teamid": teamid, "table": "jobs"};
+  const body = {"table": "jobs"};
   //const response_raw = await client.request({"data": body});
   const response_raw = await awsPipelineAPI_POST(body, '/test_cors/gettable', idToken);
   console.log(response_raw);
@@ -44,7 +31,7 @@ export default function JobList({runs, ...rest}) {
 
   React.useEffect(() => {
     async function getJobs() {
-      const body = {"userid": "testuser1", "teamid": "hubseq", "table": "jobs"};
+      const body = {"table": "jobs"};
       const response = await jobsCall(body, runs);
       setJobs(response.data);
     }

@@ -24,7 +24,7 @@ export const RunReportModal = ({runsSelected, runInfo, props}) => {
     const [reportFilesGOQC, setReportFilesGOQC] = useState([]);
     const { data: session, status } = useSession();
 
-    const baseRunPath = "tranquis/runs/"; // replace with teamid later
+    const baseRunPath = "runs/";
     let runs_array = runInfo.map(d => d["runid"]);
 
     React.useEffect(() => {
@@ -74,7 +74,7 @@ export const RunReportModal = ({runsSelected, runInfo, props}) => {
     const handleClose = () => {
       setOpen(false);
     };
-    
+
     // report is specific to RNA-Seq - will generalize this modal later
     return (
         <>

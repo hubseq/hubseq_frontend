@@ -13,8 +13,8 @@ import { useSession } from "next-auth/react"
 const Files = () => {
   const [filesSelected, setFilesSelected] = useState([]);
   const [shownFiles, setShownFiles] = useState([]);
-  // replace default with teamid as default home path
-  const [currentPath, setCurrentPath] = useState("tranquis/"); // "www.hubseq.com/assets/"
+  // home path
+  const [currentPath, setCurrentPath] = useState(""); // "www.hubseq.com/assets/"
   const { data: session, status } = useSession();
 
   async function getFiles(path, idToken) {
@@ -32,12 +32,16 @@ const Files = () => {
   const upOnePath = (path) => {
       console.log('UP ONE PATH!', path);
       const pathSplit = addTrailingSlash(path).split('/');
-      if (pathSplit.length > 2){
+      if (pathSplit.length > 1){
         const newPath = addTrailingSlash(pathSplit.slice(0,pathSplit.length-2).join('/'));
         console.log('UP ONE PATH: new path: ', newPath);
         setCurrentPath(newPath);
         getFiles(newPath, session.idToken);
       }
+  }
+
+  const displayPath = (cpath) => {
+    return "~/"+cpath;
   }
 
   return(
@@ -56,7 +60,7 @@ const Files = () => {
       >
         <Container maxWidth={false}>
           <FileListToolbar currentPath={currentPath} filesSelectedInfo={shownFiles.filter(val => filesSelected.includes(val.id))} filesSelected={filesSelected} setFilesSelected={setFilesSelected} session={session} />
-          <Box sx={{ mt: 2 }}> &nbsp;&nbsp;&nbsp; <b>Current Folder:</b> {currentPath} &nbsp;&nbsp; [<Tooltip title="Go up one folder" placement="top-start"><u onClick={() => upOnePath(currentPath)}>Back</u></Tooltip>] </Box>
+          <Box sx={{ mt: 2 }}> &nbsp;&nbsp;&nbsp; <b>Current Folder:</b> {displayPath(currentPath)} &nbsp;&nbsp; [<Tooltip title="Go up one folder" placement="top-start"><u onClick={() => upOnePath(currentPath)}>Back</u></Tooltip>] </Box>
           <Box sx={{ mt: 3 }}>
             <FileListResults files={shownFiles} setFiles={setShownFiles} currentPath={currentPath} setFilesSelected={setFilesSelected} setCurrentPath={setCurrentPath} session={session}/>
           </Box>

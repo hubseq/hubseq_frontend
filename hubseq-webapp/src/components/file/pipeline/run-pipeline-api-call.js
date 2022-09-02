@@ -2,17 +2,6 @@ import axios from "axios";
 import React from "react";
 import { awsPipelineAPI_POST } from '../../../utils/aws-session';
 
-const client = axios.create({
-  baseURL: "https://cs8ibwdms8.execute-api.us-west-2.amazonaws.com/test_cors/batchjob",
-  // url: '/listobjects',
-  method: 'POST'
-});
-
-const _addKeys = function(e, idx){
-  e["id"] = idx;
-  return e
-}
-
 const formatResponse_runPipeline = function( response_raw ){
   let response = {"data": []};
   response.data = response_raw.data;
@@ -35,7 +24,7 @@ const formatModulesInput = function(pipeline, modules, params, altinputs, altout
       paramsOut.push((key in params) ? params[key] : "''");
       altinputsOut.push((key in altinputs) ? altinputs[key] : "''");
       altoutputsOut.push((key in altoutputs) ? altoutputs[key] : "''");
-    // always run GO QC after Gene Ontology (GO QC not specified on frontend)      
+    // always run GO QC after Gene Ontology (GO QC not specified on frontend)
     } else if (key=="Gene Ontology"){
       modulesOut.push('goqc');
       paramsOut.push((key in params) ? params[key] : "''");
@@ -46,7 +35,7 @@ const formatModulesInput = function(pipeline, modules, params, altinputs, altout
   return [modulesOut, paramsOut, altinputsOut, altoutputsOut];
 }
 
-const formatRunPipelineBody = function(pipeline, modules, inputFiles, altInputFiles, altOutputFiles, moduleParams, runid, teamid, userid, timenow){
+const formatRunPipelineBody = function(pipeline, modules, inputFiles, altInputFiles, altOutputFiles, moduleParams, runid, timenow){
   // assumes files args are arrays
   // test case
   //return {
@@ -66,16 +55,14 @@ const formatRunPipelineBody = function(pipeline, modules, inputFiles, altInputFi
           "altinputs": altinputsOut.join(","),
           "altoutputs": altoutputsOut.join(","),
           "moduleargs": paramsOut.join(","),
-          "teamid": teamid,
-          "userid": userid,
           "runid": runid,
           "submitted": timenow
           }
 }
 
-export async function runPipelineCall(pipeline, modules, inputFiles, altInputFiles, altOutputFiles, moduleParams, runid, teamid, userid, timenow, idToken) {
+export async function runPipelineCall(pipeline, modules, inputFiles, altInputFiles, altOutputFiles, moduleParams, runid, timenow, idToken) {
 
-  const body = formatRunPipelineBody(pipeline, modules, inputFiles, altInputFiles, altOutputFiles, moduleParams, runid, teamid, userid, timenow);
+  const body = formatRunPipelineBody(pipeline, modules, inputFiles, altInputFiles, altOutputFiles, moduleParams, runid, timenow);
   console.log('BODY BODY: ', body);
   // const response_raw = await client.request({"data": body});
   const response_raw = await awsPipelineAPI_POST(body, '/test_cors/batchpipeline', idToken);

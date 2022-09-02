@@ -4,12 +4,6 @@ import React from "react";
 // import { Typography } from '@mui/material';
 import { awsPipelineAPI_POST } from '../../utils/aws-session';
 
-const client = axios.create({
-  baseURL: "https://cs8ibwdms8.execute-api.us-west-2.amazonaws.com/test_cors/updatejobstatus",
-  // url: '/listobjects',
-  method: 'POST'
-});
-
 //const formatResponse_updateJobStatus = function( response_raw, runs ){
 //  let response = {"data": []};
 //  response.data = response_raw.data;
@@ -17,8 +11,7 @@ const client = axios.create({
 //}
 
 export async function updateJobStatusCall(idToken) {
-  const teamid = "tranquis"; // get from session variable later
-  const body = {"teamid": teamid};
+  const body = {"foo": ""};
   //const response_raw = await client.request({"data": body});
   const response_raw = await awsPipelineAPI_POST(body, '/test_cors/updatejobstatus', idToken);
   console.log(response_raw);

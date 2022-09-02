@@ -23,8 +23,6 @@ export const RunPipelineModal = ({currentPath, selectedFiles, session, ...rest})
     const [showPipelineDetails, setShowPipelineDetails] = useState(false);
     const [timenow, setTimeNow] = useState(moment().format('YYYY-MM-DD-hhmmss[-]'));
     const [timesubmit, setTimeSubmit] = useState(moment().format('YYYY-MM-DD hh:mm:ss'));
-    const teamid = 'tranquis'; // replace with session teamid variable later
-    const userid = 'test'; // replace with session teamid variable later
     let pipelineTextFields;
     let pipelineDetailFields;
 
@@ -40,14 +38,12 @@ export const RunPipelineModal = ({currentPath, selectedFiles, session, ...rest})
       const inputSubmit = selectedFiles.map((f) => (addTrailingSlash(currentPath)+f));
       const paramsSubmit = params;
       const runidSubmit = runid;
-      const teamidSubmit = teamid;
-      const useridSubmit = userid;
       const timenowSubmit = timesubmit;
       console.log("PIPELINE: ", pipelineSubmit);
       console.log("MODULES: ", modulesSubmit);
       console.log("Input: ", inputSubmit);
       console.log("PARAMS: ", paramsSubmit);
-      runPipelineCall(pipelineSubmit, modulesSubmit, inputSubmit, [], [], paramsSubmit, runidSubmit, teamidSubmit, useridSubmit, timenowSubmit, session.idToken);
+      runPipelineCall(pipelineSubmit, modulesSubmit, inputSubmit, [], [], paramsSubmit, runidSubmit, timenowSubmit, session.idToken);
       setOpen(false);
     }
     const handleClickOpen = () => {
@@ -102,7 +98,7 @@ export const RunPipelineModal = ({currentPath, selectedFiles, session, ...rest})
                            <TextField disabled margin="dense" id="pipeline-input"
                                     label="Input" defaultValue="(Selected Files)"
                                     size="small" helperText="Enter Input File(s)" fullWidth />
-                           <TextField disabled margin="dense" id="pipeline-output" label="Output" value={teamid+"/runs/"+runid+"/"}
+                           <TextField disabled margin="dense" id="pipeline-output" label="Output" value={"runs/"+runid+"/"}
                                     size="small" helperText="Enter Output Folder" fullWidth />
                            <TextField margin="dense" id="pipeline-runid" label="Run ID" value={runid}
                                     size="small" helperText="Enter Run ID" fullWidth onChange={handleRunIdChange}/>

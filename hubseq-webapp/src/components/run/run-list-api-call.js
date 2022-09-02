@@ -4,17 +4,6 @@ import React from "react";
 // import { Typography } from '@mui/material';
 import { awsPipelineAPI_POST } from '../../utils/aws-session';
 
-const client = axios.create({
-  baseURL: "https://cs8ibwdms8.execute-api.us-west-2.amazonaws.com/test_cors/gettable",
-  // url: '/listobjects',
-  method: 'POST'
-});
-
-const _addKeys = function(e, idx){
-  e["id"] = idx;
-  return e
-}
-
 const formatResponse_RunList = function( response_raw ){
   let response = {"data": []};
 
@@ -26,9 +15,7 @@ const formatResponse_RunList = function( response_raw ){
 }
 
 export async function getRunsCall(idToken){
-  const teamid = "tranquis"; // get from session variable later
-  const userid = "testuser1"; // get from session variable later
-  const body = {"userid": userid, "teamid": teamid, "table": "runs"};
+  const body = {"table": "runs"};
   const response_raw = await awsPipelineAPI_POST(body, '/test_cors/gettable', idToken);
   const response = formatResponse_RunList(response_raw);
   console.log('GETRUNSCALL RESPONSE: ', response);
@@ -38,13 +25,11 @@ export async function getRunsCall(idToken){
 /*
 export default function RunList({setRunsSelected, setRunInfo}) {
   const [run, setRun] = React.useState([]);
-  const teamid = "tranquis"; // get from session variable later
-  const userid = "testuser1"; // get from session variable later
 
   // anti-pattern - use function for API call instead
   React.useEffect(() => {
     async function getRun() {
-      const body = {"userid": userid, "teamid": teamid, "table": "runs"};
+      const body = {"table": "runs"};
       // const response_raw = await client.request({"data": body});
       const response_raw = await awsPipelineAPI_POST(body, '/test_cors/gettable');
       console.log(response_raw);
