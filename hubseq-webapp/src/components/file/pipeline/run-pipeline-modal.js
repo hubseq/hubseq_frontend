@@ -25,7 +25,6 @@ export const RunPipelineModal = ({currentPath, selectedFiles, session, ...rest})
     const [timesubmit, setTimeSubmit] = useState(moment().format('YYYY-MM-DD hh:mm:ss'));
     const teamid = 'tranquis'; // replace with session teamid variable later
     const userid = 'test'; // replace with session teamid variable later
-    let run_pipeline_button;
     let pipelineTextFields;
     let pipelineDetailFields;
 
@@ -33,7 +32,7 @@ export const RunPipelineModal = ({currentPath, selectedFiles, session, ...rest})
       // nothing yet
       console.log('MODULES: ', modules);
       console.log('PARAMS: ', params);
-    }, [selectedFiles, pipeline, modules, params]);
+    }, [selectedFiles, pipeline, modules, params, pipelineTextFields, pipelineDetailFields]);
 
     const handleRunPipeline = () => {
       const pipelineSubmit = pipeline;
@@ -56,6 +55,13 @@ export const RunPipelineModal = ({currentPath, selectedFiles, session, ...rest})
     };
 
     const handleClose = () => {
+      // reset everything on close
+      setPipeline('');
+      setRunid('');
+      setOutput('');
+      setParams({});
+      setModules({});
+      setShowPipelineDetails(false);
       setOpen(false);
     };
 
@@ -75,9 +81,11 @@ export const RunPipelineModal = ({currentPath, selectedFiles, session, ...rest})
       setPipeline(event.target.value);
       setRunid(moment().format('YYYY-MM-DD-hhmmss[-]') + event.target.value);
       if (event.target.value=="rnaseq.human" || event.target.value=="rnaseq.mouse"){
-        setModules({"FASTQ QC": 'fastqc', "Align QC": 'rnastar', "Differential Expression": 'deseq2', "Gene Ontology": 'david_go'});
+        setModules({"Alignment": 'rnastar', "Gene Expression": "expressionqc", "Differential Expression": 'deseq2', "Gene Ontology": 'david_go'});
+      } else if (event.target.value=="rnaseq-qc.human" || event.target.value=="rnaseq-qc.mouse"){
+        setModules({"FASTQ QC": 'fastqc', "Alignment": 'rnastar', "Alignment QC by Sample": 'qorts', "Alignment QC by Group": 'qorts_multi',
+                    "RNA-Seq QC": 'rnaseqc', "Summary QC": 'rnaseq-summaryqc'});
       }
-
     };
 
     const handleRunIdChange = (event)=> {
@@ -106,13 +114,24 @@ export const RunPipelineModal = ({currentPath, selectedFiles, session, ...rest})
         pipelineDetailFields =   <Box sx={{ m: 2, width: '100ch' }}>
                                  <Typography sx={{ m: 2 }} variant="subtitle1"> PIPELINE WORKFLOW </Typography>
                                  <Grid container rowSpacing={0} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-                                    <GridRowModule modulelabel="FASTQ QC" defaultmodule="fastqc" addParam={addParam} addModule={addModule} />
-                                    <GridRowModule modulelabel="Align QC" defaultmodule="rnastar" addParam={addParam} addModule={addModule} />
+                                    <GridRowModule modulelabel="Alignment" defaultmodule="rnastar" addParam={addParam} addModule={addModule} />
+                                    <GridRowModule modulelabel="Gene Expression" defaultmodule="expressionqc" addParam={addParam} addModule={addModule} />
                                     <GridRowModule modulelabel="Differential Expression" defaultmodule="deseq2" addParam={addParam} addModule={addModule} />
                                     <GridRowModule modulelabel="Gene Ontology" defaultmodule="david_go" addParam={addParam} addModule={addModule} />
                                  </Grid>
                                  </Box>
-
+      } else if (showPipelineDetails && (pipeline=="rnaseq-qc.human" || pipeline=="rnaseq-qc.mouse")){
+        pipelineDetailFields =   <Box sx={{ m: 2, width: '100ch' }}>
+                                 <Typography sx={{ m: 2 }} variant="subtitle1"> PIPELINE WORKFLOW </Typography>
+                                 <Grid container rowSpacing={0} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+                                    <GridRowModule modulelabel="FASTQ QC" defaultmodule="fastqc" addParam={addParam} addModule={addModule} />
+                                    <GridRowModule modulelabel="Alignment" defaultmodule="rnastar" addParam={addParam} addModule={addModule} />
+                                    <GridRowModule modulelabel="Alignment QC by Sample" defaultmodule="qorts" addParam={addParam} addModule={addModule} />
+                                    <GridRowModule modulelabel="Alignment QC by Group" defaultmodule="qorts_multi" addParam={addParam} addModule={addModule} />
+                                    <GridRowModule modulelabel="RNA-Seq QC" defaultmodule="rnaseqc" addParam={addParam} addModule={addModule} />
+                                    <GridRowModule modulelabel="Summary QC" defaultmodule="rnaseq-summaryqc" addParam={addParam} addModule={addModule} />
+                                 </Grid>
+                                 </Box>
       } else {
         pipelineDetailFields = null;
       }
@@ -120,11 +139,6 @@ export const RunPipelineModal = ({currentPath, selectedFiles, session, ...rest})
       pipelineTextFields = null;
       pipelineDetailFields = null;
     }
-
-    run_pipeline_button = <Button startIcon={(<PipelineIcon fontSize="small" />)}
-                          sx={{ mr: 1 }}
-                          onClick={handleClickOpen}> Run Pipeline
-                  </Button>
 
     return (
         <>
@@ -144,8 +158,10 @@ export const RunPipelineModal = ({currentPath, selectedFiles, session, ...rest})
             label="Pipeline"
             onChange={handlePipelineSelect}
           >
-            <MenuItem value={'rnaseq.mouse'}>RNA Sequencing - Mouse</MenuItem>
-            <MenuItem value={'rnaseq.human'}>RNA Sequencing - Human</MenuItem>
+            <MenuItem value={'rnaseq-qc.mouse'}>RNA-Seq QC - Mouse</MenuItem>
+            <MenuItem value={'rnaseq-qc.human'}>RNA-Seq QC - Human</MenuItem>
+            <MenuItem value={'rnaseq.mouse'}>RNA-Seq Pipeline - Mouse</MenuItem>
+            <MenuItem value={'rnaseq.human'}>RNA-Seq Pipeline - Human</MenuItem>
           </Select>
           </FormControl>
           {pipelineTextFields}

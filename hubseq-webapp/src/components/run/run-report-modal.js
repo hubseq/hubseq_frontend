@@ -7,9 +7,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { Button, TextField } from '@mui/material';
-import { Upload as UploadIcon } from '../../icons/upload';
-// import JobList from './job-list-api-call';
-import { jobsCall } from './job-list-api-call';
+import { Search as SearchIcon } from '../../icons/search';
 import { ReportTable } from './report-table';
 import { getFileCall } from '../file/file_list_api_call';
 import * as path from 'path';
@@ -18,26 +16,31 @@ import { useSession } from "next-auth/react";
 // assumes that runs are in [HOMEDIR]/runs/[runid]/...
 export const RunReportModal = ({runsSelected, runInfo, props}) => {
     const [open, setOpen] = useState(false);
+    const [reportFilesSummaryQC, setReportFilesSummaryQC] = useState([]);
     const [reportFilesFastQC, setReportFilesFastQC] = useState([]);
+    const [reportFilesAlignQC, setReportFilesAlignQC] = useState([]);
     const [reportFilesExpressionQC, setReportFilesExpressionQC] = useState([]);
     const [reportFilesDEQC, setReportFilesDEQC] = useState([]);
     const [reportFilesGOQC, setReportFilesGOQC] = useState([]);
     const { data: session, status } = useSession();
 
     const baseRunPath = "tranquis/runs/"; // replace with teamid later
-
-    let run_report_button;
     let runs_array = runInfo.map(d => d["runid"]);
 
     React.useEffect(() => {
       async function getReports(reportType, session) {
         let htmlFiles = [];
+        let pdfFiles = [];
+        let pdfFiles2 = [];
         console.log('REPORT RUNS SELECTED: ', runsSelected);
         console.log('REPORT RUNS INFO: ', runInfo);
         // console.log('the file call: ', path.join(baseRunPath,runInfo[runsSelected]['runid'],'fastqc'));
         if (reportType == "FastQC"){
           htmlFiles = await getFileCall(path.join(baseRunPath,runInfo[runsSelected]['runid'],'fastqc'), session.idToken, ".html");
           setReportFilesFastQC(htmlFiles);
+        } else if (reportType == "SummaryQC") {
+          htmlFiles = await getFileCall(path.join(baseRunPath,runInfo[runsSelected]['runid'],'rnaseq_summaryqc'), session.idToken, ".html");
+          setReportFilesSummaryQC(htmlFiles);
         } else if (reportType == "ExpressionQC"){
           htmlFiles = await getFileCall(path.join(baseRunPath,runInfo[runsSelected]['runid'],'expressionqc'), session.idToken, ".html");
           setReportFilesExpressionQC(htmlFiles);
@@ -47,10 +50,16 @@ export const RunReportModal = ({runsSelected, runInfo, props}) => {
         } else if (reportType == "GOQC"){
           htmlFiles = await getFileCall(path.join(baseRunPath,runInfo[runsSelected]['runid'],'goqc'), session.idToken, ".html");
           setReportFilesGOQC(htmlFiles);
+        } else if (reportType == "AlignQC"){
+          pdfFiles = await getFileCall(path.join(baseRunPath,runInfo[runsSelected]['runid'],'qorts_multi'), session.idToken, ".pdf");
+          // pdfFiles2 = await getFileCall(path.join(baseRunPath,runInfo[runsSelected]['runid'],'qorts'), session.idToken, ".pdf");
+          setReportFilesAlignQC(pdfFiles);
         }
       }
       if (session && runsSelected){
+        getReports("SummaryQC", session);
         getReports("FastQC", session);
+        getReports("AlignQC", session);
         getReports("ExpressionQC", session);
         getReports("DEQC", session);
         getReports("GOQC", session);
@@ -65,17 +74,11 @@ export const RunReportModal = ({runsSelected, runInfo, props}) => {
     const handleClose = () => {
       setOpen(false);
     };
-
-      // upload button - always show
-    run_report_button = <Button startIcon={(<UploadIcon fontSize="small" />)}
-                          sx={{ mr: 1 }}
-                          onClick={handleClickOpen}> Run Report
-                  </Button>
-
+    
     // report is specific to RNA-Seq - will generalize this modal later
     return (
         <>
-        <Button startIcon={(<UploadIcon fontSize="small" />)}
+        <Button startIcon={(<SearchIcon fontSize="small" />)}
         sx={{ mr: 1 }}
         onClick={handleClickOpen}> View Report
         </Button>
@@ -83,7 +86,9 @@ export const RunReportModal = ({runsSelected, runInfo, props}) => {
         <DialogTitle>Run Report for {runInfo[runsSelected]['runid']}</DialogTitle>
         <DialogContent>
           <Box sx={{ mt: 3 }}>
+            <ReportTable title="Summary QC Reports" filelist={reportFilesSummaryQC} filetype="SummaryQC" session={session} />
             <ReportTable title="FASTQC Reports" filelist={reportFilesFastQC} filetype="FastQC" session={session} />
+            <ReportTable title="Alignment QC Reports" filelist={reportFilesAlignQC} filetype="AlignQC" session={session} />
             <ReportTable title="Gene Expression QC Reports" filelist={reportFilesExpressionQC} filetype="ExpressionQC" session={session} />
             <ReportTable title="Differential Expression QC Reports" filelist={reportFilesDEQC} filetype="DEQC" session={session} />
             <ReportTable title="Gene Ontology QC Reports" filelist={reportFilesGOQC} filetype="GOQC" session={session} />

@@ -10,8 +10,9 @@ export const GridRowModule = ({modulelabel, defaultmodule, addParam, addModule, 
   const moduleParamsLabel = "(" + modulelabel + " Parameters)";
 
   React.useEffect(() => {
-    // nothing yet
-  }, []);
+    // need this so that gridrow will re-render when a new pipeline is selected
+    setMyModule(defaultmodule);
+  }, [defaultmodule]);
 
   const handleParamsChange = (event)=> {
     addParam(modulelabel, event.target.value);

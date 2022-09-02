@@ -29,16 +29,13 @@ const formatModulesInput = function(pipeline, modules, params, altinputs, altout
     paramsOut.push((key in params) ? params[key] : "''");
     altinputsOut.push((key in altinputs) ? altinputs[key] : "''");
     altoutputsOut.push((key in altoutputs) ? altoutputs[key] : "''");
-    if (key=="Align QC"){
-      modulesOut.push('expressionqc');
-      paramsOut.push((key in params) ? params[key] : "''");
-      altinputsOut.push((key in altinputs) ? altinputs[key] : "''");
-      altoutputsOut.push((key in altoutputs) ? altoutputs[key] : "''");
-    } else if (key=="Differential Expression"){
+    // always run DE QC after Differential expression (DE QC not specified on frontend)
+    if (key=="Differential Expression"){
       modulesOut.push('deqc');
       paramsOut.push((key in params) ? params[key] : "''");
       altinputsOut.push((key in altinputs) ? altinputs[key] : "''");
       altoutputsOut.push((key in altoutputs) ? altoutputs[key] : "''");
+    // always run GO QC after Gene Ontology (GO QC not specified on frontend)      
     } else if (key=="Gene Ontology"){
       modulesOut.push('goqc');
       paramsOut.push((key in params) ? params[key] : "''");
