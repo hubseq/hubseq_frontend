@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { AppBar, Avatar, Badge, Box, IconButton, Toolbar, Tooltip, Menu, MenuItem, ListItemIcon } from '@mui/material';
@@ -19,7 +19,9 @@ const DashboardNavbarRoot = styled(AppBar)(({ theme }) => ({
 export const DashboardNavbar = (props) => {
   const { onSidebarOpen, ...other } = props;
   const [anchorEl, setAnchorEl] = useState(null);
+  const [email, setEmail] = useState(null);
   const open = Boolean(anchorEl);
+  const { data: session, status } = useSession();
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -27,7 +29,11 @@ export const DashboardNavbar = (props) => {
     setAnchorEl(null);
   };
 
-  const { data: session, status } = useSession();
+  React.useEffect(() => {
+    if (session) {
+    setEmail(session.user.email);
+    }
+  }, [session]);
 
   return (
     <>
@@ -129,7 +135,7 @@ export const DashboardNavbar = (props) => {
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
       <MenuItem>
-          {session.user.email}
+          {email}
         </MenuItem>
         <MenuItem>
           <ListItemIcon>
