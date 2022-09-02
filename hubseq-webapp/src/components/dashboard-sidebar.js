@@ -221,7 +221,7 @@ export const DashboardSidebar = (props) => {
         }
       }}
       sx={{ zIndex: (theme) => theme.zIndex.appBar + 100 }}
-      variant="temporary"
+      variant="permanent"
     >
       {content}
     </Drawer>
