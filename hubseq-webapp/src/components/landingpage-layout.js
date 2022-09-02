@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { LandingNavbar } from './landingpage-navbar';
@@ -8,6 +7,10 @@ const LandingLayoutRoot = styled('div')(({ theme }) => ({
   flex: '1 1 auto',
   maxWidth: '100%',
   paddingTop: 64,
+  backgroundImage: 'url("/static/hubseq-blue-splash-background.svg")',
+  backgroundSize: 'cover',
+  backgroundPosition: 'center center',
+  backgroundRepeat  : 'no-repeat',
   [theme.breakpoints.up('lg')]: {
     paddingLeft: 0
   }
