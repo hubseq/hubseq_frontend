@@ -13,6 +13,8 @@ import { Cog as CogIcon } from '../icons/cog';
 import { Selector as SelectorIcon } from '../icons/selector';
 import { User as UserIcon } from '../icons/user';
 import { XCircle as XCircleIcon } from '../icons/x-circle';
+import { Menu as MenuIcon } from '../icons/menu';
+
 // import { Logo } from './logo';
 import Image from 'next/image';
 import { NavItem } from './nav-item';
@@ -126,7 +128,7 @@ export const DashboardSidebar = (props) => {
                   color="neutral.400"
                   variant="body2"
                 >
-                  Your tier
+                  Tier
                   {' '}
                   : Premium
                 </Typography>
@@ -181,7 +183,7 @@ export const DashboardSidebar = (props) => {
               sx={{ mt: 2 }}
               variant="contained"
             >
-              Submit Feature Request
+              Submit Request
             </Button>
           </NextLink>
         </Box>
@@ -198,7 +200,7 @@ export const DashboardSidebar = (props) => {
           sx: {
             backgroundColor: 'neutral.900',
             color: '#FFFFFF',
-            width: 240
+            width: 230
           }
         }}
         variant="permanent"
@@ -217,11 +219,11 @@ export const DashboardSidebar = (props) => {
         sx: {
           backgroundColor: 'neutral.900',
           color: '#FFFFFF',
-          width: 240
+          width: 230
         }
       }}
       sx={{ zIndex: (theme) => theme.zIndex.appBar + 100 }}
-      variant="permanent"
+      variant='permanent'
     >
       {content}
     </Drawer>
