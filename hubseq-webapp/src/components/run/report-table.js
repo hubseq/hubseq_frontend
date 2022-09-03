@@ -30,7 +30,7 @@ export const ReportTable = ({ title, filelist, filetype, session, ...rest }) => 
   }, [filelist]);
 
   const getLink = async (f) => {
-    const response = await fileDownloadCall(f.Key, session.idToken, setClickedUrl);
+    const response = await fileDownloadCall(f.Key, '', session.idToken, setClickedUrl);
     console.log('CLICKED URL: ', clickedUrl);
   }
 

@@ -39,7 +39,9 @@ export async function fileDownloadCall(myfile, teamid, idToken, setSignedUrl) {
 // https://aws.amazon.com/blogs/developer/generate-presigned-url-modular-aws-sdk-javascript/
 const downloadFile = async function( credentials, myfile, teamid, setSignedUrl ){
   const region = 'us-west-2';
-  const s3ObjectUrl = parseUrl(`https://${process.env.NEXT_PUBLIC_HUBSEQ_USER_BUCKET}.s3.${region}.amazonaws.com/${teamid}/${myfile}`);
+  const s3ObjectUrl = (teamid == '')
+                      ? parseUrl(`https://${process.env.NEXT_PUBLIC_HUBSEQ_USER_BUCKET}.s3.${region}.amazonaws.com/${myfile}`)
+                      : parseUrl(`https://${process.env.NEXT_PUBLIC_HUBSEQ_USER_BUCKET}.s3.${region}.amazonaws.com/${teamid}/${myfile}`);
   const presigner = new S3RequestPresigner({
       credentials,
       region,
