@@ -18,7 +18,6 @@ export async function getRunsCall(idToken){
   const body = {"table": "runs"};
   const response_raw = await awsPipelineAPI_POST(body, '/test_cors/gettable', idToken);
   const response = formatResponse_RunList(response_raw);
-  console.log('GETRUNSCALL RESPONSE: ', response);
   return response.data;
 };
 
@@ -32,10 +31,7 @@ export default function RunList({setRunsSelected, setRunInfo}) {
       const body = {"table": "runs"};
       // const response_raw = await client.request({"data": body});
       const response_raw = await awsPipelineAPI_POST(body, '/test_cors/gettable');
-      console.log(response_raw);
-
       const response = formatResponse_RunList(response_raw)
-      console.log(response);
 
       setRun(response.data);
       setRunInfo(response.data);

@@ -37,13 +37,9 @@ const formatRunModuleBody = function(mymodule, inputFiles, outputFiles, altInput
 export async function runModuleCall(mymodule, inputFiles, outputFiles, altInputFiles, altOutputFiles, moduleParams, runid, timenow, idToken) {
 
   const body = formatRunModuleBody(mymodule, inputFiles, outputFiles, altInputFiles, altOutputFiles, moduleParams, runid, timenow);
-  console.log('BODY BODY: ', body);
   // const response_raw = await client.request({"data": body});
   // const response_raw = await awsCall_RunModule(body);
   const response_raw = await awsPipelineAPI_POST(body, '/test_cors/batchjob', idToken);
-  console.log('RESPONSE RAW', response_raw);
   const response = formatResponse_runModule(response_raw);
-  console.log('RESPONSE AFTER: ', response);
-
   return response.data;
 }

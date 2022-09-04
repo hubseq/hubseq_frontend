@@ -22,7 +22,6 @@ export const FileDownloadModal = ({currentPath, selectedFiles, session, ...rest}
     React.useEffect(() => {
       const getTeamId = async (session) => {
         const _teamid = await awsPipelineAPI_GET('/test_cors/getteamid', session.idToken);
-        console.log('TEAMID: ', _teamid);
         setTeamId(_teamid.data);
       }
       if (session){

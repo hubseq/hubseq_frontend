@@ -21,7 +21,6 @@ export const MetadataTable = ({ title, tagset, removeTag, tabletype, tableindex,
   let metadata_table;
 
   React.useEffect(() => {
-    console.log('DID METADATATABLE UPDATE??? ', tagset);
     if (tagset && tabletype=="shared"){
       setTagrows(extractSharedTags(tagset));
     } else if (tagset && tableindex >= 0 && tabletype=="unique"){
@@ -48,7 +47,6 @@ export const MetadataTable = ({ title, tagset, removeTag, tabletype, tableindex,
       unique_tags.push(e.filter( val => !containsTag(shared_tags, val)));
       unique_tags[unique_tags.length-1]['id'] = idx;
     });
-    // console.log('UNIQUE TAGS: ', unique_tags);
     return unique_tags;
   }
 

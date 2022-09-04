@@ -1,4 +1,4 @@
-import React from 'react';
+// import React from 'react';
 import { useState } from 'react';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import PropTypes from 'prop-types';
@@ -21,9 +21,8 @@ import { AddMetadataDialog } from './add-metadata-dialog';
 
 export const MetadataListResults = ({ myfiles, mytags, addTag, removeTag, ...rest }) => {
 
-  React.useEffect(() => {
-    console.log('DID METADATALISTRESULTS UPDATE??? ', mytags);
-  }, [myfiles, mytags, addTag, removeTag]);
+  //React.useEffect(() => {
+  //}, [myfiles, mytags, addTag, removeTag]);
 
   return (
     <Card {...rest}>

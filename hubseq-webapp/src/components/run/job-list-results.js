@@ -25,10 +25,7 @@ export const JobListResults = ({ myruns, myjobs, ...rest }) => {
   const handlePageChange = (event, newPage) => {
     setPage(newPage);
   };
-
-  console.log("RUNSRUNS: ", myruns);
-  console.log("JOBSJOBS: ", myjobs);
-
+  
   return (
     <Card {...rest}>
       <PerfectScrollbar>

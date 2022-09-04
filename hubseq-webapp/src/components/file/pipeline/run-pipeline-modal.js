@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import React from 'react';
+//import React from 'react';
 import Dialog from '@mui/material/Dialog';
 import Grid from '@mui/material/Grid';
 import DialogActions from '@mui/material/DialogActions';
@@ -26,11 +26,9 @@ export const RunPipelineModal = ({currentPath, selectedFiles, session, ...rest})
     let pipelineTextFields;
     let pipelineDetailFields;
 
-    React.useEffect(() => {
+    //React.useEffect(() => {
       // nothing yet
-      console.log('MODULES: ', modules);
-      console.log('PARAMS: ', params);
-    }, [selectedFiles, pipeline, modules, params, pipelineTextFields, pipelineDetailFields]);
+    //}, [selectedFiles, pipeline, modules, params, pipelineTextFields, pipelineDetailFields]);
 
     const handleRunPipeline = () => {
       const pipelineSubmit = pipeline;
@@ -39,10 +37,6 @@ export const RunPipelineModal = ({currentPath, selectedFiles, session, ...rest})
       const paramsSubmit = params;
       const runidSubmit = runid;
       const timenowSubmit = timesubmit;
-      console.log("PIPELINE: ", pipelineSubmit);
-      console.log("MODULES: ", modulesSubmit);
-      console.log("Input: ", inputSubmit);
-      console.log("PARAMS: ", paramsSubmit);
       runPipelineCall(pipelineSubmit, modulesSubmit, inputSubmit, [], [], paramsSubmit, runidSubmit, timenowSubmit, session.idToken);
       setOpen(false);
     }

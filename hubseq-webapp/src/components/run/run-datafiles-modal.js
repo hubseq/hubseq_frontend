@@ -34,9 +34,6 @@ export const RunDataFilesModal = ({runsSelected, runInfo, props}) => {
         let dataFiles = [];
         let pdfFiles = [];
         let pdfFiles2 = [];
-        console.log('REPORT RUNS SELECTED: ', runsSelected);
-        console.log('REPORT RUNS INFO: ', runInfo);
-        // console.log('the file call: ', path.join(baseRunPath,runInfo[runsSelected]['runid'],'fastqc'));
         if (reportType == "SummaryQC") {
           dataFiles = await getFileCall(path.join(baseRunPath,runInfo[runsSelected]['runid'],'rnaseq_summaryqc'), session.idToken, ".csv");
           setDataFilesSummaryQC(dataFiles);

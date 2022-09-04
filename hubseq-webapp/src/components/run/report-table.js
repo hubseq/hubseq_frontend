@@ -23,7 +23,6 @@ export const ReportTable = ({ title, filelist, filetype, session, ...rest }) => 
   let report_table;
 
   React.useEffect(() => {
-    // console.log('DID REPORT TABLE UPDATE??? ', filelist);
     if (filelist){
       setFiles(filelist);
     }
@@ -31,7 +30,6 @@ export const ReportTable = ({ title, filelist, filetype, session, ...rest }) => 
 
   const getLink = async (f) => {
     const response = await fileDownloadCall(f.Key, '', session.idToken, setClickedUrl);
-    console.log('CLICKED URL: ', clickedUrl);
   }
 
   if (files) { // } && tagset.length > 0){

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import React from "react";
+//import React from "react";
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -16,10 +16,8 @@ export const MetadataModal = ({currentPath, selectedFiles, session, ...rest}) =>
     const [metadata, setMetadata] = useState([[]]);
     let update_metadata_button;
 
-    React.useEffect(() => {
-      console.log('DID METADATAMODAL UPDATE??? ', metadata);
-      console.log(' metamodal files selected:  ', selectedFiles);
-    }, [metadata, selectedFiles, setMetadata]);
+    //React.useEffect(() => {
+    //}, [metadata, selectedFiles, setMetadata]);
 
     async function getMetadata() {
       const new_metadata = await getMetadataCall(selectedFiles, currentPath, session.idToken);

@@ -17,18 +17,15 @@ import { getCredentials } from '../components/settings/credentials';
 const authUserAndRedirect = function(authDetails, user, userpoolid, router) {
   user.authenticateUser(authDetails, {
     onSuccess: (data) => {
-      console.log("onSuccess: ", data);
       const credentials = getAuthCredentials(data.getIdToken().getJwtToken(), userpoolid);
       alert("Logged In! ");
       router.push('/files');
     },
     onFailure: (err) => {
-      console.error("onFailure: ", err);
       alert("Failed to log in");
       return null;
     },
     newPasswordRequired: (data) => {
-      console.log("new password required: ", data);
       return null;
     },
   });

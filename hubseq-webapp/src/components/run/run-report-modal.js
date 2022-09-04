@@ -32,9 +32,6 @@ export const RunReportModal = ({runsSelected, runInfo, props}) => {
         let htmlFiles = [];
         let pdfFiles = [];
         let pdfFiles2 = [];
-        console.log('REPORT RUNS SELECTED: ', runsSelected);
-        console.log('REPORT RUNS INFO: ', runInfo);
-        // console.log('the file call: ', path.join(baseRunPath,runInfo[runsSelected]['runid'],'fastqc'));
         if (reportType == "FastQC"){
           htmlFiles = await getFileCall(path.join(baseRunPath,runInfo[runsSelected]['runid'],'fastqc'), session.idToken, ".html");
           setReportFilesFastQC(htmlFiles);

@@ -24,7 +24,6 @@ export const FileListResults = ({ files, setFiles, currentPath, setFilesSelected
   const [page, setPage] = useState(0);
 
   React.useEffect(() => {
-    console.log('FILELIST RESULTS USEEFFECT TRIGGERED');
     setPage(0);
     setSelectedFileIds([]);
     setFilesSelected([]);
@@ -41,26 +40,20 @@ export const FileListResults = ({ files, setFiles, currentPath, setFilesSelected
 
     setSelectedFileIds(newSelectedFileIds);
     setFilesSelected(newSelectedFileIds);
-    console.log('selectedFileIds: ', newSelectedFileIds);
   };
 
   const handleSelectOne = (event, file, id) => {
-    console.log('ONE: EVENT: SHIFT ', event.nativeEvent.shiftKey);
     if (file){ // && !isFolder(file["Key"])){
       const selectedIndex = selectedFileIds.indexOf(id);
       let newSelectedFileIds = [];
 
       if (selectedIndex === -1) {
-        console.log("one n here = -1 ", id);
         newSelectedFileIds = newSelectedFileIds.concat(selectedFileIds, id);
       } else if (selectedIndex === 0) {
-        console.log("one n here = 0 ", id);
         newSelectedFileIds = newSelectedFileIds.concat(selectedFileIds.slice(1));
       } else if (selectedIndex === selectedFileIds.length - 1) {
-        console.log("one n here = length - 1... ", id);
         newSelectedFileIds = newSelectedFileIds.concat(selectedFileIds.slice(0, -1));
       } else if (selectedIndex > 0) {
-        console.log("one n here > 0... ", id);
         newSelectedFileIds = newSelectedFileIds.concat(
           selectedFileIds.slice(0, selectedIndex),
           selectedFileIds.slice(selectedIndex + 1)
@@ -68,7 +61,6 @@ export const FileListResults = ({ files, setFiles, currentPath, setFilesSelected
       }
       setSelectedFileIds(newSelectedFileIds);
       setFilesSelected(newSelectedFileIds);
-      console.log('selectedFileIds: ', newSelectedFileIds);
     }
   };
 
@@ -79,7 +71,6 @@ export const FileListResults = ({ files, setFiles, currentPath, setFilesSelected
       for( let i=0; i<sortedIds.length; i++){
         // go until we are past the newId, and return previous Id in sorted list
         if (sortedIds[i] > newId){
-          console.log("previous selected id: ", sortedIds[i-1]);
           return i > 0 ? sortedIds[i-1] : -1;
         }
       }
@@ -98,22 +89,18 @@ export const FileListResults = ({ files, setFiles, currentPath, setFilesSelected
 
       if (selectedIndex === -1) {
         // if selected index is currently not in selected list
-        console.log("in here -1.. ", id);
         for( let j=getPreviousSelectedFileId(selectedFileIds,id)+1; j<id+1; j++){
           fileIdsToAdd.push(j);
         }
         newSelectedFileIds = selectedFileIds.concat(fileIdsToAdd);
       } else if (selectedIndex === 0) {
         // if selected index is before all currently selected ids
-        console.log("in here = 0.. ", id);
         newSelectedFileIds = newSelectedFileIds.concat(selectedFileIds.slice(1));
       } else if (selectedIndex === selectedFileIds.length - 1) {
         // if selected index is the last file
-        console.log("in here > length - 1.. ", id);
         newSelectedFileIds = newSelectedFileIds.concat(selectedFileIds.slice(0, -1));
       } else if (selectedIndex > 0) {
         // if the selected index is somewhere in the middle
-        console.log("in here > 0.. ", id);
         newSelectedFileIds = newSelectedFileIds.concat(
           selectedFileIds.slice(0, selectedIndex),
           selectedFileIds.slice(selectedIndex + 1)
@@ -121,7 +108,6 @@ export const FileListResults = ({ files, setFiles, currentPath, setFilesSelected
       }
       setSelectedFileIds(newSelectedFileIds);
       setFilesSelected(newSelectedFileIds);
-      console.log('selectedFileIds: ', newSelectedFileIds);
     }
   };
 
@@ -136,7 +122,6 @@ export const FileListResults = ({ files, setFiles, currentPath, setFilesSelected
   const handleRowClick = (event, file, file_id) => {
     // event.preventDefault();
     // handleSelectOne(event, file_id);
-    console.log('ROW CLICKED!!!', file);
   }
 
   const handleFileClick = async (event, file, file_id) => {
@@ -147,7 +132,6 @@ export const FileListResults = ({ files, setFiles, currentPath, setFilesSelected
       const newFiles = await getFileCall(newPath, session.idToken);
       setFiles( newFiles );
     }
-    console.log('FILE CELL CLICKED!!!', file);
   }
 
   return (

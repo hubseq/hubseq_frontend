@@ -21,14 +21,9 @@ export const getCredentials = (jwtToken, userPool) => {
   return new Promise(function(resolve, reject){
     AWS.config.getCredentials((err) => {
     if (err) {
-        console.log(err);
         reject(err);
     } else {
-        console.log('Successfully logged!');
         alert('Successfully logged!');
-        console.log('AKI:'+ AWS.config.credentials.accessKeyId)
-        console.log('AKS:'+ AWS.config.credentials.secretAccessKey)
-        console.log('Session token:' + AWS.config.credentials.sessionToken)
         resolve(JSON.stringify({
                          'AKI': AWS.config.credentials.accessKeyId,
                          'AKS': AWS.config.credentials.secretAccessKey,

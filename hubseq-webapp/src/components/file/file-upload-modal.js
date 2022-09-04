@@ -21,7 +21,6 @@ export const FileUploadModal = ({currentPath, session, ...rest}) => {
     React.useEffect(() => {
       const getTeamId = async (session) => {
         const _teamid = await awsPipelineAPI_GET('/test_cors/getteamid', session.idToken);
-        console.log('TEAMID: ', _teamid);
         setTeamId(_teamid.data);
       }
       if (session){
@@ -38,8 +37,6 @@ export const FileUploadModal = ({currentPath, session, ...rest}) => {
     };
 
     let handleFileChange = async file => {
-      console.log('FILE: ', file);
-      console.log('PATH: ', path.join(currentPath,file.name));
       let response = await fileUploadCall(path.join(currentPath,file.name), file, teamId, session.idToken);
     };
 

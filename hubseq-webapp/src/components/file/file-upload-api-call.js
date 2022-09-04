@@ -16,9 +16,7 @@ export async function fileUploadCall(myfile, fileObj, teamid, idToken) {
   // formData.append('file', fileContents.stream());
   // let fileContents = await fileObj.arrayBuffer();
   // let fileContents = await fileObj.text();
-  // console.log('FILE CONTENTS: ', fileContents);
   // const response_raw = await awsS3API_PUT('/test/'+myfile, fileContents, idToken);
-  // console.log('file upload response raw: ', response_raw);
   // return response_raw;
 
   // get AWS credentials using jwt token
@@ -56,7 +54,6 @@ const uploadFile = async function( credentials, myfile, fileObj, teamid ){
       // sha256: Sha256 // In browsers
   });
   const url = await presigner.presign(new HttpRequest({...s3ObjectUrl, method: "PUT"}));
-  console.log("PRESIGNED URL: ", formatUrl(url));
   const response_raw = await fetch(formatUrl(url), { method: "PUT", body: fileObj});
   return response_raw;
 }

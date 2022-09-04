@@ -49,7 +49,6 @@ const downloadFile = async function( credentials, myfile, teamid, setSignedUrl )
       // sha256: Sha256 // In browsers
   });
   const url = await presigner.presign(new HttpRequest(s3ObjectUrl));
-  console.log("PRESIGNED URL: ", formatUrl(url));
   setSignedUrl(formatUrl(url));
   // const response_raw = await fetch(formatUrl(url), { method: "GET" });
   return url;
