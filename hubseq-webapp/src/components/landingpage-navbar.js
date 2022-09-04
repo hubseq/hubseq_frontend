@@ -39,7 +39,7 @@ export const LandingNavbar = (props) => {
           </Box>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ color: 'white' }}>
-          <Button fullWidth color='inherit' onClick={() => signIn("cognito", { callbackUrl: 'http://localhost:3000/files' })} variant="outlined">
+          <Button fullWidth color='inherit' onClick={() => signIn("cognito", { callbackUrl: process.env.NEXT_PUBLIC_NEXTAUTH_CALLBACK_URL })} variant="outlined">
             Login
           </Button>
           </Box>

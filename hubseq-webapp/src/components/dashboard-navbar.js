@@ -143,7 +143,7 @@ export const DashboardNavbar = (props) => {
           </ListItemIcon>
           Settings
         </MenuItem>
-        <MenuItem onClick={() => signOut({ callbackUrl: 'http://localhost:3000/' })}>
+        <MenuItem onClick={() => signOut({ callbackUrl: process.env.NEXT_PUBLIC_NEXTAUTH_URL })}>
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>
