@@ -22,7 +22,7 @@ const Files = () => {
   async function getFiles(path, idToken) {
     const newfiles = await getFileCall(path, idToken);
     setShownFiles(newfiles);
-    setFilteredResults(shownFiles);
+    setFilteredResults(newfiles);
   }
 
   React.useEffect(() => {

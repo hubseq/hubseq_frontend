@@ -17,7 +17,7 @@ import { Refresh as RefreshIcon } from '../../icons/refresh';
 import { updateJobStatusCall } from './update-job-status-api-call';
 import { getRunsCall }from './run-list-api-call';
 
-export const RunListToolbar = ({runsSelected, setRunsSelected, runInfo, setRunInfo, session, props}) => {
+export const RunListToolbar = ({searchInput, searchItems, runsSelected, setRunsSelected, runInfo, setRunInfo, session, props}) => {
   let view_run_details_modal;
   let view_run_report_modal;
   let view_run_datafiles_modal;
@@ -92,6 +92,8 @@ export const RunListToolbar = ({runsSelected, setRunsSelected, runInfo, setRunIn
                 placeholder="Search runs"
                 variant="outlined"
                 size="small"
+                onChange={(e) => searchItems(e.target.value)}
+                value={searchInput}
               />
               <Button width='5%' startIcon={(<RefreshIcon fontSize="small" />)}
                                     sx={{ mr: 1 }}

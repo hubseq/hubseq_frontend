@@ -13,11 +13,14 @@ import { useSession } from "next-auth/react";
 const Runs = () => {
   const [runsSelected, setRunsSelected] = useState([]);
   const [runInfo, setRunInfo] = useState([]);
+  const [searchInput, setSearchInput] = useState("");
+  const [filteredResults, setFilteredResults] = useState([]);
   const { data: session, status } = useSession();
 
   async function getRuns(idToken) {
     const newruns = await getRunsCall(idToken);
     setRunInfo(newruns);
+    setFilteredResults(newruns);
   }
 
   React.useEffect(() => {
@@ -25,6 +28,18 @@ const Runs = () => {
       getRuns(session.idToken);
     }
   }, [session]);
+
+  const searchItems = (searchValue) => {
+    setSearchInput(searchValue)
+    if (searchValue !== '') {
+      const filteredData = runInfo.filter((item) => {
+        return Object.values(item.runid).join('').toLowerCase().includes(searchValue.toLowerCase())
+        })
+      setFilteredResults(filteredData)
+    } else {
+      setFilteredResults(runInfo)
+    }
+  }
 
   return(
     <>
@@ -41,9 +56,9 @@ const Runs = () => {
         }}
       >
         <Container maxWidth={false}>
-          <RunListToolbar runsSelected={runsSelected} setRunsSelected={setRunsSelected} runInfo={runInfo} setRunInfo={setRunInfo} session={session} />
+          <RunListToolbar searchInput={searchInput} searchItems={searchItems} runsSelected={runsSelected} setRunsSelected={setRunsSelected} runInfo={runInfo} setRunInfo={setRunInfo} session={session} />
           <Box sx={{ mt: 3 }}>
-            <RunListResults runs={runInfo} setRunsSelected={setRunsSelected} />
+            <RunListResults runs={filteredResults} setRunsSelected={setRunsSelected} />
           </Box>
         </Container>
       </Box>
