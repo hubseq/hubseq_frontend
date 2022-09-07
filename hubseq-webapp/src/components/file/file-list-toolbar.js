@@ -17,7 +17,7 @@ import { RunModuleModal } from './module/run-module-modal';
 import { RunPipelineModal } from './pipeline/run-pipeline-modal';
 import { isFolder, isDataFile, isFastqFile, isSequencingFile } from '../../utils/jsutils';
 
-export const FileListToolbar = ({currentPath, filesSelectedInfo, filesSelected, setFilesSelected, session, props}) => {
+export const FileListToolbar = ({searchInput, searchItems, currentPath, filesSelectedInfo, filesSelected, setFilesSelected, session, props}) => {
   let download_modal;
   let run_module_modal;
   let run_pipeline_modal;
@@ -117,6 +117,8 @@ export const FileListToolbar = ({currentPath, filesSelectedInfo, filesSelected, 
                 placeholder="Search files"
                 variant="outlined"
                 size="small"
+                onChange={(e) => searchItems(e.target.value)}
+                value={searchInput}
               />
             </Box>
           </CardContent>

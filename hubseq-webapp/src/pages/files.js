@@ -13,6 +13,8 @@ import { useSession } from "next-auth/react"
 const Files = () => {
   const [filesSelected, setFilesSelected] = useState([]);
   const [shownFiles, setShownFiles] = useState([]);
+  const [searchInput, setSearchInput] = useState("");
+  const [filteredResults, setFilteredResults] = useState([]);
   // home path
   const [currentPath, setCurrentPath] = useState(""); // "www.hubseq.com/assets/"
   const { data: session, status } = useSession();
@@ -20,6 +22,7 @@ const Files = () => {
   async function getFiles(path, idToken) {
     const newfiles = await getFileCall(path, idToken);
     setShownFiles(newfiles);
+    setFilteredResults(shownFiles);
   }
 
   React.useEffect(() => {
@@ -35,6 +38,18 @@ const Files = () => {
         setCurrentPath(newPath);
         getFiles(newPath, session.idToken);
       }
+  }
+
+  const searchItems = (searchValue) => {
+    setSearchInput(searchValue)
+    if (searchValue !== '') {
+      const filteredData = shownFiles.filter((item) => {
+        return Object.values(item.Key).join('').toLowerCase().includes(searchValue.toLowerCase())
+        })
+      setFilteredResults(filteredData)
+    } else {
+      setFilteredResults(shownFiles)
+    }
   }
 
   const displayPath = (cpath) => {
@@ -56,10 +71,10 @@ const Files = () => {
         }}
       >
         <Container maxWidth={false}>
-          <FileListToolbar currentPath={currentPath} filesSelectedInfo={shownFiles.filter(val => filesSelected.includes(val.id))} filesSelected={filesSelected} setFilesSelected={setFilesSelected} session={session} />
+          <FileListToolbar searchInput={searchInput} searchItems={searchItems} currentPath={currentPath} filesSelectedInfo={shownFiles.filter(val => filesSelected.includes(val.id))} filesSelected={filesSelected} setFilesSelected={setFilesSelected} session={session} />
           <Box sx={{ mt: 2 }}> &nbsp;&nbsp;&nbsp; <b>Current Folder:</b> {displayPath(currentPath)} &nbsp;&nbsp; [<Tooltip title="Go up one folder" placement="top-start"><u onClick={() => upOnePath(currentPath)}>Back</u></Tooltip>] </Box>
           <Box sx={{ mt: 3 }}>
-            <FileListResults files={shownFiles} setFiles={setShownFiles} currentPath={currentPath} setFilesSelected={setFilesSelected} setCurrentPath={setCurrentPath} session={session}/>
+            <FileListResults files={filteredResults} setFiles={setShownFiles} currentPath={currentPath} setFilesSelected={setFilesSelected} setCurrentPath={setCurrentPath} session={session}/>
           </Box>
         </Container>
       </Box>
