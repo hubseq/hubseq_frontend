@@ -1,0 +1,46 @@
+{
+  "name": "hubseq-webapp",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "export": "next export",
+    "lint": "next lint",
+    "lint-fix": "next lint --fix"
+  },
+  "dependencies": {
+    "@aws-sdk/s3-request-presigner": "^3.157.0",
+    "@emotion/cache": "^11.9.3",
+    "@emotion/react": "^11.9.3",
+    "@emotion/server": "^11.4.0",
+    "@emotion/styled": "^11.9.3",
+    "@mui/icons-material": "^5.8.4",
+    "@mui/lab": "^5.0.0-alpha.53",
+    "@mui/material": "^5.9.1",
+    "@mui/styles": "^5.9.2",
+    "amazon-cognito-identity-js": "^5.2.10",
+    "aws-api-gateway-client": "^0.3.7",
+    "aws-sdk": "^2.1185.0",
+    "axios": "^0.27.2",
+    "crypto-js": "^4.1.1",
+    "date-fns": "^2.29.1",
+    "formik": "^2.2.9",
+    "moment": "^2.29.4",
+    "next": "12.2.3",
+    "next-auth": "^4.10.3",
+    "next-s3-upload": "^0.2.3",
+    "prop-types": "^15.8.1",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "react-perfect-scrollbar": "^1.5.8",
+    "streamsaver": "^2.0.6",
+    "uuid": "^8.3.2",
+    "yup": "^0.32.11"
+  },
+  "devDependencies": {
+    "eslint": "8.20.0",
+    "eslint-config-next": "12.2.3"
+  }
+}
