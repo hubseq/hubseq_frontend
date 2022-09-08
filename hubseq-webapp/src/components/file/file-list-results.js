@@ -18,7 +18,7 @@ import {
   Tooltip
 } from '@mui/material';
 
-export const FileListResults = ({ files, setFiles, currentPath, setFilesSelected, setCurrentPath, session, ...rest }) => {
+export const FileListResults = ({ files, setFiles, setFilteredResults, setSearchInput, currentPath, setFilesSelected, setCurrentPath, session, ...rest }) => {
   const [selectedFileIds, setSelectedFileIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
@@ -131,6 +131,8 @@ export const FileListResults = ({ files, setFiles, currentPath, setFilesSelected
       setCurrentPath( newPath );
       const newFiles = await getFileCall(newPath, session.idToken);
       setFiles( newFiles );
+      setFilteredResults( newFiles );
+      setSearchInput("");
     }
   }
 

@@ -23,6 +23,7 @@ const Files = () => {
     const newfiles = await getFileCall(path, idToken);
     setShownFiles(newfiles);
     setFilteredResults(newfiles);
+    setSearchInput("");
   }
 
   React.useEffect(() => {
@@ -74,7 +75,7 @@ const Files = () => {
           <FileListToolbar searchInput={searchInput} searchItems={searchItems} currentPath={currentPath} filesSelectedInfo={shownFiles.filter(val => filesSelected.includes(val.id))} filesSelected={filesSelected} setFilesSelected={setFilesSelected} session={session} />
           <Box sx={{ mt: 2 }}> &nbsp;&nbsp;&nbsp; <b>Current Folder:</b> {displayPath(currentPath)} &nbsp;&nbsp; [<Tooltip title="Go up one folder" placement="top-start"><u onClick={() => upOnePath(currentPath)}>Back</u></Tooltip>] </Box>
           <Box sx={{ mt: 3 }}>
-            <FileListResults files={filteredResults} setFiles={setShownFiles} currentPath={currentPath} setFilesSelected={setFilesSelected} setCurrentPath={setCurrentPath} session={session}/>
+            <FileListResults files={filteredResults} setFiles={setShownFiles} setFilteredResults={setFilteredResults} setSearchInput={setSearchInput} currentPath={currentPath} setFilesSelected={setFilesSelected} setCurrentPath={setCurrentPath} session={session}/>
           </Box>
         </Container>
       </Box>
