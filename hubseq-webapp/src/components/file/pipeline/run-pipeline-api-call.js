@@ -15,21 +15,24 @@ const formatModulesInput = function(pipeline, modules, params, altinputs, altout
   let altoutputsOut = [];
   for (let key in modules){
     modulesOut.push(modules[key]);
-    paramsOut.push((key in params) ? params[key] : "''");
-    altinputsOut.push((key in altinputs) ? altinputs[key] : "''");
-    altoutputsOut.push((key in altoutputs) ? altoutputs[key] : "''");
+    paramsOut.push((key in params && params[key]!='') ? "'"+params[key]+"'" : "''");
+    altinputsOut.push((key in altinputs && altinputs[key]!='') ? "'"+altinputs[key]+"'" : "''");
+    altoutputsOut.push((key in altoutputs && altoutputs[key]!='') ? "'"+altoutputs[key]+"'" : "''");
     // always run DE QC after Differential expression (DE QC not specified on frontend)
     if (key=="Differential Expression"){
       modulesOut.push('deqc');
-      paramsOut.push((key in params) ? params[key] : "''");
-      altinputsOut.push((key in altinputs) ? altinputs[key] : "''");
-      altoutputsOut.push((key in altoutputs) ? altoutputs[key] : "''");
+      paramsOut.push((key in params && params[key]!='') ? "'"+params[key]+"'" : "''");
+      altinputsOut.push((key in altinputs && altinputs[key]!='') ? "'"+altinputs[key]+"'" : "''");
+      altoutputsOut.push((key in altoutputs && altoutputs[key]!='') ? "'"+altoutputs[key]+"'" : "''");
     // always run GO QC after Gene Ontology (GO QC not specified on frontend)
     } else if (key=="Gene Ontology"){
       modulesOut.push('goqc');
-      paramsOut.push((key in params) ? params[key] : "''");
-      altinputsOut.push((key in altinputs) ? altinputs[key] : "''");
-      altoutputsOut.push((key in altoutputs) ? altoutputs[key] : "''");
+      paramsOut.push("''");
+      altinputsOut.push("''");
+      altoutputsOut.push("''");
+      //paramsOut.push((key in params && params[key]!='') ? "'"+params[key]+"'" : "''");
+      //altinputsOut.push((key in altinputs && altinputs[key]!='') ? "'"+altinputs[key]+"'" : "''");
+      //altoutputsOut.push((key in altoutputs && altoutputs[key]!='') ? "'"+altoutputs[key]+"'" : "''");
     }
   }
   return [modulesOut, paramsOut, altinputsOut, altoutputsOut];

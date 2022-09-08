@@ -30,14 +30,55 @@ export const RunPipelineModal = ({currentPath, selectedFiles, session, ...rest})
       // nothing yet
     //}, [selectedFiles, pipeline, modules, params, pipelineTextFields, pipelineDetailFields]);
 
+    const processParamsAll = (_pargs_dict) => {
+      const _pargs_list = Object.values(_pargs_dict);
+      const _pargs_keys = Object.keys(_pargs_dict);
+      let _pout_dict = {};
+      let _alti_dict = {};
+      let _alto_dict = {};
+      for (let i=0;i<_pargs_list.length;i++){
+        const module_args = _pargs_list[i];
+        let mlist = module_args.split(' ');
+        let alti = '';
+        let alto = '';
+        let module_args_out = [];
+        while (mlist.length > 0){
+          if (mlist[0]=='--alti'){
+            // alternate input provided as a parameter
+            if (mlist.length > 1){
+              alti = mlist[1];
+              mlist = mlist.slice(2);
+            } else {
+              mlist = mlist.slice(1);
+            }
+          } else if (mlist[0]=='--alto'){
+            // alternate output provided as a parameter
+            if (mlist.length > 1){
+              alto = mlist[1];
+              mlist = mlist.slice(2);
+            } else {
+              mlist = mlist.slice(1);
+            }
+          } else {
+            module_args_out.push(mlist[0]);
+            mlist = mlist.slice(1);
+          }
+        }
+        _pout_dict[_pargs_keys[i]] = module_args_out.join(" ");
+        _alti_dict[_pargs_keys[i]] = alti;
+        _alto_dict[_pargs_keys[i]] = alto;
+      }
+      return {'params': _pout_dict, 'alti': _alti_dict, 'alto': _alto_dict}
+    }
+
     const handleRunPipeline = () => {
       const pipelineSubmit = pipeline;
       const modulesSubmit = modules;
       const inputSubmit = selectedFiles.map((f) => (addTrailingSlash(currentPath)+f));
-      const paramsSubmit = params;
+      const paramsOut = processParamsAll( params );
       const runidSubmit = runid;
       const timenowSubmit = timesubmit;
-      runPipelineCall(pipelineSubmit, modulesSubmit, inputSubmit, [], [], paramsSubmit, runidSubmit, timenowSubmit, session.idToken);
+      runPipelineCall(pipelineSubmit, modulesSubmit, inputSubmit, paramsOut['alti'], paramsOut['alto'], paramsOut['params'], runidSubmit, timenowSubmit, session.idToken);
       setOpen(false);
     }
     const handleClickOpen = () => {

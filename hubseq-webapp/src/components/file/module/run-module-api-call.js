@@ -26,8 +26,8 @@ const formatRunModuleBody = function(mymodule, inputFiles, outputFiles, altInput
   return {"module": mymodule,
           "input": inputFiles.join(","),
           "output": outputFiles.join(","),
-          "alternate_inputs": altInputFiles.join(","),
-          "alternate_outputs": altOutputFiles.join(","),
+          "alternate_inputs": altInputFiles,
+          "alternate_outputs": altOutputFiles,
           "pargs": moduleParams,
           "runid": runid,
           "submitted": timenow

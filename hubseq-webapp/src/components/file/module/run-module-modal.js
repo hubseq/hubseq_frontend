@@ -63,14 +63,53 @@ export const RunModuleModal = ({currentPath, selectedFiles, session, ...rest}) =
       return "runs/"+runid+"/"+mymodule+"/";
     };
 
+    const processParams = (_module, _p, _genome) => {
+      // given list of module parameters and selected genome, formats argument input to module
+      let mlist = _p.split(' ');
+      let alti = '';
+      let alto = '';
+      let mout = [];
+      while (mlist.length > 0){
+        if (mlist[0]=='--alti'){
+          // alternate input provided as a parameter
+          if (mlist.length > 1){
+            alti = mlist[1];
+            mlist = mlist.slice(2);
+          } else {
+            mlist = mlist.slice(1);
+          }
+        } else if (mlist[0]=='--alto'){
+          // alternate output provided as a parameter
+          if (mlist.length > 1){
+            alto = mlist[1];
+            mlist = mlist.slice(2);
+          } else {
+            mlist = mlist.slice(1);
+          }
+        } else {
+          mout.push(mlist[0]);
+          mlist = mlist.slice(1);
+        }
+      }
+      // add genome for select modules, if not already specified in params
+      if (_module=="rnastar" && alti == ''){
+        if (_genome=="human"){
+          alti = process.env.NEXT_PUBLIC_GENOME_HUMAN;
+        } else if (_genome=="mouse"){
+          alti = process.env.NEXT_PUBLIC_GENOME_MOUSE;
+        }
+      }
+      return {'params': mout.join(" "), 'alti': alti, 'alto': alto};
+    }
+
     const handleRunModule = () => {
         const moduleSubmit = mymodule;
         const inputSubmit = selectedFiles.map((f) => (addTrailingSlash(currentPath)+f));
         const outputSubmit = [getDefaultOutputFolder()];
-        const paramsSubmit = params;
+        const paramsOut = processParams( mymodule, params, mygenome );
         const runidSubmit = runid;
         const timenowSubmit = timesubmit;
-        runModuleCall(moduleSubmit, inputSubmit, outputSubmit, [], [], paramsSubmit, runidSubmit, timenowSubmit, session.idToken);
+        runModuleCall(moduleSubmit, inputSubmit, outputSubmit, paramsOut['alti'], paramsOut['alto'], paramsOut['params'], runidSubmit, timenowSubmit, session.idToken);
         setOpen(false);
     }
 
