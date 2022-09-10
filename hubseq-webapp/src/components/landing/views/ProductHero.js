@@ -2,6 +2,7 @@ import * as React from 'react';
 import Button from '../components/Button';
 import Typography from '../components/Typography';
 import ProductHeroLayout from './ProductHeroLayout';
+import { signIn } from "next-auth/react";
 
 const backgroundImage =
     "/static/hubseq-blue-splash-background.png"
@@ -37,8 +38,8 @@ export default function ProductHero() {
         variant="contained"
         size="large"
         component="a"
-        href="http://www.hubseq.com"
         sx={{ minWidth: 200, backgroundColor: "#36454F", borderRadius: 8, border: 1, borderColor: "#E0E0E0" }}
+        onClick={() => signIn("cognito", { callbackUrl: process.env.NEXT_PUBLIC_NEXTAUTH_CALLBACK_URL })}
       >
         Try Our Demo
       </Button>
