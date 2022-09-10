@@ -5,6 +5,7 @@ import Link from '@mui/material/Link';
 import AppBar from '../components/AppBar';
 import Toolbar from '../components/Toolbar';
 import Image from 'next/image';
+import { signIn } from "next-auth/react"
 
 const rightLink = {
   fontSize: 16,
@@ -31,7 +32,7 @@ function AppAppBar() {
           </Link>
           <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
           <Button sx={{mr: 2, backgroundColor: "#073763" }} color='inherit' variant="outlined">
-            Sign Up
+            <a href="http://www.hubseq.com" style={{ color: "inherit", textDecoration: 'none' }}>Signup</a>
           </Button>
           <Button sx={{mr: 2 }} color='inherit' onClick={() => signIn("cognito", { callbackUrl: process.env.NEXT_PUBLIC_NEXTAUTH_CALLBACK_URL })} variant="outlined">
             Login

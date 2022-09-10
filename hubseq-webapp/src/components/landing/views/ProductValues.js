@@ -52,7 +52,7 @@ function ProductValues() {
                 component="img"
                 src="/static/images/bioinformatics.svg"
                 alt="graph"
-                sx={{ height: 150 }}
+                sx={{ height: 150, border: 1, borderRadius: 3 }}
               />
               <Typography variant="h5" color="#0C090A" align="center" sx={{ my: 5 }}>
                 Bioinformatics Pipelines

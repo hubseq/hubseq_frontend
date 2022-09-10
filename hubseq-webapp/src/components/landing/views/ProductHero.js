@@ -23,7 +23,7 @@ export default function ProductHero() {
         alt="increase priority"
       />
       <Typography sx={{ mt: 10 }} color="#E0E0E0" align="center" variant="h2">
-        <p>One secure platform</p> for your lab sequencing data.
+        <p>One secure platform</p> for your lab sequencing data
       </Typography>
       <Typography
         color="#E0E0E0"
@@ -31,7 +31,7 @@ export default function ProductHero() {
         variant="h5"
         sx={{ mb: 4, mt: { sx: 4, sm: 10 } }}
       >
-        From sequencing data to results.
+        Easily go from sequencing data to results.
       </Typography>
       <Button
         variant="contained"

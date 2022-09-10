@@ -83,10 +83,10 @@ export default function AppFooter() {
             </Typography>
             <Box component="ul" sx={{ m: 0, listStyle: 'none', p: 0 }}>
               <Box component="li" sx={{ py: 0.5 }}>
-                <Link href="/static/terms.md">Terms</Link>
+                <Link href="http://www.hubseq.com">Terms</Link>
               </Box>
               <Box component="li" sx={{ py: 0.5 }}>
-                <Link href="/static/privacy.md">Privacy</Link>
+                <Link href="http://www.hubseq.com">Privacy</Link>
               </Box>
             </Box>
           </Grid>

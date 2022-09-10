@@ -56,7 +56,7 @@ function ProductHowItWorks() {
                   Basic Plan
                 </Typography>
                 <Typography variant="h5" align="center">
-                  <p>$1200/mo.</p>
+                  <p>$1200/month</p>
                 </Typography>
                 <Typography variant="h6" align="center" sx={{ mb: 2 }}>
                 <p>per lab</p>
@@ -77,11 +77,14 @@ function ProductHowItWorks() {
             </Grid>
             <Grid item xs={12} md={6}>
               <Box sx={item}>
-                <Typography variant="h3" align="center" sx={{ mb: 1 }}>
+                <Typography variant="h3" align="center">
                   Enterprise Plan
                 </Typography>
+                <Typography variant="h6" align="center" sx={{ mb: 1 }}>
+                  <p>(coming soon)</p>
+                </Typography>
                 <Typography variant="h5" align="center">
-                  <p>$3500/mo.</p>
+                  <p>$3500/month</p>
                 </Typography>
                 <Typography variant="h6" align="center" sx={{ mb: 2 }}>
                 <p>per lab</p>

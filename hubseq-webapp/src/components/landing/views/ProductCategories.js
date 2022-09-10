@@ -55,32 +55,32 @@ const ImageIconButton = styled(ButtonBase)(({ theme }) => ({
 
 const images = [
   {
-    url: 'https://images.unsplash.com/photo-1534081333815-ae5019106622?auto=format&fit=crop&w=400',
+    url: "/static/images/steelblue.png",
     title: 'RNA Sequencing',
     width: '40%',
   },
   {
-    url: 'https://images.unsplash.com/photo-1531299204812-e6d44d9a185c?auto=format&fit=crop&w=400',
+    url: "/static/images/darkblue.png",
     title: 'ChIP-Seq',
     width: '20%',
   },
   {
-    url: 'https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?auto=format&fit=crop&w=400',
+    url: "/static/images/steelblue.png",
     title: 'Single Cell Sequencing',
     width: '40%',
   },
   {
-    url: 'https://images.unsplash.com/photo-1453747063559-36695c8771bd?auto=format&fit=crop&w=400',
+    url: "/static/images/darkblue.png",
     title: 'DNA-Seq Variant Genotyping',
     width: '38%',
   },
   {
-    url: 'https://images.unsplash.com/photo-1523309996740-d5315f9cc28b?auto=format&fit=crop&w=400',
+    url: "/static/images/steelblue.png",
     title: 'ATAC-Seq',
     width: '38%',
   },
   {
-    url: 'https://images.unsplash.com/photo-1534452203293-494d7ddbf7e0?auto=format&fit=crop&w=400',
+    url: "/static/images/darkblue.png",
     title: 'Custom Assays',
     width: '24%',
   },
@@ -124,6 +124,7 @@ export default function ProductCategories() {
                 alignItems: 'center',
                 justifyContent: 'center',
                 color: 'common.white',
+                border: 1,
               }}
             >
               <Typography
