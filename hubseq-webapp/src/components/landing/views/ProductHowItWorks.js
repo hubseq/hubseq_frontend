@@ -66,7 +66,6 @@ function ProductHowItWorks() {
                 </Typography>
                 <Typography variant="h7" align="center">
                   <p>Up to 10 active users</p>
-                  <p>Unlimited guest users</p>
                   <p>Bioinformatics workflows for all standard assays</p>
                   <p>Integration with one sequencer</p>
                   <p>Full secure backup of all data and results</p>
