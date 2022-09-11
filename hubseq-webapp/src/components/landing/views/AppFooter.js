@@ -9,9 +9,8 @@ import TextField from '../components/TextField';
 function Copyright() {
   return (
     <React.Fragment>
-      {'© '}
       <Link color="inherit" href="http://www.hubseq.com/">
-        HubSeq Inc.
+        HubSeq Inc
       </Link>{' '}
       {new Date().getFullYear()}
     </React.Fragment>
@@ -48,7 +47,7 @@ export default function AppFooter() {
       component="footer"
       sx={{ display: 'flex', bgcolor: '#E0E0E0' }}
     >
-      <Container sx={{ my: 8, display: 'flex' }}>
+      <Container sx={{ my: 5, display: 'flex' }}>
         <Grid container spacing={5}>
           <Grid item xs={6} sm={4} md={3}>
             <Grid
@@ -77,41 +76,46 @@ export default function AppFooter() {
               </Grid>
             </Grid>
           </Grid>
-          <Grid item xs={6} sm={4} md={2}>
-            <Typography variant="h6" marked="left" gutterBottom>
-              Legal
-            </Typography>
-            <Box component="ul" sx={{ m: 0, listStyle: 'none', p: 0 }}>
-              <Box component="li" sx={{ py: 0.5 }}>
-                <Link href="http://www.hubseq.com">Terms</Link>
-              </Box>
-              <Box component="li" sx={{ py: 0.5 }}>
-                <Link href="http://www.hubseq.com">Privacy</Link>
-              </Box>
-            </Box>
-          </Grid>
-          <Grid item xs={6} sm={8} md={4}>
-            <Typography variant="h6" marked="left" gutterBottom>
-              Language
-            </Typography>
-            <TextField
-              select
-              size="medium"
-              variant="standard"
-              SelectProps={{
-                native: true,
-              }}
-              sx={{ mt: 1, width: 150 }}
-            >
-              {LANGUAGES.map((language) => (
-                <option value={language.code} key={language.code}>
-                  {language.name}
-                </option>
-              ))}
-            </TextField>
-          </Grid>
         </Grid>
       </Container>
     </Typography>
   );
 }
+
+/*
+{'© '}
+
+<Grid item xs={6} sm={4} md={2}>
+  <Typography variant="h6" marked="left" gutterBottom>
+    Legal
+  </Typography>
+  <Box component="ul" sx={{ m: 0, listStyle: 'none', p: 0 }}>
+    <Box component="li" sx={{ py: 0.5 }}>
+      <Link href="http://www.hubseq.com">Terms</Link>
+    </Box>
+    <Box component="li" sx={{ py: 0.5 }}>
+      <Link href="http://www.hubseq.com">Privacy</Link>
+    </Box>
+  </Box>
+</Grid>
+<Grid item xs={6} sm={8} md={4}>
+  <Typography variant="h6" marked="left" gutterBottom>
+    Language
+  </Typography>
+  <TextField
+    select
+    size="medium"
+    variant="standard"
+    SelectProps={{
+      native: true,
+    }}
+    sx={{ mt: 1, width: 150 }}
+  >
+    {LANGUAGES.map((language) => (
+      <option value={language.code} key={language.code}>
+        {language.name}
+      </option>
+    ))}
+  </TextField>
+</Grid>
+*/

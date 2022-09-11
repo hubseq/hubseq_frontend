@@ -5,6 +5,7 @@ import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
 import Button from '../components/Button';
 import Typography from '../components/Typography';
+import { signIn } from "next-auth/react"
 
 const item = {
   display: 'flex',
@@ -111,7 +112,7 @@ function ProductHowItWorks() {
           size="large"
           variant="contained"
           component="a"
-          href="http://www.hubseq.com"
+          onClick={() => signIn("cognito", { callbackUrl: process.env.NEXT_PUBLIC_NEXTAUTH_CALLBACK_URL })}
           sx={{ mt: 5, backgroundColor: "#36454F", borderRadius: 8, border: 1, borderColor: "#E0E0E0" }}
         >
           Get started

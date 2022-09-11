@@ -20,6 +20,40 @@ function ProductCTA() {
   };
 
   return (
+    <div>
+          <Box
+            sx={{
+              display: 'flex',
+              bgcolor: '#0C090A',
+              pt: 8,
+              pb: 3,
+              px: 5,
+              width: '100%'
+            }}
+          >
+              <Typography variant="h3" component="h3" color="#E0E0E0" sx={{ width: '100%' }}>
+                Interested?
+              </Typography>
+          </Box>
+          <Box
+            sx={{
+              display: 'flex',
+              bgcolor: '#0C090A',
+              pb: 8,
+              px: 5,
+              width: '100%'
+            }}
+          >
+              <Typography variant="h5" color="#E0E0E0"  sx={{ width: '100%' }}>
+                contact@hubseq.com
+              </Typography>
+          </Box>
+        </div>
+  );
+}
+
+/*
+  return (
     <Container component="section" sx={{ mt: 10, display: 'flex', mb: 10 }}>
       <Grid container>
         <Grid item xs={12} md={6} sx={{ zIndex: 1 }}>
@@ -60,5 +94,6 @@ function ProductCTA() {
     </Container>
   );
 }
+*/
 
 export default ProductCTA;

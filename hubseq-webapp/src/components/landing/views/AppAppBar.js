@@ -31,9 +31,6 @@ function AppAppBar() {
             </div>
           </Link>
           <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
-          <Button sx={{mr: 2, backgroundColor: "#073763" }} color='inherit' variant="outlined">
-            <a href="http://www.hubseq.com" style={{ color: "inherit", textDecoration: 'none' }}>Signup</a>
-          </Button>
           <Button sx={{mr: 2 }} color='inherit' onClick={() => signIn("cognito", { callbackUrl: process.env.NEXT_PUBLIC_NEXTAUTH_CALLBACK_URL })} variant="outlined">
             Login
           </Button>
@@ -46,3 +43,9 @@ function AppAppBar() {
 }
 
 export default AppAppBar;
+
+/*
+        <Button sx={{mr: 2, backgroundColor: "#073763" }} color='inherit' variant="outlined">
+          <a href="http://www.hubseq.com" style={{ color: "inherit", textDecoration: 'none' }}>Signup</a>
+        </Button>
+*/
