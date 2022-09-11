@@ -41,7 +41,7 @@ export default function ProductHero() {
         sx={{ minWidth: 200, backgroundColor: "#36454F", borderRadius: 8, border: 1, borderColor: "#E0E0E0" }}
         onClick={() => signIn("cognito", { callbackUrl: process.env.NEXT_PUBLIC_NEXTAUTH_CALLBACK_URL })}
       >
-        Try Our Demo
+        Get Started
       </Button>
     </ProductHeroLayout>
   );
