@@ -66,7 +66,6 @@ export const RunReportModal = ({runsSelected, runInfo, props}) => {
           htmlFiles2 = await getFileCall(path.join(baseRunPath,runInfo[runsSelected]['runid'],'seurat'), session.idToken, ".html");
           setReportFilesSingleCellQC(htmlFiles.concat(htmlFiles2));
         }
-        console.log('HTML FILES: ', htmlFiles);
       }
       if (session && runsSelected){
         getReports("SummaryQC", session);
@@ -144,8 +143,8 @@ export const RunReportModal = ({runsSelected, runInfo, props}) => {
             {reportTableSummaryQC}
             {reportTableFastQC}
             {reportTableAlignQC}
-            {reportFilesExpressionQC}
-            {reportFilesDEQC}
+            {reportTableExpressionQC}
+            {reportTableDEQC}
             {reportTableGOQC}
             {reportTableSingleCellQC}
           </Box>
