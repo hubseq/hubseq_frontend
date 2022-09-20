@@ -36,11 +36,13 @@ export const RunPipelineModal = ({currentPath, selectedFiles, session, ...rest})
       let _pout_dict = {};
       let _alti_dict = {};
       let _alto_dict = {};
+      let _sid_list = '';
       for (let i=0;i<_pargs_list.length;i++){
         const module_args = _pargs_list[i];
         let mlist = module_args.split(' ');
         let alti = '';
         let alto = '';
+        let sid = '';
         let module_args_out = [];
         while (mlist.length > 0){
           if (mlist[0]=='--alti'){
@@ -59,6 +61,14 @@ export const RunPipelineModal = ({currentPath, selectedFiles, session, ...rest})
             } else {
               mlist = mlist.slice(1);
             }
+          } else if (mlist[0]=='--sid'){
+            // sample id provided as a parameter
+            if (mlist.length > 1){
+              sid = mlist[1];
+              mlist = mlist.slice(2);
+            } else {
+              mlist = mlist.slice(1);
+            }
           } else {
             module_args_out.push(mlist[0]);
             mlist = mlist.slice(1);
@@ -67,18 +77,21 @@ export const RunPipelineModal = ({currentPath, selectedFiles, session, ...rest})
         _pout_dict[_pargs_keys[i]] = module_args_out.join(" ");
         _alti_dict[_pargs_keys[i]] = alti;
         _alto_dict[_pargs_keys[i]] = alto;
+        if (sid!=''){
+          _sid_list = sid;
+        }
       }
-      return {'params': _pout_dict, 'alti': _alti_dict, 'alto': _alto_dict}
+      return [{'params': _pout_dict, 'alti': _alti_dict, 'alto': _alto_dict}, _sid_list]
     }
 
     const handleRunPipeline = () => {
       const pipelineSubmit = pipeline;
       const modulesSubmit = modules;
       const inputSubmit = selectedFiles.map((f) => (addTrailingSlash(currentPath)+f));
-      const paramsOut = processParamsAll( params );
+      const [paramsOut, samplesOut] = processParamsAll( params );
       const runidSubmit = runid;
       const timenowSubmit = timesubmit;
-      runPipelineCall(pipelineSubmit, modulesSubmit, inputSubmit, paramsOut['alti'], paramsOut['alto'], paramsOut['params'], runidSubmit, timenowSubmit, session.idToken);
+      runPipelineCall(pipelineSubmit, modulesSubmit, inputSubmit, paramsOut['alti'], paramsOut['alto'], paramsOut['params'], runidSubmit, samplesOut, timenowSubmit, session.idToken);
       setOpen(false);
     }
     const handleClickOpen = () => {
@@ -116,6 +129,10 @@ export const RunPipelineModal = ({currentPath, selectedFiles, session, ...rest})
       } else if (event.target.value=="rnaseq-qc.human" || event.target.value=="rnaseq-qc.mouse"){
         setModules({"FASTQ QC": 'fastqc', "Alignment": 'rnastar', "Alignment QC by Sample": 'qorts', "Alignment QC by Group": 'qorts_multi',
                     "RNA-Seq QC": 'rnaseqc', "Summary QC": 'rnaseq-summaryqc'});
+      } else if (event.target.value=="singlecell_rnaseq_qc.human" || event.target.value=="singlecell_rnaseq_qc.mouse"){
+        setModules({"Alignment and Expression": 'cellranger', "Clustering QC": 'seurat'});
+      } else if (event.target.value=="singlecell_rnaseq.human" || event.target.value=="singlecell_rnaseq.mouse"){
+        setModules({"Alignment and Expression": 'cellranger', "Dim Reduction and Clustering": 'seurat'});
       }
     };
 
@@ -151,7 +168,7 @@ export const RunPipelineModal = ({currentPath, selectedFiles, session, ...rest})
                                     <GridRowModule modulelabel="Gene Ontology" defaultmodule="david_go" addParam={addParam} addModule={addModule} />
                                  </Grid>
                                  </Box>
-      } else if (showPipelineDetails && (pipeline=="rnaseq-qc.human" || pipeline=="rnaseq-qc.mouse")){
+      } else if (showPipelineDetails && (pipeline=="rnaseqqc.human" || pipeline=="rnaseqqc.mouse")){
         pipelineDetailFields =   <Box sx={{ m: 2, width: '100ch' }}>
                                  <Typography sx={{ m: 2 }} variant="subtitle1"> PIPELINE WORKFLOW </Typography>
                                  <Grid container rowSpacing={0} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
@@ -163,6 +180,22 @@ export const RunPipelineModal = ({currentPath, selectedFiles, session, ...rest})
                                     <GridRowModule modulelabel="Summary QC" defaultmodule="rnaseq-summaryqc" addParam={addParam} addModule={addModule} />
                                  </Grid>
                                  </Box>
+      } else if (showPipelineDetails && (pipeline=="singlecell_rnaseq.human" || pipeline=="singlecell_rnaseq.mouse")){
+        pipelineDetailFields =   <Box sx={{ m: 2, width: '100ch' }}>
+                                 <Typography sx={{ m: 2 }} variant="subtitle1"> PIPELINE WORKFLOW </Typography>
+                                 <Grid container rowSpacing={0} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+                                    <GridRowModule modulelabel="Alignment and Expression" defaultmodule="cellranger" addParam={addParam} addModule={addModule} />
+                                    <GridRowModule modulelabel="Dim Reduction and Clustering" defaultmodule="seurat" addParam={addParam} addModule={addModule} />
+                                 </Grid>
+                                 </Box>
+       } else if (showPipelineDetails && (pipeline=="singlecell_rnaseq_qc.human" || pipeline=="singlecell_rnaseq_qc.mouse")){
+         pipelineDetailFields =   <Box sx={{ m: 2, width: '100ch' }}>
+                                  <Typography sx={{ m: 2 }} variant="subtitle1"> PIPELINE WORKFLOW </Typography>
+                                  <Grid container rowSpacing={0} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+                                     <GridRowModule modulelabel="Alignment and Expression" defaultmodule="cellranger" addParam={addParam} addModule={addModule} />
+                                     <GridRowModule modulelabel="Clustering QC" defaultmodule="seurat" addParam={addParam} addModule={addModule} />
+                                  </Grid>
+                                  </Box>
       } else {
         pipelineDetailFields = null;
       }
@@ -189,10 +222,14 @@ export const RunPipelineModal = ({currentPath, selectedFiles, session, ...rest})
             label="Pipeline"
             onChange={handlePipelineSelect}
           >
-            <MenuItem value={'rnaseq-qc.mouse'}>RNA-Seq QC - Mouse</MenuItem>
-            <MenuItem value={'rnaseq-qc.human'}>RNA-Seq QC - Human</MenuItem>
+            <MenuItem value={'rnaseqqc.mouse'}>RNA-Seq QC - Mouse</MenuItem>
+            <MenuItem value={'rnaseqqc.human'}>RNA-Seq QC - Human</MenuItem>
             <MenuItem value={'rnaseq.mouse'}>RNA-Seq Pipeline - Mouse</MenuItem>
             <MenuItem value={'rnaseq.human'}>RNA-Seq Pipeline - Human</MenuItem>
+            <MenuItem value={'singlecell_rnaseq_qc.mouse'}>Single Cell RNA-Seq QC - Mouse</MenuItem>
+            <MenuItem value={'singlecell_rnaseq_qc.human'}>Single Cell RNA-Seq QC - Human</MenuItem>
+            <MenuItem value={'singlecell_rnaseq.mouse'}>Single Cell RNA-Seq Pipeline - Mouse</MenuItem>
+            <MenuItem value={'singlecell_rnaseq.human'}>Single Cell RNA-Seq Pipeline - Human</MenuItem>
           </Select>
           </FormControl>
           {pipelineTextFields}

@@ -29,7 +29,7 @@ export const notEmpty = function( e ){
 };
 
 export const isDataFile = function( f ){
-  if (f && (typeof f)=="string" && !isFolder(f)){
+  if (f && (typeof f)=="string"){ // && !isFolder(f)){
     f = f.toLowerCase();
     return (!f.endsWith('.json') && !f.endsWith('.yaml') && !f.endsWith('.yml')
             && !f.endsWith('.log'));
@@ -39,10 +39,11 @@ export const isDataFile = function( f ){
 };
 
 export const isSequencingFile = function( f ){
-  return isFastqFile(f) || isFastaFile(f) || isAlignFile(f) || isBedFile(f);
+  return isFastqFile(f) || isFastaFile(f) || isAlignFile(f) || isBedFile(f) || isFolder(f);
 }
 
 export const isFastqFile = function( f ){
+  // allow folders now
   if (f && (typeof f)=="string" && !isFolder(f)){
     f = f.toLowerCase();
     return (f.endsWith('.fastq') || f.endsWith('.fastq.gz') || f.endsWith('.fq')
