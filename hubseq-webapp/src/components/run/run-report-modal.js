@@ -22,7 +22,16 @@ export const RunReportModal = ({runsSelected, runInfo, props}) => {
     const [reportFilesExpressionQC, setReportFilesExpressionQC] = useState([]);
     const [reportFilesDEQC, setReportFilesDEQC] = useState([]);
     const [reportFilesGOQC, setReportFilesGOQC] = useState([]);
+    const [reportFilesSingleCellQC, setReportFilesSingleCellQC] = useState([]);
     const { data: session, status } = useSession();
+
+    let reportTableSummaryQC;
+    let reportTableFastQC;
+    let reportTableAlignQC;
+    let reportTableExpressionQC;
+    let reportTableDEQC;
+    let reportTableGOQC;
+    let reportTableSingleCellQC;
 
     const baseRunPath = "runs/";
     let runs_array = runInfo.map(d => d["runid"]);
@@ -30,6 +39,7 @@ export const RunReportModal = ({runsSelected, runInfo, props}) => {
     React.useEffect(() => {
       async function getReports(reportType, session) {
         let htmlFiles = [];
+        let htmlFiles2 = [];
         let pdfFiles = [];
         let pdfFiles2 = [];
         if (reportType == "FastQC"){
@@ -50,7 +60,11 @@ export const RunReportModal = ({runsSelected, runInfo, props}) => {
         } else if (reportType == "AlignQC"){
           pdfFiles = await getFileCall(path.join(baseRunPath,runInfo[runsSelected]['runid'],'qorts_multi'), session.idToken, ".pdf");
           // pdfFiles2 = await getFileCall(path.join(baseRunPath,runInfo[runsSelected]['runid'],'qorts'), session.idToken, ".pdf");
-          setReportFilesAlignQC(pdfFiles);
+          setReportFilesSingleCellQC(pdfFiles);
+        } else if (reportType == "SingleCellQC"){
+          htmlFiles = await getFileCall(path.join(baseRunPath,runInfo[runsSelected]['runid'],'cellranger'), session.idToken, ".html");
+          htmlFiles2 = await getFileCall(path.join(baseRunPath,runInfo[runsSelected]['runid'],'seurat'), session.idToken, ".html");
+          setReportFilesSingleCellQC(htmlFiles.concat(htmlFiles2));
         }
       }
       if (session && runsSelected){
@@ -60,6 +74,7 @@ export const RunReportModal = ({runsSelected, runInfo, props}) => {
         getReports("ExpressionQC", session);
         getReports("DEQC", session);
         getReports("GOQC", session);
+        getReports("SingleCellQC", session);
       }
     }, [runsSelected, session]);
 
@@ -72,6 +87,48 @@ export const RunReportModal = ({runsSelected, runInfo, props}) => {
       setOpen(false);
     };
 
+    if (reportFilesSummaryQC){
+      reportTableSummaryQC = <ReportTable title="Summary QC Reports" filelist={reportFilesSummaryQC} filetype="SummaryQC" session={session} />;
+    } else {
+      reportTableSummaryQC = null;
+    }
+
+    if (reportFilesFastQC && reportFilesFastQC.length > 0){
+      reportTableFastQC = <ReportTable title="FASTQC Reports" filelist={reportFilesFastQC} filetype="FastQC" session={session} />;
+    } else {
+      reportTableFastQC = null;
+    }
+
+    if (reportFilesAlignQC && reportFilesAlignQC.length > 0){
+      reportTableAlignQC = <ReportTable title="Alignment QC Reports" filelist={reportFilesAlignQC} filetype="AlignQC" session={session} />;
+    } else {
+      reportTableAlignQC = null;
+    }
+
+    if (reportFilesExpressionQC && reportFilesExpressionQC.length > 0){
+      reportTableExpressionQC = <ReportTable title="Gene Expression QC Reports" filelist={reportFilesExpressionQC} filetype="ExpressionQC" session={session} />;
+    } else {
+      reportTableExpressionQC = null;
+    }
+
+    if (reportFilesDEQC && reportFilesDEQC.length > 0){
+      reportTableDEQC = <ReportTable title="Differential Expression QC Reports" filelist={reportFilesDEQC} filetype="DEQC" session={session} />;
+    } else {
+      reportTableDEQC = null;
+    }
+
+    if (reportFilesGOQC && reportFilesGOQC.length > 0){
+      reportTableGOQC = <ReportTable title="Gene Ontology QC Reports" filelist={reportFilesGOQC} filetype="GOQC" session={session} />;
+    } else {
+      reportTableGOQC = null;
+    }
+
+    if (reportFilesSingleCellQC && reportFilesSingleCellQC.length > 0){
+      reportTableSingleCellQC = <ReportTable title="Single Cell QC Reports" filelist={reportFilesSingleCellQC} filetype="SingleCellQC" session={session} />;
+    } else {
+      reportTableSingleCellQC = null;
+    }
+
     // report is specific to RNA-Seq - will generalize this modal later
     return (
         <>
@@ -83,12 +140,13 @@ export const RunReportModal = ({runsSelected, runInfo, props}) => {
         <DialogTitle>Run Report for {runInfo[runsSelected]['runid']}</DialogTitle>
         <DialogContent>
           <Box sx={{ mt: 3 }}>
-            <ReportTable title="Summary QC Reports" filelist={reportFilesSummaryQC} filetype="SummaryQC" session={session} />
-            <ReportTable title="FASTQC Reports" filelist={reportFilesFastQC} filetype="FastQC" session={session} />
-            <ReportTable title="Alignment QC Reports" filelist={reportFilesAlignQC} filetype="AlignQC" session={session} />
-            <ReportTable title="Gene Expression QC Reports" filelist={reportFilesExpressionQC} filetype="ExpressionQC" session={session} />
-            <ReportTable title="Differential Expression QC Reports" filelist={reportFilesDEQC} filetype="DEQC" session={session} />
-            <ReportTable title="Gene Ontology QC Reports" filelist={reportFilesGOQC} filetype="GOQC" session={session} />
+            {reportTableSummaryQC}
+            {reportTableFastQC}
+            {reportTableAlignQC}
+            {reportTableExpressionQC}
+            {reportTableDEQC}
+            {reportTableGOQC}
+            {reportTableSingleCellQC}
           </Box>
         </DialogContent>
         <DialogActions>

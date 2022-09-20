@@ -65,7 +65,7 @@ export const FileListToolbar = ({searchInput, searchItems, currentPath, filesSel
   }
 
   // run pipeline button - toggle on sequencing file clicking
-  if(filesSelected && filesSelectedInfo && filesSelected.length > 0 && areFileFormatsCorrect(filesSelectedInfo, "fastqfile")){
+  if(filesSelected && filesSelectedInfo && filesSelected.length > 0 && areFileFormatsCorrect(filesSelectedInfo, "sequencingfile")){
     run_pipeline_modal = <RunPipelineModal currentPath={currentPath} selectedFiles={filesSelectedInfo.map((e) => getObjectName(e["Key"]))} session={session} />
   } else {
     run_pipeline_modal = null;

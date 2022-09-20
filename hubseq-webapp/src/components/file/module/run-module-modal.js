@@ -98,6 +98,12 @@ export const RunModuleModal = ({currentPath, selectedFiles, session, ...rest}) =
         } else if (_genome=="mouse"){
           alti = process.env.NEXT_PUBLIC_GENOME_MOUSE;
         }
+      } else if (_module=="cellranger" && alti == ''){
+        if (_genome=="human"){
+          alti = process.env.NEXT_PUBLIC_GENOME_HUMAN_CELLRANGER;
+        } else if (_genome=="mouse"){
+          alti = process.env.NEXT_PUBLIC_GENOME_MOUSE_CELLRANGER;
+        }
       }
       return {'params': mout.join(" "), 'alti': alti, 'alto': alto};
     }
@@ -127,7 +133,7 @@ export const RunModuleModal = ({currentPath, selectedFiles, session, ...rest}) =
                                     size="small" helperText="Example: -p -s 2 -bed ~/genomes/bed/hg38_targeted.bed" fullWidth onChange={handleParamsChange} />
                          </Box>
 
-      if (mymodule=="rnastar"){
+      if (mymodule=="rnastar" || mymodule=="cellranger"){
         extraTextFields = <Box component="form" sx={{ m: 3, width: '50ch' }}>
                             <FormControl variant="standard" fullWidth>
                               <InputLabel>Select Genome</InputLabel>
@@ -183,6 +189,8 @@ export const RunModuleModal = ({currentPath, selectedFiles, session, ...rest}) =
             <MenuItem value={'deqc'}>DE Volcano and MA Plots (DE-QC)</MenuItem>
             <MenuItem value={'david_go'}>Gene Ontology analysis (DAVID GO)</MenuItem>
             <MenuItem value={'goqc'}>Gene Ontology Bar plots (GO-QC)</MenuItem>
+            <MenuItem value={'cellranger'}>Cell Ranger RNA-Seq software (10x Genomics)</MenuItem>
+            <MenuItem value={'seurat'}>Single-Cell QC and Clustering (Seurat)</MenuItem>
           </Select>
           </FormControl>
           {moduleTextFields}
