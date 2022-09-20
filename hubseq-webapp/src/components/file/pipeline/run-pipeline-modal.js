@@ -23,6 +23,7 @@ export const RunPipelineModal = ({currentPath, selectedFiles, session, ...rest})
     const [showPipelineDetails, setShowPipelineDetails] = useState(false);
     const [timenow, setTimeNow] = useState(moment().format('YYYY-MM-DD-hhmmss[-]'));
     const [timesubmit, setTimeSubmit] = useState(moment().format('YYYY-MM-DD hh:mm:ss'));
+    const [mygenome, setMyGenome] = useState('mouse');
     let pipelineTextFields;
     let pipelineDetailFields;
 
@@ -85,7 +86,7 @@ export const RunPipelineModal = ({currentPath, selectedFiles, session, ...rest})
     }
 
     const handleRunPipeline = () => {
-      const pipelineSubmit = pipeline;
+      const pipelineSubmit = pipeline + "." + mygenome;
       const modulesSubmit = modules;
       const inputSubmit = selectedFiles.map((f) => (addTrailingSlash(currentPath)+f));
       const [paramsOut, samplesOut] = processParamsAll( params );
@@ -140,25 +141,45 @@ export const RunPipelineModal = ({currentPath, selectedFiles, session, ...rest})
       setRunid(event.target.value);
     }
 
+    const handleGenomeSelect = (event) => {
+      setMyGenome(event.target.value);
+    }
+
     const handleCheck = (event)=> {
       //
     }
 
     if (pipeline && pipeline!=""){
-      pipelineTextFields = <Box component="form" sx={{ '& .MuiTextField-root': { m: 2, width: '75ch' },}}
-                                  noValidate autoComplete="off">
-                           <TextField disabled margin="dense" id="pipeline-input"
-                                    label="Input" defaultValue="(Selected Files)"
-                                    size="small" helperText="Enter Input File(s)" fullWidth />
-                           <TextField disabled margin="dense" id="pipeline-output" label="Output" value={"runs/"+runid+"/"}
-                                    size="small" helperText="Enter Output Folder" fullWidth />
-                           <TextField margin="dense" id="pipeline-runid" label="Run ID" value={runid}
-                                    size="small" helperText="Enter Run ID" fullWidth onChange={handleRunIdChange}/>
-                           <p><u onClick={()=>setShowPipelineDetails(true)}>Edit Pipeline Configuration</u></p>
-                         </Box>
+      pipelineTextFields = <div>
+                              <FormControl variant="standard" sx={{ m:3, width: '25ch'}}>
+                                <InputLabel>Select Genome</InputLabel>
+                                <Select
+                                   labelId="select-genome-dropdown"
+                                   id="select-genome-dropdown"
+                                   value={mygenome}
+                                   label="Genome"
+                                   onChange={handleGenomeSelect}
+                                   >
+                                <MenuItem value={'human'}>Human</MenuItem>
+                                <MenuItem value={'mouse'}>Mouse</MenuItem>
+                                <MenuItem value={'custom'}>Custom</MenuItem>
+                                </Select>
+                              </FormControl>
+                             <Box component="form" sx={{ '& .MuiTextField-root': { m: 2, width: '75ch' },}}
+                                    noValidate autoComplete="off">
+                               <TextField disabled margin="dense" id="pipeline-input"
+                                        label="Input" defaultValue="(Selected Files)"
+                                        size="small" helperText="Enter Input File(s)" fullWidth />
+                               <TextField disabled margin="dense" id="pipeline-output" label="Output" value={"runs/"+runid+"/"}
+                                        size="small" helperText="Enter Output Folder" fullWidth />
+                               <TextField margin="dense" id="pipeline-runid" label="Run ID" value={runid}
+                                        size="small" helperText="Enter Run ID" fullWidth onChange={handleRunIdChange}/>
+                               <p><u onClick={()=>setShowPipelineDetails(true)}>Edit Pipeline Configuration</u></p>
+                             </Box>
+                           </div>
 
 
-      if (showPipelineDetails && (pipeline=="rnaseq.human" || pipeline=="rnaseq.mouse")){
+      if (showPipelineDetails && (pipeline=="rnaseq")){
         pipelineDetailFields =   <Box sx={{ m: 2, width: '100ch' }}>
                                  <Typography sx={{ m: 2 }} variant="subtitle1"> PIPELINE WORKFLOW </Typography>
                                  <Grid container rowSpacing={0} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
@@ -168,7 +189,7 @@ export const RunPipelineModal = ({currentPath, selectedFiles, session, ...rest})
                                     <GridRowModule modulelabel="Gene Ontology" defaultmodule="david_go" addParam={addParam} addModule={addModule} />
                                  </Grid>
                                  </Box>
-      } else if (showPipelineDetails && (pipeline=="rnaseqqc.human" || pipeline=="rnaseqqc.mouse")){
+      } else if (showPipelineDetails && (pipeline=="rnaseqqc")){
         pipelineDetailFields =   <Box sx={{ m: 2, width: '100ch' }}>
                                  <Typography sx={{ m: 2 }} variant="subtitle1"> PIPELINE WORKFLOW </Typography>
                                  <Grid container rowSpacing={0} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
@@ -180,7 +201,7 @@ export const RunPipelineModal = ({currentPath, selectedFiles, session, ...rest})
                                     <GridRowModule modulelabel="Summary QC" defaultmodule="rnaseq-summaryqc" addParam={addParam} addModule={addModule} />
                                  </Grid>
                                  </Box>
-      } else if (showPipelineDetails && (pipeline=="singlecell_rnaseq.human" || pipeline=="singlecell_rnaseq.mouse")){
+      } else if (showPipelineDetails && (pipeline=="singlecell_rnaseq")){
         pipelineDetailFields =   <Box sx={{ m: 2, width: '100ch' }}>
                                  <Typography sx={{ m: 2 }} variant="subtitle1"> PIPELINE WORKFLOW </Typography>
                                  <Grid container rowSpacing={0} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
@@ -188,7 +209,7 @@ export const RunPipelineModal = ({currentPath, selectedFiles, session, ...rest})
                                     <GridRowModule modulelabel="Dim Reduction and Clustering" defaultmodule="seurat" addParam={addParam} addModule={addModule} />
                                  </Grid>
                                  </Box>
-       } else if (showPipelineDetails && (pipeline=="singlecell_rnaseq_qc.human" || pipeline=="singlecell_rnaseq_qc.mouse")){
+       } else if (showPipelineDetails && (pipeline=="singlecell_rnaseq_qc")){
          pipelineDetailFields =   <Box sx={{ m: 2, width: '100ch' }}>
                                   <Typography sx={{ m: 2 }} variant="subtitle1"> PIPELINE WORKFLOW </Typography>
                                   <Grid container rowSpacing={0} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
@@ -222,14 +243,10 @@ export const RunPipelineModal = ({currentPath, selectedFiles, session, ...rest})
             label="Pipeline"
             onChange={handlePipelineSelect}
           >
-            <MenuItem value={'rnaseqqc.mouse'}>RNA-Seq QC - Mouse</MenuItem>
-            <MenuItem value={'rnaseqqc.human'}>RNA-Seq QC - Human</MenuItem>
-            <MenuItem value={'rnaseq.mouse'}>RNA-Seq Pipeline - Mouse</MenuItem>
-            <MenuItem value={'rnaseq.human'}>RNA-Seq Pipeline - Human</MenuItem>
-            <MenuItem value={'singlecell_rnaseq_qc.mouse'}>Single Cell RNA-Seq QC - Mouse</MenuItem>
-            <MenuItem value={'singlecell_rnaseq_qc.human'}>Single Cell RNA-Seq QC - Human</MenuItem>
-            <MenuItem value={'singlecell_rnaseq.mouse'}>Single Cell RNA-Seq Pipeline - Mouse</MenuItem>
-            <MenuItem value={'singlecell_rnaseq.human'}>Single Cell RNA-Seq Pipeline - Human</MenuItem>
+            <MenuItem value={'rnaseqqc'}>RNA-Seq QC</MenuItem>
+            <MenuItem value={'rnaseq'}>RNA-Seq Pipeline</MenuItem>
+            <MenuItem value={'singlecell_rnaseq_qc'}>Single Cell RNA-Seq QC</MenuItem>
+            <MenuItem value={'singlecell_rnaseq'}>Single Cell RNA-Seq Pipeline</MenuItem>
           </Select>
           </FormControl>
           {pipelineTextFields}
