@@ -23,17 +23,25 @@ export const RunDataFilesModal = ({runsSelected, runInfo, props}) => {
     const [dataFilesExpressionQC, setDataFilesExpressionQC] = useState([]);
     const [dataFilesDESeq2, setDataFilesDESeq2] = useState([]);
     const [dataFilesDAVIDGO, setDataFilesDAVIDGO] = useState([]);
+    const [dataFilesSingleCell, setDataFilesSingleCell] = useState([]);
     const { data: session, status } = useSession();
-
     const baseRunPath = "runs/";
+
+    let dataTableSummaryQC;
+    let dataTableAlignment;
+    let dataTableGeneExpression;
+    let dataTableAlignQC;
+    let dataTableExpressionQC;
+    let dataTableDESeq2;
+    let dataTableDAVIDGO;
+    let dataTableSingleCell;
 
     let runs_array = runInfo.map(d => d["runid"]);
 
     React.useEffect(() => {
       async function getReports(reportType, session) {
         let dataFiles = [];
-        let pdfFiles = [];
-        let pdfFiles2 = [];
+        let dataFiles2 = [];
         if (reportType == "SummaryQC") {
           dataFiles = await getFileCall(path.join(baseRunPath,runInfo[runsSelected]['runid'],'rnaseq_summaryqc'), session.idToken, ".csv");
           setDataFilesSummaryQC(dataFiles);
@@ -52,6 +60,10 @@ export const RunDataFilesModal = ({runsSelected, runInfo, props}) => {
         } else if (reportType == "DAVIDGO"){
           dataFiles = await getFileCall(path.join(baseRunPath,runInfo[runsSelected]['runid'],'david_go'), session.idToken, ".txt");
           setDataFilesDAVIDGO(dataFiles);
+        } else if (reportType == "SingleCell"){
+          dataFiles = await getFileCall(path.join(baseRunPath,runInfo[runsSelected]['runid'],'cellranger'), session.idToken, ".csv");
+          dataFiles2 = await getFileCall(path.join(baseRunPath,runInfo[runsSelected]['runid'],'seurat'), session.idToken, ".rds");
+          setDataFilesSingleCell(dataFiles.concat(dataFiles2));
         }
       }
       if (session && runsSelected){
@@ -61,6 +73,7 @@ export const RunDataFilesModal = ({runsSelected, runInfo, props}) => {
         getReports("ExpressionQC", session);
         getReports("DESeq2", session);
         getReports("DAVIDGO", session);
+        getReports("SingleCell", session);
       }
     }, [runsSelected, session]);
 
@@ -73,6 +86,48 @@ export const RunDataFilesModal = ({runsSelected, runInfo, props}) => {
       setOpen(false);
     };
 
+    if (dataFilesSummaryQC && dataFilesSummaryQC.length > 0){
+      dataTableSummaryQC = <ReportTable title="Summary QC Data Files" filelist={dataFilesSummaryQC} filetype="SummaryQC" session={session} />;
+    } else {
+      dataTableSummaryQC = null;
+    }
+
+    if (dataFilesAlignment && dataFilesAlignment.length > 0){
+      dataTableAlignment = <ReportTable title="Alignment Data Files" filelist={dataFilesAlignment} filetype="Alignment" session={session} />;
+    } else {
+      dataTableAlignment = null;
+    }
+
+    if (dataFilesGeneExpression && dataFilesGeneExpression.length > 0){
+      dataTableGeneExpression = <ReportTable title="Gene Expression Data Files" filelist={dataFilesGeneExpression} filetype="GeneExpression" session={session} />;
+    } else {
+      dataTableGeneExpression = null;
+    }
+
+    if (dataFilesExpressionQC && dataFilesExpressionQC.length > 0){
+      dataTableExpressionQC = <ReportTable title="Expression QC Data Files" filelist={dataFilesExpressionQC} filetype="ExpressionQC" session={session} />;
+    } else {
+      dataTableExpressionQC = null;
+    }
+
+    if (dataFilesDESeq2 && dataFilesDESeq2.length > 0){
+      dataTableDESeq2 = <ReportTable title="Differential Expression Data Files" filelist={dataFilesDESeq2} filetype="DESeq2" session={session} />;
+    } else {
+      dataTableDESeq2 = null;
+    }
+
+    if (dataFilesDAVIDGO && dataFilesDAVIDGO.length > 0){
+      dataTableDAVIDGO = <ReportTable title="Gene Ontology Data Files" filelist={dataFilesDAVIDGO} filetype="DAVIDGO" session={session} />;
+    } else {
+      dataTableDAVIDGO = null;
+    }
+
+    if (dataFilesSingleCell && dataFilesSingleCell.length > 0){
+      dataTableSingleCell = <ReportTable title="SingleCell Data Files" filelist={dataFilesSingleCell} filetype="SingleCell" session={session} />;
+    } else {
+      dataTableSingleCell = null;
+    }
+
     // report is specific to RNA-Seq - will generalize this modal later
     return (
         <>
@@ -81,15 +136,16 @@ export const RunDataFilesModal = ({runsSelected, runInfo, props}) => {
         onClick={handleClickOpen}> Get Data Files
         </Button>
         <Dialog open={open} onClose={handleClose} maxWidth='xl' fullWidth>
-        <DialogTitle>Run Report for {runInfo[runsSelected]['runid']}</DialogTitle>
+        <DialogTitle>Data Files for {runInfo[runsSelected]['runid']}</DialogTitle>
         <DialogContent>
           <Box sx={{ mt: 3 }}>
-            <ReportTable title="Summary QC Data Files" filelist={dataFilesSummaryQC} filetype="SummaryQC" session={session} />
-            <ReportTable title="Alignment Data Files" filelist={dataFilesAlignment} filetype="Alignment" session={session} />
-            <ReportTable title="Gene Expression Data Files" filelist={dataFilesGeneExpression} filetype="GeneExpression" session={session} />
-            <ReportTable title="Expression QC Data Files" filelist={dataFilesExpressionQC} filetype="ExpressionQC" session={session} />
-            <ReportTable title="Differential Expression Data Files" filelist={dataFilesDESeq2} filetype="DESeq2" session={session} />
-            <ReportTable title="Gene Ontology Data Files" filelist={dataFilesDAVIDGO} filetype="DAVIDGO" session={session} />
+            {dataTableSummaryQC}
+            {dataTableAlignment}
+            {dataTableGeneExpression}
+            {dataTableExpressionQC}
+            {dataTableDESeq2}
+            {dataTableDAVIDGO}
+            {dataTableSingleCell}
           </Box>
         </DialogContent>
         <DialogActions>

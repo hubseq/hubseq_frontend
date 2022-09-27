@@ -14,7 +14,9 @@ import { Selector as SelectorIcon } from '../icons/selector';
 import { User as UserIcon } from '../icons/user';
 import { XCircle as XCircleIcon } from '../icons/x-circle';
 import { Menu as MenuIcon } from '../icons/menu';
-
+import { useSession } from "next-auth/react";
+import { useState } from 'react';
+import { awsPipelineAPI_GET } from '../utils/aws-session';
 // import { Logo } from './logo';
 import Image from 'next/image';
 import { NavItem } from './nav-item';
@@ -74,19 +76,27 @@ export const DashboardSidebar = (props) => {
     defaultMatches: true,
     noSsr: false
   });
+  const { data: session, status } = useSession();
+  const [teamId, setTeamId] = useState('Team');
 
   useEffect(
     () => {
+      const getTeamId = async (session) => {
+        const _teamid = await awsPipelineAPI_GET('/test_cors/getteamid', session.idToken);
+        setTeamId(_teamid.data);
+      }
+      if (session){
+        getTeamId(session);
+      }
       if (!router.isReady) {
         return;
       }
-
       if (open) {
         onClose?.();
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [router.asPath]
+    [router.asPath, session]
   );
 
   const content = (
@@ -122,7 +132,7 @@ export const DashboardSidebar = (props) => {
                   color="inherit"
                   variant="subtitle1"
                 >
-                  <b>Tranquis</b>
+                  <b>{teamId}</b>
                 </Typography>
                 <Typography
                   color="neutral.400"
