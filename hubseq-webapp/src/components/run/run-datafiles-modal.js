@@ -136,7 +136,7 @@ export const RunDataFilesModal = ({runsSelected, runInfo, props}) => {
         onClick={handleClickOpen}> Get Data Files
         </Button>
         <Dialog open={open} onClose={handleClose} maxWidth='xl' fullWidth>
-        <DialogTitle>Run Report for {runInfo[runsSelected]['runid']}</DialogTitle>
+        <DialogTitle>Data Files for {runInfo[runsSelected]['runid']}</DialogTitle>
         <DialogContent>
           <Box sx={{ mt: 3 }}>
             {dataTableSummaryQC}

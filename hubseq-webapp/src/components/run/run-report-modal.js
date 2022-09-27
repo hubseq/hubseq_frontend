@@ -106,25 +106,25 @@ export const RunReportModal = ({runsSelected, runInfo, props}) => {
     }
 
     if (reportFilesExpressionQC && reportFilesExpressionQC.length > 0){
-      reportTableExpressionQC = <ReportTable title="Gene Expression QC Reports" filelist={reportFilesExpressionQC} filetype="ExpressionQC" session={session} />;
+      reportTableExpressionQC = <ReportTable title="Gene Expression Reports" filelist={reportFilesExpressionQC} filetype="ExpressionQC" session={session} />;
     } else {
       reportTableExpressionQC = null;
     }
 
     if (reportFilesDEQC && reportFilesDEQC.length > 0){
-      reportTableDEQC = <ReportTable title="Differential Expression QC Reports" filelist={reportFilesDEQC} filetype="DEQC" session={session} />;
+      reportTableDEQC = <ReportTable title="Differential Expression Reports" filelist={reportFilesDEQC} filetype="DEQC" session={session} />;
     } else {
       reportTableDEQC = null;
     }
 
     if (reportFilesGOQC && reportFilesGOQC.length > 0){
-      reportTableGOQC = <ReportTable title="Gene Ontology QC Reports" filelist={reportFilesGOQC} filetype="GOQC" session={session} />;
+      reportTableGOQC = <ReportTable title="Gene Ontology Reports" filelist={reportFilesGOQC} filetype="GOQC" session={session} />;
     } else {
       reportTableGOQC = null;
     }
 
     if (reportFilesSingleCellQC && reportFilesSingleCellQC.length > 0){
-      reportTableSingleCellQC = <ReportTable title="Single Cell QC Reports" filelist={reportFilesSingleCellQC} filetype="SingleCellQC" session={session} />;
+      reportTableSingleCellQC = <ReportTable title="Single Cell Reports" filelist={reportFilesSingleCellQC} filetype="SingleCellQC" session={session} />;
     } else {
       reportTableSingleCellQC = null;
     }

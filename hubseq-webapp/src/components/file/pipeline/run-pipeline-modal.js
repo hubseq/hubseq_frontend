@@ -125,14 +125,14 @@ export const RunPipelineModal = ({currentPath, selectedFiles, session, ...rest})
     const handlePipelineSelect = (event) => {
       setPipeline(event.target.value);
       setRunid(moment().format('YYYY-MM-DD-hhmmss[-]') + event.target.value);
-      if (event.target.value=="rnaseq.human" || event.target.value=="rnaseq.mouse"){
+      if (event.target.value=="rnaseq.human" || event.target.value=="rnaseq.mouse" || event.target.value=="rnaseq"){
         setModules({"Alignment": 'rnastar', "Gene Expression": "expressionqc", "Differential Expression": 'deseq2', "Gene Ontology": 'david_go'});
-      } else if (event.target.value=="rnaseq-qc.human" || event.target.value=="rnaseq-qc.mouse"){
+      } else if (event.target.value=="rnaseqqc.human" || event.target.value=="rnaseqqc.mouse" || event.target.value=="rnaseqqc"){
         setModules({"FASTQ QC": 'fastqc', "Alignment": 'rnastar', "Alignment QC by Sample": 'qorts', "Alignment QC by Group": 'qorts_multi',
-                    "RNA-Seq QC": 'rnaseqc', "Summary QC": 'rnaseq-summaryqc'});
-      } else if (event.target.value=="singlecell_rnaseq_qc.human" || event.target.value=="singlecell_rnaseq_qc.mouse"){
+                    "RNA-Seq QC": 'rnaseqc', "Summary QC": 'rnaseq_summaryqc'});
+      } else if (event.target.value=="singlecell_rnaseq_qc.human" || event.target.value=="singlecell_rnaseq_qc.mouse" || event.target.value=="singlecell_rnaseq_qc"){
         setModules({"Alignment and Expression": 'cellranger', "Clustering QC": 'seurat'});
-      } else if (event.target.value=="singlecell_rnaseq.human" || event.target.value=="singlecell_rnaseq.mouse"){
+      } else if (event.target.value=="singlecell_rnaseq.human" || event.target.value=="singlecell_rnaseq.mouse" || event.target.value=="singlecell_rnaseq"){
         setModules({"Alignment and Expression": 'cellranger', "Dim Reduction and Clustering": 'seurat'});
       }
     };
@@ -198,7 +198,7 @@ export const RunPipelineModal = ({currentPath, selectedFiles, session, ...rest})
                                     <GridRowModule modulelabel="Alignment QC by Sample" defaultmodule="qorts" addParam={addParam} addModule={addModule} />
                                     <GridRowModule modulelabel="Alignment QC by Group" defaultmodule="qorts_multi" addParam={addParam} addModule={addModule} />
                                     <GridRowModule modulelabel="RNA-Seq QC" defaultmodule="rnaseqc" addParam={addParam} addModule={addModule} />
-                                    <GridRowModule modulelabel="Summary QC" defaultmodule="rnaseq-summaryqc" addParam={addParam} addModule={addModule} />
+                                    <GridRowModule modulelabel="Summary QC" defaultmodule="rnaseq_summaryqc" addParam={addParam} addModule={addModule} />
                                  </Grid>
                                  </Box>
       } else if (showPipelineDetails && (pipeline=="singlecell_rnaseq")){
